@@ -1,0 +1,32 @@
+{
+  "name": "nap-webclient",
+  "version": "0.0.0",
+  "description": "The NAP API webclient connects to a NAP websocket server and generates a control interface for you NAP application",
+  "keywords": [
+    "nap",
+    "framework",
+    "webclient",
+    "naivi"
+  ],
+  "homepage": "https://github.com/naivisoftware/nap-webclient#readme",
+  "bugs": {
+    "url": "https://github.com/naivisoftware/nap-webclient/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/naivisoftware/nap-webclient.git"
+  },
+  "license": "ISC",
+  "author": "Naivi",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
