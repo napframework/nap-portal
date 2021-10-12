@@ -33,3 +33,6 @@ jspm_packages/
 # Windows
 Thumbs.db
 [Dd]esktop.ini
+
+# Build files
+lib/
