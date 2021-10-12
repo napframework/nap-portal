@@ -8,13 +8,13 @@
     "webclient",
     "naivi"
   ],
-  "homepage": "https://github.com/naivisoftware/nap-webclient#readme",
+  "homepage": "https://github.com/napframework/nap-webclient#readme",
   "bugs": {
-    "url": "https://github.com/naivisoftware/nap-webclient/issues"
+    "url": "https://github.com/napframework/nap-webclient/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/naivisoftware/nap-webclient.git"
+    "url": "git+ssh://git@github.com/napframework/nap-webclient.git"
   },
   "license": "ISC",
   "author": "Naivi",
