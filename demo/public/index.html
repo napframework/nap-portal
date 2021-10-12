@@ -11,12 +11,15 @@
 
   <body>
 
-    <div id="nap-app-controller"></div>
+    <h1>NAP WebClient Demo</h1>
+
+    <div id="nap-webclient"></div>
 
     <script type="module">
       import { NAPWebClient } from './webclient.js';
 
       const napWebClient = new NAPWebClient({
+        el: document.getElementById('nap-webclient'),
         host: 'localhost',
         port: 2000,
         user: 'napuser',

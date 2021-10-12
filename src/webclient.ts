@@ -3,6 +3,7 @@
  * The config that is passed to the NAPWebClient constructor
  */
 export interface NAPWebClientConfig {
+  el: Element;      // The DOM element into which the interface will be injected
   host: string;     // The host IP address of the NAP application
   port: number;     // The port on which the NAP application server is hosted
   user: string;     // The username for generating the authentication ticket
@@ -16,6 +17,7 @@ export interface NAPWebClientConfig {
  */
 export class NAPWebClient {
 
+  private el: Element;
   private host: string;
   private port: number;
   private user: string;
@@ -24,6 +26,7 @@ export class NAPWebClient {
   private webSocket: WebSocket | null = null;
 
   constructor(config: NAPWebClientConfig) {
+    this.el = config.el;
     this.host = config.host;
     this.port = config.port;
     this.user = config.user;
