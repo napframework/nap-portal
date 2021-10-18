@@ -77,10 +77,15 @@ export class NAPWebClient {
    * Stop the WebSocket connection if started
    */
   public stop(): void {
-    if (this.webSocket !== null) {
-      this.webSocket.close();
-      this.webSocket = null;
+
+    // Log an error when the NAPWebClient isn't started
+    if (this.webSocket === null) {
+      return console.error('NAPWebClient not started');
     }
+
+    // Close the WebSocket connection
+    this.webSocket.close();
+    this.webSocket = null;
   }
 
   /**
