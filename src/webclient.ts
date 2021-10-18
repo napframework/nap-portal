@@ -99,6 +99,10 @@ export class NAPWebClient {
       },
     };
     const response: Response = await fetch(this.httpEndpoint, requestInit);
+    if (!response.ok) {
+      const error = `${response.url} ${response.status} (${response.statusText})`;
+      throw new Error(`NAPWebClient failed to get connection ticket: ${error}`);
+    }
     const ticket: string = await response.text();
     return ticket;
   }
