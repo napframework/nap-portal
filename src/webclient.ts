@@ -8,7 +8,7 @@ export interface NAPWebClientConfig {
   port: number;     // The port on which the NAP application server is hosted
   user: string;     // The username for generating the authentication ticket
   pass: string;     // The password for generating the authentication ticket
-  secure?: boolean; // Specify whether to use a secure connection (https / wss)
+  secure: boolean;  // Specify whether to use a secure connection (https / wss)
 }
 
 /**
@@ -31,7 +31,7 @@ export class NAPWebClient {
     this.port = config.port;
     this.user = config.user;
     this.pass = config.pass;
-    this.secure = config.secure ?? false;
+    this.secure = config.secure;
   }
 
   private get wsProtocol(): string {
