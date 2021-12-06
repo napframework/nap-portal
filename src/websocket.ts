@@ -28,7 +28,7 @@ export class NAPWebSocket extends EventTarget {
    * Opens the WebSocket connection with a NAP application
    * @param url The endpoint to use for the WebSocket connection
    * @param ticket The ticket that is issued by the NAP application (optional)
-   * @returns A Promise that resolves with the open event when the connection is opened
+   * @returns A Promise that resolves with the open Event when the connection is opened
    */
   public open(url: string | URL, ticket: string | undefined): Promise<Event> {
 
@@ -74,13 +74,13 @@ export class NAPWebSocket extends EventTarget {
 
   /**
    * Closes the WebSocket connection with a NAP application
-   * @returns A Promise that resolves with the close event when the connection is closed
+   * @returns A Promise that resolves with the CloseEvent when the connection is closed
    */
   public close(): Promise<CloseEvent> {
 
     return new Promise((resolve, reject) => {
 
-      // Reject when the connection was never made
+      // Reject when the connection was never opened
       if (!this.webSocket)
         return reject(new Error('NAPWebSocket was never opened'));
 
