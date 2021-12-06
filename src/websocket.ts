@@ -25,12 +25,12 @@ export class NAPWebSocket extends EventTarget {
   private webSocket: WebSocket | null = null;
 
   /**
-   * Establishes the WebSocket connection with a NAP application
+   * Opens the WebSocket connection with a NAP application
    * @param url The endpoint to use for the WebSocket connection
    * @param ticket The ticket that is issued by the NAP application (optional)
-   * @returns A Promise that resolves with the open event when the connection is established
+   * @returns A Promise that resolves with the open event when the connection is opened
    */
-  public connect(url: string | URL, ticket: string | undefined): Promise<Event> {
+  public open(url: string | URL, ticket: string | undefined): Promise<Event> {
 
     return new Promise((resolve, reject) => {
 
@@ -40,7 +40,7 @@ export class NAPWebSocket extends EventTarget {
           case NAPWebSocketState.Connecting:
             return reject(new Error('NAPWebSocket is already connecting'));
           case NAPWebSocketState.Open:
-            return reject(new Error('NAPWebSocket is already connected'));
+            return reject(new Error('NAPWebSocket is already open'));
           case NAPWebSocketState.Closing:
             return reject(new Error('NAPWebSocket is still closing'));
         }
@@ -73,16 +73,16 @@ export class NAPWebSocket extends EventTarget {
   }
 
   /**
-   * Terminates the WebSocket connection with a NAP application
-   * @returns A Promise that resolves with the close event when the connection is terminated
+   * Closes the WebSocket connection with a NAP application
+   * @returns A Promise that resolves with the close event when the connection is closed
    */
-  disconnect(): Promise<CloseEvent> {
+  public close(): Promise<CloseEvent> {
 
     return new Promise((resolve, reject) => {
 
       // Reject when the connection was never made
       if (!this.webSocket)
-        return reject(new Error('NAPWebSocket was never connected'));
+        return reject(new Error('NAPWebSocket was never opened'));
 
       // Reject when the connection is not open
       switch(this.webSocket.readyState) {
