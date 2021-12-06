@@ -1,7 +1,7 @@
 /**
  * Possible readyState values of the WebSocket connection
  */
-enum WebSocketState {
+ export enum NAPWebSocketState {
   Connecting = 0,
   Open = 1,
   Closing = 2,
@@ -30,11 +30,11 @@ export class NAPWebSocket extends EventTarget {
       // Reject when the connection is not closed
       if (this.webSocket) {
         switch(this.webSocket.readyState) {
-          case WebSocketState.Connecting:
+          case NAPWebSocketState.Connecting:
             return reject(new Error('NAPWebSocket is already connecting'));
-          case WebSocketState.Open:
+          case NAPWebSocketState.Open:
             return reject(new Error('NAPWebSocket is already connected'));
-          case WebSocketState.Closing:
+          case NAPWebSocketState.Closing:
             return reject(new Error('NAPWebSocket is still closing'));
         }
       }
@@ -78,11 +78,11 @@ export class NAPWebSocket extends EventTarget {
 
       // Reject when the connection is not open
       switch(this.webSocket.readyState) {
-        case WebSocketState.Connecting:
+        case NAPWebSocketState.Connecting:
           return reject(new Error('NAPWebSocket is still connecting'));
-        case WebSocketState.Closing:
+        case NAPWebSocketState.Closing:
           return reject(new Error('NAPWebSocket is already closing'));
-        case WebSocketState.Closed:
+        case NAPWebSocketState.Closed:
           return reject(new Error('NAPWebSocket is already closed'));
       }
 
