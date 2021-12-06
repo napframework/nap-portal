@@ -9,6 +9,13 @@
 }
 
 /**
+ * Events emitted by NAPWebSocket
+ */
+ export enum NAPWebSocketEvent {
+  Message = 'MESSAGE',
+}
+
+/**
  * NAPWebSocket is a wrapper around the native WebSocket API.
  * It extends EventTarget, so can be listened to and supports Promises.
  */
@@ -50,7 +57,8 @@ export class NAPWebSocket extends EventTarget {
       this.webSocket.onopen = (e: Event) => {
         this.webSocket!.onopen = null;
         this.webSocket!.onclose = null;
-        this.webSocket!.onmessage = (e: MessageEvent) => this.dispatchEvent(new CustomEvent("message", e));
+        this.webSocket!.onmessage = (e: MessageEvent) =>
+          this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Message, e));
         resolve(e);
       };
 
