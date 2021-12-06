@@ -17,37 +17,27 @@ export interface NAPWebClientConfig {
  */
 export class NAPWebClient {
 
-  private el: Element;
-  private host: string;
-  private port: number;
-  private user: string;
-  private pass: string;
-  private secure: boolean;
   private webSocket: WebSocket | null = null;
+  private config: NAPWebClientConfig;
 
   constructor(config: NAPWebClientConfig) {
-    this.el = config.el;
-    this.host = config.host;
-    this.port = config.port;
-    this.user = config.user;
-    this.pass = config.pass;
-    this.secure = config.secure;
+    this.config = config;
   }
 
   private get wsProtocol(): string {
-    return this.secure ? 'wss' : 'ws';
+    return this.config.secure ? 'wss' : 'ws';
   }
 
   private get wsEndpoint(): string {
-    return `${this.wsProtocol}://${this.host}:${this.port}`;
+    return `${this.wsProtocol}://${this.config.host}:${this.config.port}`;
   }
 
   private get httpProtocol(): string {
-    return this.secure ? 'https' : 'http';
+    return this.config.secure ? 'https' : 'http';
   }
 
   private get httpEndpoint(): string {
-    return `${this.httpProtocol}://${this.host}:${this.port}`;
+    return `${this.httpProtocol}://${this.config.host}:${this.config.port}`;
   }
 
   /**
@@ -96,8 +86,8 @@ export class NAPWebClient {
     const requestInit: RequestInit = {
       method: 'post',
       body: JSON.stringify({
-        user: this.user,
-        pass: this.pass,
+        user: this.config.user,
+        pass: this.config.pass,
       }),
       headers: {
         'Content-Type': 'application/json',
