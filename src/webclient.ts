@@ -1,3 +1,10 @@
+// Local Includes
+import { getTicket } from './utils';
+import {
+  NAPWebSocket,
+  NAPWebSocketEvent,
+} from './websocket';
+
 // External Includes
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,86 +28,73 @@ export interface NAPWebClientConfig {
  */
 export class NAPWebClient {
 
-  private webSocket: WebSocket | null = null;
-  private id: string = uuidv4();
-  private config: NAPWebClientConfig;
+  private readonly id: string;                   ///< Unique ID for this NAPWebClient instance
+  private readonly config: NAPWebClientConfig;   ///< The config passed in the NAPWebClient constructor
+  private readonly webSocket: NAPWebSocket;      ///< The NAPWebSocket that communicates with the NAP application
 
+  /**
+   * Constructor
+   * @param config the configuration for this NAPWebClient
+   */
   constructor(config: NAPWebClientConfig) {
+    this.id = uuidv4();
     this.config = config;
+    this.webSocket = new NAPWebSocket();
+    this.webSocket.addEventListener(NAPWebSocketEvent.Message, {
+      handleEvent: (event: MessageEvent) => this.onMessage(event)
+    });
   }
 
+  /**
+   * The WebSocket protocol, wss or ws
+   */
   private get wsProtocol(): string {
     return this.config.secure ? 'wss' : 'ws';
   }
 
+  /**
+   * The WebSocket endpoint
+   */
   private get wsEndpoint(): string {
     return `${this.wsProtocol}://${this.config.host}:${this.config.port}`;
   }
 
+  /**
+   * The HTTP protocol, https or http
+   */
   private get httpProtocol(): string {
     return this.config.secure ? 'https' : 'http';
   }
 
+  /**
+   * The HTTP endpoint
+   */
   private get httpEndpoint(): string {
     return `${this.httpProtocol}://${this.config.host}:${this.config.port}`;
   }
 
   /**
-   * Start the WebSocket connection
-   * Errors need to be caught using a catch block / handler
-   * @return A promise that resolves after the WebSocket connection has been started
+   * Starts communication with the NAP application and rendering the UI
+   * @returns A promise that resolves when the NAPWebClient has started
    */
   public async start(): Promise<void> {
 
-    // Throw an error when the NAPWebClient already started
-    if (this.webSocket !== null) {
-      throw new Error('NAPWebClient already started');
-    }
-
     // Get the ticket for authenticating the WebSocket connection
-    const ticket = await this.getTicket();
+    const { user, pass } = this.config;
+    const ticket = await getTicket(user, pass, this.httpEndpoint);
 
-    // Open the WebSocket connection and bind event handlers
-    this.webSocket = new WebSocket(this.wsEndpoint, ticket);
+    // Open the WebSocket connection
+    await this.webSocket.open(this.wsEndpoint, ticket);
   }
 
   /**
-   * Stop the WebSocket connection if started
+   * Stops communication with the NAP application and clears the UI
+   * @returns A promise that resolves when the NAPWebClient has stopped
    */
-  public stop(): void {
-
-    // Log an error when the NAPWebClient isn't started
-    if (this.webSocket === null) {
-      return console.error('NAPWebClient not started');
-    }
+  public async stop(): Promise<void> {
 
     // Close the WebSocket connection
-    this.webSocket.close();
-    this.webSocket = null;
-  }
-
-  /**
-   * Retrieve the authentication ticket for the WebSocket connection
-   * @returns A promise that resolves with the ticket after it has been retrieved
-   */
-  private async getTicket(): Promise<string> {
-    const requestInit: RequestInit = {
-      method: 'post',
-      body: JSON.stringify({
-        user: this.config.user,
-        pass: this.config.pass,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const response: Response = await fetch(this.httpEndpoint, requestInit);
-    if (!response.ok) {
-      const error = `${response.url} ${response.status} (${response.statusText})`;
-      throw new Error(`NAPWebClient failed to get connection ticket: ${error}`);
-    }
-    const ticket: string = await response.text();
-    return ticket;
+    await this.webSocket.close();
   }
 
   /**
