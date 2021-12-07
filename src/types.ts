@@ -6,15 +6,19 @@ export interface APIMessage {
 };
 
 export interface APIArgument {
-  Type: 'nap::APIString' |
-        'nap::APIInt' |
-        'nap::APILong' |
-        'nap::APIFloat' |
-        'nap::APIDouble' |
-        'nap::APIChar' |
-        'nap::APIByte' |
-        'nap::APIBool'
+  Type: APIArgumentType,
   mID: string,
   Name: string,
   Value: string | number | bigint | boolean,
+};
+
+export enum APIArgumentType {
+  String = 'nap::APIString',
+  Bool = 'nap::APIBool',
+  Char = 'nap::APIChar',
+  Byte = 'nap::APIByte',
+  Int = 'nap::APIInt',
+  Long = 'nap::APILong',
+  Float = 'nap::APIFloat',
+  Double = 'nap::APIDouble',
 };
