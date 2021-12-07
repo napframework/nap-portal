@@ -62,10 +62,6 @@ export class NAPWebClient {
 
     // Open the WebSocket connection and bind event handlers
     this.webSocket = new WebSocket(this.wsEndpoint, ticket);
-    this.webSocket.onopen = (event: Event) => this.onOpen(event);
-    this.webSocket.onclose = (event: CloseEvent) => this.onClose(event);
-    this.webSocket.onmessage = (event: MessageEvent) => this.onMessage(event);
-    this.webSocket.onerror = (event: Event) => this.onError(event);
   }
 
   /**
@@ -85,7 +81,7 @@ export class NAPWebClient {
 
   /**
    * Retrieve the authentication ticket for the WebSocket connection
-   * @return A promise that resolves with the ticket after it has been retrieved
+   * @returns A promise that resolves with the ticket after it has been retrieved
    */
   private async getTicket(): Promise<string> {
     const requestInit: RequestInit = {
@@ -108,33 +104,9 @@ export class NAPWebClient {
   }
 
   /**
-   * Called when the WebSocket connection opens
-   */
-  private onOpen(event: Event): void {
-    console.info(`NAPWebClient opened connection with ${this.wsEndpoint}`);
-  }
-
-  /**
-   * Called when the WebSocket connection closes
-   */
-  private onClose(event: CloseEvent): void {
-    const closeInfo = `Code: ${event.code}. Reason: ${event.reason}.`;
-    event.wasClean
-      ? console.info(`NAPWebClient cleanly closed connection with ${this.wsEndpoint}: ${closeInfo}`)
-      : console.error(`NAPWebClient uncleanly closed connection with ${this.wsEndpoint}: ${closeInfo}`);
-  }
-
-  /**
-   * Called when the WebSocket receives a message
+   * Called when the NAPWebSocket receives a message
+   * @param event The received MessageEvent
    */
   private onMessage(event: MessageEvent): void {
-    console.info(`NAPWebClient received message from connection with ${this.wsEndpoint}.`, event);
-  }
-
-  /**
-   * Called when the WebSocket connection receives an error
-   */
-  private onError(event: Event): void {
-    console.error(`NAPWebClient received error from connection with ${this.wsEndpoint}.`, event);
   }
 }
