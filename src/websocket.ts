@@ -6,14 +6,14 @@
   Open = 1,
   Closing = 2,
   Closed = 3,
-}
+};
 
 /**
  * Events emitted by NAPWebSocket
  */
  export enum NAPWebSocketEvent {
   Message = 'MESSAGE',
-}
+};
 
 /**
  * NAPWebSocket is a wrapper around the native WebSocket API.
@@ -23,6 +23,13 @@ export class NAPWebSocket extends EventTarget {
 
   // WebSocket connection
   private webSocket: WebSocket | null = null;
+
+  /**
+   * Return whether the websocket has a connection with the NAP application
+   */
+  public get isOpen(): boolean {
+    return this.webSocket != null && this.webSocket.readyState === NAPWebSocketState.Open;
+  }
 
   /**
    * Opens the WebSocket connection with a NAP application
