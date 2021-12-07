@@ -22,3 +22,30 @@ export enum APIArgumentType {
   Float = 'nap::APIFloat',
   Double = 'nap::APIDouble',
 };
+
+export interface PortalEventHeader extends APIMessage {
+  Name: 'portal_event_header',
+  Arguments: [
+    PortalEventIdArg,
+    PortalEventTypeArg,
+  ],
+};
+
+export interface PortalEventIdArg extends APIArgument {
+  Type: APIArgumentType.String,
+  Name: 'portal_id',
+  Value: string,
+};
+
+export interface PortalEventTypeArg extends APIArgument {
+  Type: APIArgumentType.String,
+  Name: 'portal_event_type',
+  Value: PortalEventType,
+};
+
+export enum PortalEventType {
+  Request = 'EPortalEventType::Request',
+  Response = 'EPortalEventType::Response',
+  Update = 'EPortalEventType::Update',
+  Invalid = 'EPortalEventType::Invalid',
+};
