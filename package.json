@@ -28,7 +28,11 @@
     "demo": "node ./demo/demo.js"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.3",
     "express": "^4.17.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }

@@ -1,3 +1,7 @@
+// External Includes
+import { v4 as uuidv4 } from 'uuid';
+
+
 /**
  * NAPWebClientConfig
  * The config that is passed to the NAPWebClient constructor
@@ -18,6 +22,7 @@ export interface NAPWebClientConfig {
 export class NAPWebClient {
 
   private webSocket: WebSocket | null = null;
+  private id: string = uuidv4();
   private config: NAPWebClientConfig;
 
   constructor(config: NAPWebClientConfig) {
