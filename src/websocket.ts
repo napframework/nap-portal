@@ -21,15 +21,7 @@
  */
 export class NAPWebSocket extends EventTarget {
 
-  // WebSocket connection
-  private webSocket: WebSocket | null = null;
-
-  /**
-   * Return whether the websocket has a connection with the NAP application
-   */
-  public get isOpen(): boolean {
-    return this.webSocket != null && this.webSocket.readyState === NAPWebSocketState.Open;
-  }
+  private webSocket: WebSocket | null = null;   ///< The native WebSocket connection
 
   /**
    * Opens the WebSocket connection with a NAP application
