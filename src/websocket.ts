@@ -1,3 +1,11 @@
+// Local Includes
+import { getPortalEventHeader } from "./utils";
+import {
+  APIMessage,
+  PortalEventHeader,
+  PortalEventHeaderInfo,
+} from "./types";
+
 /**
  * Possible readyState values of the WebSocket connection
  */
@@ -105,5 +113,24 @@ export class NAPWebSocket extends EventTarget {
         e.wasClean ? resolve(e) : reject(new Error(`NAPWebSocket didn't close cleanly. Code: ${e.code}. Reason: ${e.reason}.`));
       };
     });
+  }
+
+  /**
+   * Sends a portal event to the NAP application
+   * @param info The info object used to create the event header
+   * @param messages The messages relating to portal items
+   */
+  public send(info: PortalEventHeaderInfo, messages: Array<APIMessage> = []): void {
+
+    // Throw when the connection is not open
+    if (this.webSocket === null || this.webSocket.readyState !== NAPWebSocketState.Open)
+      throw new Error('NAPWebSocket is not open');
+
+    // Merge event header and portal item messages
+    const header: PortalEventHeader = getPortalEventHeader(info);
+    const Objects: Array<APIMessage> = [header, ...messages];
+
+    // Send the API messages to the NAP application
+    this.webSocket.send(JSON.stringify({ Objects }));
   }
 }
