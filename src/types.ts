@@ -23,6 +23,12 @@ export enum APIArgumentType {
   Double = 'nap::APIDouble',
 };
 
+export interface PortalEventHeaderInfo {
+  eventId: string,
+  portalId: string,
+  eventType: PortalEventType,
+};
+
 export interface PortalEventHeader extends APIMessage {
   Name: 'portal_event_header',
   Arguments: [
