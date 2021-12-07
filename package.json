@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "demo": "node ./demo/demo.js"
+    "demo": "node ./demo/server.js"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.3",
