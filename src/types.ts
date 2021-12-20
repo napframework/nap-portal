@@ -72,6 +72,10 @@ export enum PortalEventType {
  * Portal item
  */
 
+export enum PortalItemType {
+  Slider = 'nap::PortalItemSlider',
+};
+
 export interface PortalItemUpdateInfo {
   id: string,
   name: string,
