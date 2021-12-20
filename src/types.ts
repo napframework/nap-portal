@@ -1,4 +1,8 @@
-export interface APIMessage {
+/**
+ * API message
+ */
+
+ export interface APIMessage {
   Type: 'nap::APIMessage',
   mID: string,
   Name: string,
@@ -9,7 +13,7 @@ export interface APIArgument {
   Type: APIArgumentType,
   mID: string,
   Name: string,
-  Value: string | number | bigint | boolean,
+  Value: APIArgumentValue,
 };
 
 export enum APIArgumentType {
@@ -22,6 +26,13 @@ export enum APIArgumentType {
   Float = 'nap::APIFloat',
   Double = 'nap::APIDouble',
 };
+
+export type APIArgumentValue = string | number | bigint | boolean;
+
+
+/**
+ * Portal event
+ */
 
 export interface PortalEventHeaderInfo {
   eventId: string,
