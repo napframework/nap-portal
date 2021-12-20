@@ -39,6 +39,8 @@ export enum APIArgumentType {
   Double = 'nap::APIDouble',
 };
 
+export const APIArgumentTypes: Array<string> = Object.keys(APIArgumentType);
+
 export type APIArgumentValue = string | number | bigint | boolean;
 
 
