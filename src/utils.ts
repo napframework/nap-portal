@@ -1,5 +1,7 @@
 import {
+  APIMessage,
   APIArgumentType,
+  APIArgumentValue,
   PortalEventHeader,
   PortalEventHeaderInfo,
 } from "./types";
@@ -50,5 +52,26 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
         Value: info.eventType,
       },
     ],
+  };
+};
+
+/**
+ * Creates an API message representing a portal item update
+ * @param id The ID of the portal item to update
+ * @param type The argument type used to update the portal item
+ * @param value The value of the argument used for the update
+ * @returns An API message representing a portal item update
+ */
+export function getPortalItemUpdate(id: string, type: APIArgumentType, value: APIArgumentValue): APIMessage {
+  return {
+    Type: 'nap::APIMessage',
+    mID: id,
+    Name: id,
+    Arguments: [{
+      Type: type,
+      Name: 'item_value',
+      mID: 'item_value',
+      Value: value,
+    }],
   };
 };
