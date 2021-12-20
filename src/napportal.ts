@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
  */
 export interface NAPPortalConfig {
   el: Element;                  ///< The DOM element into which the interface will be injected
+  portalId: string;             ///< The portal ID, should match with a PortalComponent ID in Napkin
   napWebSocket: NAPWebSocket;   ///< The NAPWebSocket used for communication with the NAP application
 }
 
@@ -27,7 +28,7 @@ export interface NAPPortalConfig {
  */
 export class NAPPortal {
 
-  private readonly id: string;                  ///< Unique ID for this NAPPortal instance
+  private readonly uuid: string;                ///< Unique ID for this NAPPortal instance
   private readonly config: NAPPortalConfig;     ///< The config passed in the NAPPortal constructor
 
   /**
@@ -35,7 +36,7 @@ export class NAPPortal {
    * @param config the configuration for this NAPPortal
    */
   constructor(config: NAPPortalConfig) {
-    this.id = uuidv4();
+    this.uuid = uuidv4();
     this.config = config;
 
     // Request portal if WebSocket is open
@@ -55,16 +56,16 @@ export class NAPPortal {
 
   private sendRequest(): void {
     this.config.napWebSocket.send({
-      eventId: this.id,
-      portalId: 'PortalComponent',
+      eventId: this.uuid,
+      portalId: this.config.portalId,
       eventType: PortalEventType.Request,
     });
   }
 
   private sendUpdate(update: PortalItemUpdate): void {
     this.config.napWebSocket.send({
-      eventId: this.id,
-      portalId: 'PortalComponent',
+      eventId: this.uuid,
+      portalId: this.config.portalId,
       eventType: PortalEventType.Update,
     }, [update]);
   }
