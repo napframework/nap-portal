@@ -81,6 +81,8 @@ export enum PortalEventType {
   Invalid = 'EPortalEventType::Invalid',
 };
 
+export const PortalEventTypes: Array<string> = Object.keys(PortalEventType);
+
 
 /**
  * Portal item
