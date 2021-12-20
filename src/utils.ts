@@ -61,16 +61,14 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
 
 /**
  * Creates an API message representing a portal item update
- * @param id The ID of the portal item to update
- * @param type The argument type used to update the portal item
- * @param value The value of the argument used for the update
+ * @param info The info object used to create the API message
  * @returns An API message representing a portal item update
  */
 export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdate {
   return {
     Type: 'nap::APIMessage',
-    mID: info.itemId,
-    Name: 'portal_item_update',
+    mID: info.id,
+    Name: info.name,
     Arguments: [{
       Type: info.type,
       mID: uuidv4(),

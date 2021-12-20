@@ -73,13 +73,13 @@ export enum PortalEventType {
  */
 
 export interface PortalItemUpdateInfo {
-  itemId: string,
+  id: string,
+  name: string,
   type: APIArgumentType,
   value: APIArgumentValue,
 };
 
 export interface PortalItemUpdate extends APIMessage {
-  Name: 'portal_item_update',
   Arguments: [PortalItemUpdateArgument],
 }
 
