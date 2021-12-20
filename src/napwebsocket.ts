@@ -1,10 +1,25 @@
 // Local Includes
-import { getPortalEventHeader } from "./utils";
+import {
+  getTicket,
+  getPortalEventHeader
+} from "./utils";
 import {
   APIMessage,
   PortalEventHeader,
   PortalEventHeaderInfo,
 } from "./types";
+
+/**
+ * NAPWebSocketConfig
+ * The config that is passed to the NAPWebSocket constructor
+ */
+export interface NAPWebSocketConfig {
+  host: string;     ///< The host IP address of the NAP application
+  port: number;     ///< The port on which the NAP application server is hosted
+  user: string;     ///< The username for generating the authentication ticket
+  pass: string;     ///< The password for generating the authentication ticket
+  secure: boolean;  ///< Specify whether to use a secure connection (https / wss)
+}
 
 /**
  * Possible readyState values of the WebSocket connection
@@ -20,6 +35,8 @@ import {
  * Events emitted by NAPWebSocket
  */
  export enum NAPWebSocketEvent {
+  Open = 'OPEN',
+  Close = 'CLOSE',
   Message = 'MESSAGE',
 };
 
@@ -29,15 +46,49 @@ import {
  */
 export class NAPWebSocket extends EventTarget {
 
+  private config: NAPWebSocketConfig;           ///< The config passed in the NAPWebSocket constructor
   private webSocket: WebSocket | null = null;   ///< The native WebSocket connection
 
   /**
-   * Opens the WebSocket connection with a NAP application
-   * @param url The endpoint to use for the WebSocket connection
-   * @param ticket The ticket that is issued by the NAP application (optional)
-   * @returns A Promise that resolves with the open Event when the connection is opened
+   * Constructor
+   * @param config the configuration for this NAPWebSocket
    */
-  public open(url: string | URL, ticket: string | undefined): Promise<Event> {
+  constructor(config: NAPWebSocketConfig) {
+    super();
+    this.config = config;
+  }
+
+  /**
+   * @return whether the websocket is open
+   */
+  public get isOpen(): boolean {
+    return this.webSocket !== null && this.webSocket.readyState === NAPWebSocketState.Open;
+  }
+
+  /**
+   * @return the WebSocket endpoint
+   */
+  private get wsEndpoint(): string {
+    const protocol = this.config.secure ? 'wss' : 'ws';
+    return `${protocol}://${this.config.host}:${this.config.port}`;
+  }
+
+  /**
+   * @return the HTTP endpoint
+   */
+  private get httpEndpoint(): string {
+    const protocol = this.config.secure ? 'https' : 'http';
+    return `${protocol}://${this.config.host}:${this.config.port}`;
+  }
+
+  /**
+   * Opens the WebSocket connection with a NAP application
+   * @returns A Promise that resolves when the connection is opened
+   */
+  public async open(): Promise<void> {
+
+    const { user, pass } = this.config;
+    const ticket = await getTicket(user, pass, this.httpEndpoint);
 
     return new Promise((resolve, reject) => {
 
@@ -54,7 +105,7 @@ export class NAPWebSocket extends EventTarget {
       }
 
       // Open the WebSocket connection
-      this.webSocket = new WebSocket(url, ticket);
+      this.webSocket = new WebSocket(this.wsEndpoint, ticket);
 
       // Only ever log errors, no need to be handled specifically
       // When a connection has a failure, close will always be called.
@@ -62,17 +113,26 @@ export class NAPWebSocket extends EventTarget {
 
       // On successfully opening the connection
       this.webSocket.onopen = (e: Event) => {
+
+        // Reset event handlers
         this.webSocket!.onopen = null;
         this.webSocket!.onclose = null;
         this.webSocket!.onmessage = (e: MessageEvent) => this.onMessage(e);
-        resolve(e);
+
+        // Notify listeners that we're open
+        this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Open));
+
+        resolve();
       };
 
       // On failing to open the connection
       this.webSocket.onclose = (e: CloseEvent) => {
+
+        // Reset event handlers
         this.webSocket!.onopen = null;
         this.webSocket!.onclose = null;
         this.webSocket!.onmessage = null;
+
         reject(new Error(`NAPWebSocket failed to connect. Code: ${e.code}. Reason: ${e.reason}.`));
       };
     });
@@ -100,9 +160,9 @@ export class NAPWebSocket extends EventTarget {
 
   /**
    * Closes the WebSocket connection with a NAP application
-   * @returns A Promise that resolves with the CloseEvent when the connection is closed
+   * @returns A Promise that resolves when the connection is closed
    */
-  public close(): Promise<CloseEvent> {
+  public close(): Promise<void> {
 
     return new Promise((resolve, reject) => {
 
@@ -120,6 +180,9 @@ export class NAPWebSocket extends EventTarget {
           return reject(new Error('NAPWebSocket is already closed'));
       }
 
+      // Notify listeners that we're closing
+      this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Close));
+
       // Close the WebSocket connection
       this.webSocket.close(1000, "NAPWebSocket::disconnect() was called");
 
@@ -129,7 +192,7 @@ export class NAPWebSocket extends EventTarget {
         this.webSocket!.onopen = null;
         this.webSocket!.onclose = null;
         this.webSocket!.onmessage = null;
-        e.wasClean ? resolve(e) : reject(new Error(`NAPWebSocket didn't close cleanly. Code: ${e.code}. Reason: ${e.reason}.`));
+        e.wasClean ? resolve() : reject(new Error(`NAPWebSocket didn't close cleanly. Code: ${e.code}. Reason: ${e.reason}.`));
       };
     });
   }
@@ -142,7 +205,7 @@ export class NAPWebSocket extends EventTarget {
   public send(info: PortalEventHeaderInfo, messages: Array<APIMessage> = []): void {
 
     // Throw when the connection is not open
-    if (this.webSocket === null || this.webSocket.readyState !== NAPWebSocketState.Open)
+    if (!this.isOpen)
       throw new Error('NAPWebSocket is not open');
 
     // Merge event header and portal item messages
@@ -150,6 +213,6 @@ export class NAPWebSocket extends EventTarget {
     const Objects: Array<APIMessage> = [header, ...messages];
 
     // Send the API messages to the NAP application
-    this.webSocket.send(JSON.stringify({ Objects }));
+    this.webSocket!.send(JSON.stringify({ Objects }));
   }
 }
