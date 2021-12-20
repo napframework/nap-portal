@@ -1,4 +1,8 @@
 export {
-  NAPWebClient,
-  NAPWebClientConfig,
-} from './webclient';
+  NAPPortal,
+  NAPPortalConfig,
+} from './napportal';
+export {
+  NAPWebSocket,
+  NAPWebSocketConfig,
+} from './napwebsocket';
