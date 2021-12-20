@@ -1,4 +1,15 @@
 /**
+ * Portal definitions
+ */
+
+export class PortalDefs {
+  static readonly eventHeaderName = "portal_event_header"; ///< Name of the portal event header
+  static readonly portalIDArgName = "portal_id";           ///< Name of the argument containing the portal ID in the portal event header
+  static readonly eventTypeArgName = "portal_event_type";  ///< Name of the argument containing the portal event type in the portal event header
+  static readonly itemValueArgName = "item_value";         ///< Name of the argument containing the portal item value in the portal item message
+}
+
+/**
  * API message
  */
 
@@ -41,7 +52,7 @@ export interface PortalEventHeaderInfo {
 };
 
 export interface PortalEventHeader extends APIMessage {
-  Name: 'portal_event_header',
+  Name: typeof PortalDefs.eventHeaderName,
   Arguments: [
     PortalEventIdArg,
     PortalEventTypeArg,
@@ -50,13 +61,13 @@ export interface PortalEventHeader extends APIMessage {
 
 export interface PortalEventIdArg extends APIArgument {
   Type: APIArgumentType.String,
-  Name: 'portal_id',
+  Name: typeof PortalDefs.portalIDArgName,
   Value: string,
 };
 
 export interface PortalEventTypeArg extends APIArgument {
   Type: APIArgumentType.String,
-  Name: 'portal_event_type',
+  Name: typeof PortalDefs.eventTypeArgName,
   Value: PortalEventType,
 };
 
@@ -88,5 +99,5 @@ export interface PortalItemUpdate extends APIMessage {
 }
 
 export interface PortalItemUpdateArgument extends APIArgument {
-  Name: 'item_value',
+  Name: typeof PortalDefs.itemValueArgName,
 }
