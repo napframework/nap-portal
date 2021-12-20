@@ -3,7 +3,7 @@ import { getTicket } from './utils';
 import {
   NAPWebSocket,
   NAPWebSocketEvent,
-} from './websocket';
+} from './napwebsocket';
 
 // External Includes
 import { v4 as uuidv4 } from 'uuid';
@@ -101,6 +101,7 @@ export class NAPWebClient {
    * Called when the NAPWebSocket receives a message
    * @param event The received MessageEvent
    */
-  private onMessage(event: MessageEvent): void {
+  private onMessage(event: CustomEvent): void {
+
   }
 }
