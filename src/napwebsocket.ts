@@ -46,7 +46,7 @@ export interface NAPWebSocketConfig {
  */
 export class NAPWebSocket extends EventTarget {
 
-  private config: NAPWebSocketConfig;           ///< The config passed in the NAPWebSocket constructor
+  private readonly config: NAPWebSocketConfig;  ///< The config passed in the NAPWebSocket constructor
   private webSocket: WebSocket | null = null;   ///< The native WebSocket connection
 
   /**
