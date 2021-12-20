@@ -1,10 +1,14 @@
+// Local Includes
 import {
-  APIMessage,
   APIArgumentType,
-  APIArgumentValue,
   PortalEventHeader,
   PortalEventHeaderInfo,
+  PortalItemUpdate,
+  PortalItemUpdateInfo,
 } from "./types";
+
+// External Includes
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Retrieve an authentication ticket for the WebSocket connection
@@ -41,13 +45,13 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
     Arguments: [
       {
         Type: APIArgumentType.String,
-        mID: 'portal_id',
+        mID: uuidv4(),
         Name: 'portal_id',
         Value: info.portalId,
       },
       {
         Type: APIArgumentType.String,
-        mID: 'portal_event_type',
+        mID: uuidv4(),
         Name: 'portal_event_type',
         Value: info.eventType,
       },
@@ -62,16 +66,16 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
  * @param value The value of the argument used for the update
  * @returns An API message representing a portal item update
  */
-export function getPortalItemUpdate(id: string, type: APIArgumentType, value: APIArgumentValue): APIMessage {
+export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdate {
   return {
     Type: 'nap::APIMessage',
-    mID: id,
-    Name: id,
+    mID: info.itemId,
+    Name: 'portal_item_update',
     Arguments: [{
-      Type: type,
+      Type: info.type,
+      mID: uuidv4(),
       Name: 'item_value',
-      mID: 'item_value',
-      Value: value,
+      Value: info.value,
     }],
   };
 };
