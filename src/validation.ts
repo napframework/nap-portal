@@ -17,8 +17,9 @@ import {
  * Tests whether the supplid message is in a valid API message format.
  * Throws an error with descriptive message when the validation fails.
  * @param message the message to verify
+ * @returns the valid API message
  */
-export function testAPIMessage(message: Partial<APIMessage>): void {
+export function testAPIMessage(message: Partial<APIMessage>): APIMessage {
   if (!isObject(message))
     throw new Error(`API message is not an object: ${message}`);
 
@@ -36,14 +37,17 @@ export function testAPIMessage(message: Partial<APIMessage>): void {
 
   for (const argument in message.Arguments)
     testAPIArgument(argument as Partial<APIArgument>);
+
+  return message as APIMessage;
 };
 
 /**
  * Tests whether the supplid argument is in a valid API argument format.
  * Throws an error with descriptive message when the validation fails.
  * @param argument the argument to verify
+ * @returns the valid API argument
  */
-export function testAPIArgument(argument: Partial<APIArgument>): void {
+export function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
   if (!isObject(argument))
     throw new Error(`API argument is not an object: ${argument}`);
 
@@ -58,4 +62,6 @@ export function testAPIArgument(argument: Partial<APIArgument>): void {
 
   if (!('Value' in argument))
     throw new Error(`API argument Value property is missing`);
+
+  return argument as APIArgument;
 };
