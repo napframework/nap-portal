@@ -14,10 +14,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 /**
- * NAPWebClientConfig
- * The config that is passed to the NAPWebClient constructor
+ * NAPPortalConfig
+ * The config that is passed to the NAPPortal constructor
  */
-export interface NAPWebClientConfig {
+export interface NAPPortalConfig {
   el: Element;      // The DOM element into which the interface will be injected
   host: string;     // The host IP address of the NAP application
   port: number;     // The port on which the NAP application server is hosted
@@ -27,20 +27,20 @@ export interface NAPWebClientConfig {
 }
 
 /**
- * NAPWebClient
+ * NAPPortal
  * Creates a control interface for a single NAP application
  */
-export class NAPWebClient {
+export class NAPPortal {
 
-  private readonly id: string;                   ///< Unique ID for this NAPWebClient instance
-  private readonly config: NAPWebClientConfig;   ///< The config passed in the NAPWebClient constructor
-  private readonly webSocket: NAPWebSocket;      ///< The NAPWebSocket that communicates with the NAP application
+  private readonly id: string;                  ///< Unique ID for this NAPPortal instance
+  private readonly config: NAPPortalConfig;     ///< The config passed in the NAPPortal constructor
+  private readonly webSocket: NAPWebSocket;     ///< The NAPWebSocket that communicates with the NAP application
 
   /**
    * Constructor
-   * @param config the configuration for this NAPWebClient
+   * @param config the configuration for this NAPPortal
    */
-  constructor(config: NAPWebClientConfig) {
+  constructor(config: NAPPortalConfig) {
     this.id = uuidv4();
     this.config = config;
     this.webSocket = new NAPWebSocket();
@@ -79,7 +79,7 @@ export class NAPWebClient {
 
   /**
    * Starts communication with the NAP application and rendering the UI
-   * @returns A promise that resolves when the NAPWebClient has started
+   * @returns A promise that resolves when the NAPPortal has started
    */
   public async start(): Promise<void> {
 
@@ -93,7 +93,7 @@ export class NAPWebClient {
 
   /**
    * Stops communication with the NAP application and clears the UI
-   * @returns A promise that resolves when the NAPWebClient has stopped
+   * @returns A promise that resolves when the NAPPortal has stopped
    */
   public async stop(): Promise<void> {
 
