@@ -57,18 +57,18 @@ export interface PortalEventHeaderInfo {
 export interface PortalEventHeader extends APIMessage {
   Name: typeof PortalDefs.eventHeaderName,
   Arguments: [
-    PortalEventIdArg,
-    PortalEventTypeArg,
+    PortalIdArg,
+    EventTypeArg,
   ],
 };
 
-export interface PortalEventIdArg extends APIArgument {
+export interface PortalIdArg extends APIArgument {
   Type: APIArgumentType.String,
   Name: typeof PortalDefs.portalIDArgName,
   Value: string,
 };
 
-export interface PortalEventTypeArg extends APIArgument {
+export interface EventTypeArg extends APIArgument {
   Type: APIArgumentType.String,
   Name: typeof PortalDefs.eventTypeArgName,
   Value: PortalEventType,
