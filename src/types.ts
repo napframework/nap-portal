@@ -3,6 +3,7 @@
  */
 
 export class PortalDefs {
+  static readonly apiMessageType = "nap::APIMessage";      ///< Type of an API message
   static readonly eventHeaderName = "portal_event_header"; ///< Name of the portal event header
   static readonly portalIDArgName = "portal_id";           ///< Name of the argument containing the portal ID in the portal event header
   static readonly eventTypeArgName = "portal_event_type";  ///< Name of the argument containing the portal event type in the portal event header
@@ -14,7 +15,7 @@ export class PortalDefs {
  */
 
  export interface APIMessage {
-  Type: 'nap::APIMessage',
+  Type: typeof PortalDefs.apiMessageType,
   mID: string,
   Name: string,
   Arguments: Array<APIArgument>,
