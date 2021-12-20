@@ -1,7 +1,8 @@
 // Local Includes
+import { getPortalItemUpdate } from './utils';
 import {
   PortalEventType,
-  PortalItemUpdate,
+  PortalItemUpdateInfo,
 } from './types';
 import {
   NAPWebSocket,
@@ -62,12 +63,14 @@ export class NAPPortal {
     });
   }
 
-  private sendUpdate(update: PortalItemUpdate): void {
+  private sendUpdate(info: PortalItemUpdateInfo): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
       eventType: PortalEventType.Update,
-    }, [update]);
+    }, [
+      getPortalItemUpdate(info),
+    ]);
   }
 
   /**
