@@ -66,3 +66,23 @@ export enum PortalEventType {
   Update = 'EPortalEventType::Update',
   Invalid = 'EPortalEventType::Invalid',
 };
+
+
+/**
+ * Portal item
+ */
+
+export interface PortalItemUpdateInfo {
+  itemId: string,
+  type: APIArgumentType,
+  value: APIArgumentValue,
+};
+
+export interface PortalItemUpdate extends APIMessage {
+  Name: 'portal_item_update',
+  Arguments: [PortalItemUpdateArgument],
+}
+
+export interface PortalItemUpdateArgument extends APIArgument {
+  Name: 'item_value',
+}
