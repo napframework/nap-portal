@@ -64,8 +64,7 @@ export class NAPWebSocket extends EventTarget {
       this.webSocket.onopen = (e: Event) => {
         this.webSocket!.onopen = null;
         this.webSocket!.onclose = null;
-        this.webSocket!.onmessage = (e: MessageEvent) =>
-          this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Message, e));
+        this.webSocket!.onmessage = (e: MessageEvent) => this.onMessage(e);
         resolve(e);
       };
 
@@ -77,6 +76,26 @@ export class NAPWebSocket extends EventTarget {
         reject(new Error(`NAPWebSocket failed to connect. Code: ${e.code}. Reason: ${e.reason}.`));
       };
     });
+  }
+
+  private onMessage(message: MessageEvent): void {
+
+    // Check message data type
+    const { data } = message;
+    if (typeof data !== 'string') {
+      console.error(`NAPWebSocket cannot process message type: ${typeof data}`);
+      return;
+    }
+
+    try {
+      // Parse JSON and dispatch event
+      const detail = JSON.parse(data);
+      const event = new CustomEvent(NAPWebSocketEvent.Message, { detail });
+      this.dispatchEvent(event);
+    } catch(e: any) {
+      const error = e instanceof Error ? e.message : e;
+      console.error('NAPWebSocket failed to parse message:', error);
+    }
   }
 
   /**
