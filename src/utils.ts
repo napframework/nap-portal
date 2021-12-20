@@ -1,5 +1,6 @@
 // Local Includes
 import {
+  PortalDefs,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -39,20 +40,20 @@ export async function getTicket(user: string, pass: string, url: string): Promis
  */
 export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHeader {
   return {
-    Type: 'nap::APIMessage',
+    Type: PortalDefs.apiMessageType,
     mID: info.eventId,
-    Name: 'portal_event_header',
+    Name: PortalDefs.eventHeaderName,
     Arguments: [
       {
         Type: APIArgumentType.String,
         mID: uuidv4(),
-        Name: 'portal_id',
+        Name: PortalDefs.portalIDArgName,
         Value: info.portalId,
       },
       {
         Type: APIArgumentType.String,
         mID: uuidv4(),
-        Name: 'portal_event_type',
+        Name: PortalDefs.eventTypeArgName,
         Value: info.eventType,
       },
     ],
@@ -66,13 +67,13 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
  */
 export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdate {
   return {
-    Type: 'nap::APIMessage',
+    Type: PortalDefs.apiMessageType,
     mID: info.id,
     Name: info.name,
     Arguments: [{
       Type: info.type,
       mID: uuidv4(),
-      Name: 'item_value',
+      Name: PortalDefs.itemValueArgName,
       Value: info.value,
     }],
   };
