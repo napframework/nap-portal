@@ -1,6 +1,10 @@
 // Local Includes
 import { getTicket } from './utils';
 import {
+  PortalEventType,
+  PortalItemUpdate,
+} from './types';
+import {
   NAPWebSocket,
   NAPWebSocketEvent,
 } from './napwebsocket';
@@ -41,7 +45,7 @@ export class NAPWebClient {
     this.config = config;
     this.webSocket = new NAPWebSocket();
     this.webSocket.addEventListener(NAPWebSocketEvent.Message, {
-      handleEvent: (event: MessageEvent) => this.onMessage(event)
+      handleEvent: (event: CustomEvent) => this.onMessage(event)
     });
   }
 
@@ -95,6 +99,22 @@ export class NAPWebClient {
 
     // Close the WebSocket connection
     await this.webSocket.close();
+  }
+
+  public sendRequest(): void {
+    this.webSocket.send({
+      eventId: this.id,
+      portalId: 'PortalComponent',
+      eventType: PortalEventType.Request,
+    });
+  }
+
+  public sendUpdate(update: PortalItemUpdate): void {
+    this.webSocket.send({
+      eventId: this.id,
+      portalId: 'PortalComponent',
+      eventType: PortalEventType.Update,
+    }, [update]);
   }
 
   /**
