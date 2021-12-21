@@ -14,7 +14,7 @@ import {
 } from 'lodash';
 
 /**
- * Tests whether the supplid message is in a valid API message format.
+ * Tests whether the supplied message is in a valid API message format.
  * Throws an error with descriptive message when the validation fails.
  * @param message the message to verify
  * @returns the valid API message
@@ -41,13 +41,14 @@ export function testAPIMessage(message: Partial<APIMessage>): APIMessage {
   return message as APIMessage;
 };
 
+
 /**
- * Tests whether the supplid argument is in a valid API argument format.
+ * Tests whether the supplied argument is in a valid API argument format.
  * Throws an error with descriptive message when the validation fails.
  * @param argument the argument to verify
  * @returns the valid API argument
  */
-export function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
+function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
   if (!isObject(argument))
     throw new Error(`API argument is not an object: ${argument}`);
 

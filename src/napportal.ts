@@ -1,7 +1,7 @@
 // Local Includes
 import { getPortalItemUpdate } from './utils';
 import {
-  PortalEventType,
+  EventType,
   PortalItemUpdateInfo,
 } from './types';
 import {
@@ -59,7 +59,7 @@ export class NAPPortal {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
-      eventType: PortalEventType.Request,
+      eventType: EventType.Request,
     });
   }
 
@@ -67,7 +67,7 @@ export class NAPPortal {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
-      eventType: PortalEventType.Update,
+      eventType: EventType.Update,
     }, [
       getPortalItemUpdate(info),
     ]);

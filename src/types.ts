@@ -51,7 +51,7 @@ export type APIArgumentValue = string | number | bigint | boolean;
 export interface PortalEventHeaderInfo {
   eventId: string,
   portalId: string,
-  eventType: PortalEventType,
+  eventType: EventType,
 };
 
 export interface PortalEventHeader extends APIMessage {
@@ -71,17 +71,17 @@ export interface PortalIdArg extends APIArgument {
 export interface EventTypeArg extends APIArgument {
   Type: APIArgumentType.String,
   Name: typeof PortalDefs.eventTypeArgName,
-  Value: PortalEventType,
+  Value: EventType,
 };
 
-export enum PortalEventType {
+export enum EventType {
   Request = 'EPortalEventType::Request',
   Response = 'EPortalEventType::Response',
   Update = 'EPortalEventType::Update',
   Invalid = 'EPortalEventType::Invalid',
 };
 
-export const PortalEventTypes: Array<string> = Object.keys(PortalEventType);
+export const EventTypes: Array<string> = Object.keys(EventType);
 
 
 /**
@@ -91,6 +91,8 @@ export const PortalEventTypes: Array<string> = Object.keys(PortalEventType);
 export enum PortalItemType {
   Slider = 'nap::PortalItemSlider',
 };
+
+export const PortalItemTypes: Array<string> = Object.keys(PortalItemType);
 
 export interface PortalItemUpdateInfo {
   id: string,
