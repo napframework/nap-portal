@@ -6,6 +6,7 @@ import {
   PortalEventHeaderInfo,
   PortalItemUpdate,
   PortalItemUpdateInfo,
+  EventType,
 } from "./types";
 
 // External Includes
@@ -34,9 +35,9 @@ export async function getTicket(user: string, pass: string, url: string): Promis
 };
 
 /**
- * Creates a PortalEventHeader for a new portal event
- * @param info The info object used to create the event header
- * @returns A PortalEventHeader object for the new portal event
+ * Creates a portal event header for a new portal event from an info object
+ * @param info The info object used to create the portal event header
+ * @returns The portal event header for a new portal event
  */
 export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHeader {
   return {
@@ -57,6 +58,19 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
         Value: info.eventType,
       },
     ],
+  };
+};
+
+/**
+ * Extracts the portal event header info form a valid portal event header
+ * @param header The valid portal event header to extract the info from
+ * @returns The info object extracted from the portal event header
+ */
+export function getPortalEventHeaderInfo(header: PortalEventHeader): PortalEventHeaderInfo {
+  return {
+    eventId: header.mID,
+    portalId: header.Arguments.find(arg => arg.Name === PortalDefs.portalIDArgName)!.Value,
+    eventType: header.Arguments.find(arg => arg.Name === PortalDefs.eventTypeArgName)!.Value as EventType,
   };
 };
 
