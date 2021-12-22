@@ -55,6 +55,9 @@ export class NAPPortal {
     });
   }
 
+  /**
+   * Requests a portal component's layout from the NAP application
+   */
   private sendRequest(): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
@@ -63,6 +66,10 @@ export class NAPPortal {
     });
   }
 
+  /**
+   * Sends a portal item update to the NAP application
+   * @param info The portal item update info to send
+   */
   private sendUpdate(info: PortalItemUpdateInfo): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
