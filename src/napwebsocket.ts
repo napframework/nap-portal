@@ -59,7 +59,7 @@ export class NAPWebSocket extends EventTarget {
   }
 
   /**
-   * @return whether the websocket is open
+   * @return whether the WebSocket is open
    */
   public get isOpen(): boolean {
     return this.webSocket !== null && this.webSocket.readyState === NAPWebSocketState.Open;

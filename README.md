@@ -1,3 +1,3 @@
 # NAP Portal
 
-NAP Portal connects to a NAP websocket server and generates a control interface for you NAP application.
+NAP Portal connects to a NAP WebSocket server and generates a control interface for NAP Portal Components in your NAP application.
