@@ -31,6 +31,7 @@ export class NAPPortal {
 
   private readonly uuid: string;                ///< Unique ID for this NAPPortal instance
   private readonly config: NAPPortalConfig;     ///< The config passed in the NAPPortal constructor
+  private readonly aborter: AbortController;    ///< Signals the NAPWebSocket event target to remove listeners
 
   /**
    * Constructor
@@ -39,6 +40,7 @@ export class NAPPortal {
   constructor(config: NAPPortalConfig) {
     this.uuid = uuidv4();
     this.config = config;
+    this.aborter = new AbortController();
 
     // Request portal if WebSocket is open
     if (this.config.napWebSocket.isOpen)
@@ -47,12 +49,20 @@ export class NAPPortal {
     // Subscribe to open event
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Open, {
       handleEvent: (event: CustomEvent) => this.sendRequest(),
-    });
+    }, { signal: this.aborter.signal });
 
     // Subscribe to message events
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Message, {
       handleEvent: (event: CustomEvent) => this.onMessage(event),
-    });
+    }, { signal: this.aborter.signal });
+  }
+
+  /**
+   * Destroys the portal and cleans up event listeners
+   */
+  public destroy(): void {
+    this.aborter.abort();
+    this.config.el.innerHTML = '';
   }
 
   /**
