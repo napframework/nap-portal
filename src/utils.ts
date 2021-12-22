@@ -28,7 +28,7 @@ export async function getTicket(user: string, pass: string, url: string): Promis
   const response: Response = await fetch(url, requestInit);
   if (!response.ok) {
     const error = `${response.url} ${response.status} (${response.statusText})`;
-    throw new Error(`NAPWebClient failed to get connection ticket: ${error}`);
+    throw new Error(`Failed to get NAPWebSocket connection ticket: ${error}`);
   }
   const ticket: string = await response.text();
   return ticket;

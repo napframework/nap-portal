@@ -1,23 +1,22 @@
 {
-  "name": "nap-webclient",
+  "name": "nap-portal",
   "version": "0.0.0",
-  "description": "The NAP API webclient connects to a NAP websocket server and generates a control interface for you NAP application",
+  "description": "NAP Portal connects to a NAP websocket server and generates a control interface for you NAP application",
   "keywords": [
     "nap",
     "framework",
-    "webclient",
-    "naivi"
+    "portal"
   ],
-  "homepage": "https://github.com/napframework/nap-webclient#readme",
+  "homepage": "https://github.com/napframework/nap-portal#readme",
   "bugs": {
-    "url": "https://github.com/napframework/nap-webclient/issues"
+    "url": "https://github.com/napframework/nap-portal/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/napframework/nap-webclient.git"
+    "url": "git+ssh://git@github.com/napframework/nap-portal.git"
   },
   "license": "ISC",
-  "author": "Naivi",
+  "author": "NAP Labs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
