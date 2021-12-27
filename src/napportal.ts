@@ -120,6 +120,10 @@ export class NAPPortal {
     }
   }
 
+  /**
+   * Updates an existing portal item from an API message
+   * @param message the API message containing the update
+   */
   private updatePortalItem(message: APIMessage): void {
     const item = this.portalItems.get(message.mID);
     if (!item) {
