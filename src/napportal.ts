@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
  * The config that is passed to the NAPPortal constructor
  */
 export interface NAPPortalConfig {
-  el: Element;                  ///< The DOM element into which the interface will be injected
+  el: HTMLElement;              ///< The HTML element into which the interface will be injected
   portalId: string;             ///< The portal ID, should match with a PortalComponent ID in Napkin
   napWebSocket: NAPWebSocket;   ///< The NAPWebSocket used for communication with the NAP application
 }
