@@ -5,6 +5,7 @@ import {
   APIArgument,
   APIArgumentType,
   APIArgumentTypes,
+  PortalEvent,
   PortalEventHeader,
   PortalIdArg,
   EventTypeArg,
@@ -19,13 +20,31 @@ import {
 } from 'lodash';
 
 
+export function testPortalEvent(event: any): PortalEvent {
+  if (!isArray(event))
+    throw new Error(`Portal event is not an array: ${event}`);
+
+  if (!event.length)
+    throw new Error(`Portal event is an empty array`);
+
+  // Ensure the first message is a portal event header
+  testPortalEventHeader(event[0]);
+
+  // Ensure the other messages are valid API messages
+  for (let i = 1; i < event.length; i++)
+    testAPIMessage(event[i]);
+
+  return event as PortalEvent;
+}
+
+
 /**
  * Tests whether the supplied header is in a valid portal event header format.
  * Throws an error with descriptive message when the validation fails.
  * @param header the header to verify
  * @returns the valid portal event header
  */
-export function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventHeader {
+function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventHeader {
   const validMessage = testAPIMessage(header);
 
   if (validMessage.Name !== PortalDefs.eventHeaderName)
@@ -69,7 +88,7 @@ export function testAPIMessages(messages: Array<Partial<APIMessage>>): Array<API
  * @param message the message to verify
  * @returns the valid API message
  */
-export function testAPIMessage(message: Partial<APIMessage>): APIMessage {
+function testAPIMessage(message: Partial<APIMessage>): APIMessage {
   if (!isObject(message))
     throw new Error(`API message is not an object: ${message}`);
 
