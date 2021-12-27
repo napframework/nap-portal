@@ -41,7 +41,7 @@ export enum APIArgumentType {
 
 export const APIArgumentTypes: Array<string> = Object.values(APIArgumentType);
 
-export type APIArgumentValue = string | number | bigint | boolean;
+export type APIArgumentValue = string | number | boolean;
 
 
 /**
