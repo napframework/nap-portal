@@ -36,6 +36,8 @@ export class NAPPortal {
   private readonly portalItems: Map<string, NAPPortalItem>;     ///< The portal items contained by this NAPPortal, mapped by id
   private readonly portalItemAbortController: AbortController;  ///< Signals the NAPPortalItem event targets to remove listeners
   private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
+  private readonly table: HTMLElement;                          ///< The table which is added to the element provided in config
+  private readonly tbody: HTMLElement;                          ///< The table body which contains our portal item rows
 
   /**
    * Constructor
@@ -47,6 +49,12 @@ export class NAPPortal {
     this.portalItems = new Map<string, NAPPortalItem>();
     this.portalItemAbortController = new AbortController();
     this.webSocketAbortController = new AbortController();
+    this.table = document.createElement('table');
+    this.tbody = document.createElement('tbody');
+
+    // Add HTML elements
+    this.table.appendChild(this.tbody);
+    this.config.el.appendChild(this.table);
 
     // Request portal if WebSocket is open
     if (this.config.napWebSocket.isOpen)
@@ -69,6 +77,8 @@ export class NAPPortal {
   public destroy(): void {
     this.webSocketAbortController.abort();
     this.removePortalItems();
+    this.tbody.remove();
+    this.table.remove();
   }
 
   /**
