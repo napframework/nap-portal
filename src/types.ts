@@ -48,6 +48,11 @@ export type APIArgumentValue = string | number | bigint | boolean;
  * Portal event
  */
 
+export type PortalEvent = [
+  PortalEventHeader,
+  ...Array<APIMessage>,
+];
+
 export interface PortalEventHeaderInfo {
   eventId: string,
   portalId: string,
