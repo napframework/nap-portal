@@ -7,6 +7,7 @@ import {
 import {
   NAPWebSocket,
   NAPWebSocketEvent,
+  NAPWebSocketMessageDetail,
 } from './napwebsocket';
 
 // External Includes
@@ -95,6 +96,20 @@ export class NAPPortal {
    * @param event The received MessageEvent
    */
   private onMessage(event: CustomEvent): void {
+    const { info, messages } = event.detail as NAPWebSocketMessageDetail;
+    if (info.portalId !== this.config.portalId)
+      return;
 
+    switch(info.eventType) {
+
+      case EventType.Response:
+        break;
+
+      case EventType.Update:
+        break;
+
+      default:
+        console.error(`Cannot handle portal event type ${info.eventType}`);
+    }
   }
 }
