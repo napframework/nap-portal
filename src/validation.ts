@@ -20,6 +20,12 @@ import {
 } from 'lodash';
 
 
+/**
+ * Tests whether the supplied event is a valid portal event.
+ * Throws an error with descriptive message when the validation fails.
+ * @param event the event to verify
+ * @returns the valid portal event
+ */
 export function testPortalEvent(event: any): PortalEvent {
   if (!isArray(event))
     throw new Error(`Portal event is not an array: ${event}`);
