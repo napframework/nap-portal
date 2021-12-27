@@ -50,11 +50,11 @@ export class NAPPortal {
 
     // Request portal if WebSocket is open
     if (this.config.napWebSocket.isOpen)
-      this.sendRequest();
+      this.sendPortalRequest();
 
     // Subscribe to open event
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Open, {
-      handleEvent: (event: CustomEvent) => this.sendRequest(),
+      handleEvent: (event: CustomEvent) => this.sendPortalRequest(),
     }, { signal: this.webSocketAbortController.signal });
 
     // Subscribe to message events
@@ -73,7 +73,7 @@ export class NAPPortal {
   /**
    * Requests a portal component's layout from the NAP application
    */
-  private sendRequest(): void {
+  private sendPortalRequest(): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
@@ -85,7 +85,7 @@ export class NAPPortal {
    * Sends a portal item update to the NAP application
    * @param info The portal item update info to send
    */
-  private sendUpdate(info: PortalItemUpdateInfo): void {
+  private sendPortalItemUpdate(info: PortalItemUpdateInfo): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
