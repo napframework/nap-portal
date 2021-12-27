@@ -113,6 +113,7 @@ export class NAPPortal {
         handleEvent: (event: CustomEvent) => this.onPortalItemUpdate(event),
       }, { signal: this.portalItemAbortController.signal });
       this.portalItems.set(message.mID, item);
+      this.tbody.appendChild(item.tr);
     }
     catch(e: any) {
       const error = e instanceof Error ? e.message : e;
