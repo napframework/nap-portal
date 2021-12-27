@@ -7,10 +7,10 @@ import { APIMessage } from './types';
  */
 export class NAPPortalItem extends EventTarget {
 
-  private readonly id: string;        ///< This NAPPortalItem's id
-  private readonly name: string;      ///< This NAPPortalItem's name
-  private readonly tr: HTMLElement;   ///< This NAPPortalItem's table row element
-  private readonly td: HTMLElement;   ///< This NAPPortalItem's table cell element
+  protected readonly id: string;        ///< This NAPPortalItem's id
+  protected readonly name: string;      ///< This NAPPortalItem's name
+  protected readonly td: HTMLElement;   ///< This NAPPortalItem's table cell element
+  private readonly tr: HTMLElement;     ///< This NAPPortalItem's table row element
 
   /**
    * Constructor
@@ -38,7 +38,7 @@ export class NAPPortalItem extends EventTarget {
     this.tr.appendChild(this.td);
   }
 
-  get el(): HTMLElement {
+  public get el(): HTMLElement {
     return this.tr;
   }
 }
