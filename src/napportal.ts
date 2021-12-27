@@ -2,6 +2,7 @@
 import { getPortalItemUpdate } from './utils';
 import { NAPPortalItem } from './napportalitem';
 import {
+  APIMessage,
   EventType,
   PortalItemUpdateInfo,
 } from './types';
@@ -91,6 +92,17 @@ export class NAPPortal {
   }
 
   /**
+   * Add a new portal item from an API message describing the item
+   * @param message the API message describing the portal item
+   */
+  private addPortalItem(message: APIMessage): void {
+    if (this.portalItems.has(message.mID)) {
+      console.error(`Cannot add duplicate portal item ${message.mID}`);
+      return;
+    }
+  }
+
+  /**
    * Requests a portal component's layout from the NAP application
    */
   private sendPortalRequest(): void {
@@ -127,6 +139,14 @@ export class NAPPortal {
     switch(info.eventType) {
 
       case EventType.Response:
+        // The event ID should match our
+        // UUID if we performed the request
+        if (info.eventId !== this.uuid)
+          break;
+
+        this.removePortalItems();
+        for (const message of messages)
+          this.addPortalItem(message);
         break;
 
       case EventType.Update:
