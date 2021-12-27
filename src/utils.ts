@@ -1,9 +1,14 @@
 // Local Includes
+import { NAPPortalItem } from './napportalitem';
+import { NAPPortalItemSlider } from './napportalitemslider';
 import {
   PortalDefs,
+  APIMessage,
+  APIArgument,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
+  PortalItemType,
   PortalItemUpdate,
   PortalItemUpdateInfo,
   EventType,
@@ -92,6 +97,21 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
     }],
   };
 };
+
+/**
+ * Create a new portal item from an API message describing the item
+ * @param message the API message describing the portal item
+ * @returns the new portal item
+ */
+export function createPortalItem(message: APIMessage): NAPPortalItem {
+  const itemTypeArg = getArgumentByName(message, PortalDefs.itemTypeArgName);
+  switch (itemTypeArg.Value) {
+    case PortalItemType.Slider:
+      return new NAPPortalItemSlider(message);
+    default:
+      throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
+  }
+}
 
 /**
  * Get an API argument from an API message by name.
