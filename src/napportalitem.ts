@@ -1,5 +1,8 @@
 // Local Includes
-import { APIMessage } from './types';
+import {
+  APIMessage,
+  PortalItemUpdateInfo,
+} from './types';
 
 /**
  * Events emitted by NAPPortalItem
@@ -8,6 +11,12 @@ import { APIMessage } from './types';
   Update = 'UPDATE',
 };
 
+/**
+ * Detail sent with NAPPortalItemEvent.Update events
+ */
+ export interface NAPPortalItemUpdateDetail {
+  info: PortalItemUpdateInfo;
+};
 
 /**
  * NAPPortalItem
