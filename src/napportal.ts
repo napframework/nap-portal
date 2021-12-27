@@ -71,7 +71,10 @@ export class NAPPortal {
     this.removePortalItems();
   }
 
-  private removePortalItems() {
+  /**
+   * Removes portal item event listeners, elements and clears map
+   */
+  private removePortalItems(): void {
     this.portalItemAbortController.abort();
     this.portalItems.forEach(item => item.tr.remove());
     this.portalItems.clear();
