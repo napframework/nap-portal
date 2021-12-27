@@ -1,16 +1,23 @@
 // Local Includes
-import { getPortalItemUpdate } from './utils';
-import { NAPPortalItem } from './napportalitem';
 import {
   APIMessage,
   EventType,
   PortalItemUpdateInfo,
 } from './types';
 import {
+  createPortalItem,
+  getPortalItemUpdate,
+} from './utils';
+import {
   NAPWebSocket,
   NAPWebSocketEvent,
   NAPWebSocketMessageDetail,
 } from './napwebsocket';
+import {
+  NAPPortalItem,
+  NAPPortalItemEvent,
+  NAPPortalItemUpdateDetail,
+} from './napportalitem';
 
 // External Includes
 import { v4 as uuidv4 } from 'uuid';
@@ -100,6 +107,32 @@ export class NAPPortal {
       console.error(`Cannot add duplicate portal item ${message.mID}`);
       return;
     }
+    try {
+      const item = createPortalItem(message);
+      item.addEventListener(NAPPortalItemEvent.Update, {
+        handleEvent: (event: CustomEvent) => this.onPortalItemUpdate(event),
+      }, { signal: this.portalItemAbortController.signal });
+      this.portalItems.set(message.mID, item);
+    }
+    catch(e: any) {
+      const error = e instanceof Error ? e.message : e;
+      console.error('Failed to create portal item:', error);
+    }
+  }
+
+  private updatePortalItem(message: APIMessage): void {
+    const item = this.portalItems.get(message.mID);
+    if (!item) {
+      console.error(`Cannot update unkown portal item ${message.mID}`);
+      return;
+    }
+    try {
+      item.update(message);
+    }
+    catch(e: any) {
+      const error = e instanceof Error ? e.message : e;
+      console.error('Failed to update portal item:', error);
+    }
   }
 
   /**
@@ -150,6 +183,8 @@ export class NAPPortal {
         break;
 
       case EventType.Update:
+        for (const message of messages)
+          this.updatePortalItem(message);
         break;
 
       default:
