@@ -10,7 +10,7 @@ export class NAPPortalItem extends EventTarget {
   protected readonly id: string;        ///< This NAPPortalItem's id
   protected readonly name: string;      ///< This NAPPortalItem's name
   protected readonly td: HTMLElement;   ///< This NAPPortalItem's table cell element
-  private readonly tr: HTMLElement;     ///< This NAPPortalItem's table row element
+  public readonly tr: HTMLElement;     ///< This NAPPortalItem's table row element
 
   /**
    * Constructor
@@ -36,9 +36,5 @@ export class NAPPortalItem extends EventTarget {
     this.tr = document.createElement('tr');
     this.tr.appendChild(labelTd);
     this.tr.appendChild(this.td);
-  }
-
-  public get el(): HTMLElement {
-    return this.tr;
   }
 }
