@@ -1,6 +1,13 @@
 // Local Includes
 import { APIMessage } from './types';
 
+/**
+ * Events emitted by NAPPortalItem
+ */
+ export enum NAPPortalItemEvent {
+  Update = 'UPDATE',
+};
+
 
 /**
  * NAPPortalItem
