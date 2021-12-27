@@ -68,6 +68,13 @@ export class NAPPortal {
    */
   public destroy(): void {
     this.webSocketAbortController.abort();
+    this.removePortalItems();
+  }
+
+  private removePortalItems() {
+    this.portalItemAbortController.abort();
+    this.portalItems.forEach(item => item.el.remove());
+    this.portalItems.clear();
   }
 
   /**
