@@ -68,8 +68,8 @@ export function testAPIMessage(message: Partial<APIMessage>): APIMessage {
   if (!isArray(message.Arguments))
     throw new Error(`API message Arguments property is not an array: ${message.Arguments}`);
 
-  for (const argument in message.Arguments)
-    testAPIArgument(argument as Partial<APIArgument>);
+  for (const argument of message.Arguments)
+    testAPIArgument(argument);
 
   return message as APIMessage;
 };
