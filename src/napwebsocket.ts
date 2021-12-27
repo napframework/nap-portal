@@ -1,10 +1,13 @@
 // Local Includes
+import { testPortalEvent } from "./validation";
 import {
   getTicket,
-  getPortalEventHeader
+  getPortalEventHeader,
+  getPortalEventHeaderInfo,
 } from "./utils";
 import {
   APIMessage,
+  PortalEvent,
   PortalEventHeader,
   PortalEventHeaderInfo,
 } from "./types";
@@ -38,6 +41,14 @@ export interface NAPWebSocketConfig {
   Open = 'OPEN',
   Close = 'CLOSE',
   Message = 'MESSAGE',
+};
+
+/**
+ * Detail sent with NAPWebSocketEvent.Message events
+ */
+ export interface NAPWebSocketMessageDetail {
+  info: PortalEventHeaderInfo;
+  messages: Array<APIMessage>;
 };
 
 /**
@@ -148,11 +159,20 @@ export class NAPWebSocket extends EventTarget {
     }
 
     try {
-      // Parse JSON and dispatch event
-      const detail = JSON.parse(data);
-      const event = new CustomEvent(NAPWebSocketEvent.Message, { detail });
-      this.dispatchEvent(event);
-    } catch(e: any) {
+      // Parse JSON and validate event
+      const json: any = JSON.parse(data);
+      const event: PortalEvent = testPortalEvent(json);
+
+      // Extract portal event header info and API messages
+      const header = event.splice(0, 1)[0] as PortalEventHeader;
+      const info = getPortalEventHeaderInfo(header);
+      const messages = event as Array<APIMessage>;
+
+      // Notify listeners of new message
+      const detail: NAPWebSocketMessageDetail = { info, messages };
+      this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Message, { detail }));
+    }
+    catch(e: any) {
       const error = e instanceof Error ? e.message : e;
       console.error('NAPWebSocket failed to parse message:', error);
     }
