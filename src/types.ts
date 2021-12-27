@@ -109,9 +109,9 @@ export interface PortalItemUpdateInfo {
 };
 
 export interface PortalItemUpdate extends APIMessage {
-  Arguments: [PortalItemUpdateArgument],
+  Arguments: [PortalItemValueArgument],
 }
 
-export interface PortalItemUpdateArgument extends APIArgument {
+export interface PortalItemValueArgument extends APIArgument {
   Name: typeof PortalDefs.itemValueArgName,
 }
