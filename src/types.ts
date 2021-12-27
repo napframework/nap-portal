@@ -39,7 +39,7 @@ export enum APIArgumentType {
   Double = 'nap::APIDouble',
 };
 
-export const APIArgumentTypes: Array<string> = Object.keys(APIArgumentType);
+export const APIArgumentTypes: Array<string> = Object.values(APIArgumentType);
 
 export type APIArgumentValue = string | number | bigint | boolean;
 
@@ -88,7 +88,7 @@ export enum EventType {
   Invalid = 'EPortalEventType::Invalid',
 };
 
-export const EventTypes: Array<string> = Object.keys(EventType);
+export const EventTypes: Array<string> = Object.values(EventType);
 
 
 /**
@@ -99,7 +99,7 @@ export enum PortalItemType {
   Slider = 'nap::PortalItemSlider',
 };
 
-export const PortalItemTypes: Array<string> = Object.keys(PortalItemType);
+export const PortalItemTypes: Array<string> = Object.values(PortalItemType);
 
 export interface PortalItemUpdateInfo {
   id: string,
