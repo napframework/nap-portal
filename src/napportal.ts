@@ -73,7 +73,7 @@ export class NAPPortal {
 
   private removePortalItems() {
     this.portalItemAbortController.abort();
-    this.portalItems.forEach(item => item.el.remove());
+    this.portalItems.forEach(item => item.tr.remove());
     this.portalItems.clear();
   }
 
