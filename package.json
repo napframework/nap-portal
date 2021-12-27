@@ -23,7 +23,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm pack",
     "demo": "node ./demo/server.js"
   },
   "devDependencies": {
