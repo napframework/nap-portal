@@ -129,7 +129,7 @@ export class NAPPortal {
 
   /**
    * Called when the NAPWebSocket receives a message
-   * @param event The received MessageEvent
+   * @param event The received event with the message information
    */
   private onMessage(event: CustomEvent): void {
     const { info, messages } = event.detail as NAPWebSocketMessageDetail;
