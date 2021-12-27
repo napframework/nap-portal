@@ -92,3 +92,17 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
     }],
   };
 };
+
+/**
+ * Get an API argument from an API message by name.
+ * Throws an error with descriptive message when not found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the API argument
+ */
+export function getArgumentByName(message: APIMessage, name: string): APIArgument {
+  const argument: APIArgument | undefined = message.Arguments.find(arg => arg.Name === name);
+  if (!argument)
+    throw new Error(`API message is missing the argument with name "${name}"`);
+  return argument;
+}
