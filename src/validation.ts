@@ -26,19 +26,22 @@ import {
  * @param event the event to verify
  * @returns the valid portal event
  */
-export function testPortalEvent(event: any): PortalEvent {
-  if (!isArray(event))
-    throw new Error(`Portal event is not an array: ${event}`);
+export function testPortalEvent(event: Partial<PortalEvent>): PortalEvent {
+  if (!isObject(event))
+    throw new Error(`Portal event is not an object: ${event}`);
 
-  if (!event.length)
-    throw new Error(`Portal event is an empty array`);
+  if (!isArray(event.Objects))
+    throw new Error(`Portal event Objects property is not an array: ${event.Objects}`);
+
+  if (!event.Objects.length)
+    throw new Error(`Portal event Objects property is an empty array`);
 
   // Ensure the first message is a portal event header
-  testPortalEventHeader(event[0]);
+  testPortalEventHeader(event.Objects[0]);
 
   // Ensure the other messages are valid API messages
-  for (let i = 1; i < event.length; i++)
-    testAPIMessage(event[i]);
+  for (let i = 1; i < event.Objects.length; i++)
+    testAPIMessage(event.Objects[i]);
 
   return event as PortalEvent;
 }

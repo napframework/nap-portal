@@ -164,9 +164,9 @@ export class NAPWebSocket extends EventTarget {
       const event: PortalEvent = testPortalEvent(json);
 
       // Extract portal event header info and API messages
-      const header = event.splice(0, 1)[0] as PortalEventHeader;
+      const header = event.Objects.splice(0, 1)[0] as PortalEventHeader;
       const info = getPortalEventHeaderInfo(header);
-      const messages = event as Array<APIMessage>;
+      const messages = event.Objects as Array<APIMessage>;
 
       // Notify listeners of new message
       const detail: NAPWebSocketMessageDetail = { info, messages };
