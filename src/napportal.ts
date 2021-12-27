@@ -156,4 +156,13 @@ export class NAPPortal {
         console.error(`Cannot handle portal event type ${info.eventType}`);
     }
   }
+
+  /**
+   * Called when a NAPPortalItem sends an update
+   * @param event The received event with the update information
+   */
+  private onPortalItemUpdate(event: CustomEvent): void {
+    const { info } = event.detail as NAPPortalItemUpdateDetail;
+    this.sendPortalItemUpdate(info);
+  }
 }
