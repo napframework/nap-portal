@@ -72,23 +72,6 @@ function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventH
 
 
 /**
- * Tests whether the supplied messages are an array of valid API messages.
- * Throws an error with descriptive message when the validation fails.
- * @param messages the messages to verify
- * @returns the valid API messages
- */
-export function testAPIMessages(messages: Array<Partial<APIMessage>>): Array<APIMessage> {
-  if (!isArray(messages))
-    throw new Error(`API messages are not an array: ${messages}`);
-
-  for (const message of messages)
-    testAPIMessage(message);
-
-  return messages as Array<APIMessage>;
-}
-
-
-/**
  * Tests whether the supplied message is in a valid API message format.
  * Throws an error with descriptive message when the validation fails.
  * @param message the message to verify
