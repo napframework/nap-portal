@@ -1,5 +1,6 @@
 // Local Includes
 import { getPortalItemUpdate } from './utils';
+import { NAPPortalItem } from './napportalitem';
 import {
   EventType,
   PortalItemUpdateInfo,
@@ -30,9 +31,11 @@ export interface NAPPortalConfig {
  */
 export class NAPPortal {
 
-  private readonly uuid: string;                ///< Unique ID for this NAPPortal instance
-  private readonly config: NAPPortalConfig;     ///< The config passed in the NAPPortal constructor
-  private readonly aborter: AbortController;    ///< Signals the NAPWebSocket event target to remove listeners
+  private readonly uuid: string;                                ///< Unique ID for this NAPPortal instance
+  private readonly config: NAPPortalConfig;                     ///< The config passed in the NAPPortal constructor
+  private readonly portalItems: Map<string, NAPPortalItem>;     ///< The portal items contained by this NAPPortal, mapped by id
+  private readonly portalItemAbortController: AbortController;  ///< Signals the NAPPortalItem event targets to remove listeners
+  private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
 
   /**
    * Constructor
@@ -41,7 +44,9 @@ export class NAPPortal {
   constructor(config: NAPPortalConfig) {
     this.uuid = uuidv4();
     this.config = config;
-    this.aborter = new AbortController();
+    this.portalItems = new Map<string, NAPPortalItem>();
+    this.portalItemAbortController = new AbortController();
+    this.webSocketAbortController = new AbortController();
 
     // Request portal if WebSocket is open
     if (this.config.napWebSocket.isOpen)
@@ -50,20 +55,19 @@ export class NAPPortal {
     // Subscribe to open event
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Open, {
       handleEvent: (event: CustomEvent) => this.sendRequest(),
-    }, { signal: this.aborter.signal });
+    }, { signal: this.webSocketAbortController.signal });
 
     // Subscribe to message events
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Message, {
       handleEvent: (event: CustomEvent) => this.onMessage(event),
-    }, { signal: this.aborter.signal });
+    }, { signal: this.webSocketAbortController.signal });
   }
 
   /**
    * Destroys the portal and cleans up event listeners
    */
   public destroy(): void {
-    this.aborter.abort();
-    this.config.el.innerHTML = '';
+    this.webSocketAbortController.abort();
   }
 
   /**
