@@ -23,8 +23,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc && npm pack",
-    "demo": "node ./demo/server.js"
+    "build": "tsc && npm pack"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
