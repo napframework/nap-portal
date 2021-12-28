@@ -46,6 +46,16 @@ export interface APIArgumentNumeric extends APIArgument {
   Value: number,
 }
 
+export interface APIArgumentString extends APIArgument {
+  Type: APIArgumentType.String,
+  Value: string,
+}
+
+export interface APIArgumentBool extends APIArgument {
+  Type: APIArgumentType.Bool,
+  Value: boolean,
+}
+
 export enum APIArgumentType {
   String = 'nap::APIString',
   Bool = 'nap::APIBool',
