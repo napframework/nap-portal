@@ -48,6 +48,7 @@ export enum APIArgumentType {
   Double = 'nap::APIDouble',
 };
 
+// Array containing all available API argument types, useful for validation
 export const APIArgumentTypes: Array<string> = Object.values(APIArgumentType);
 
 export type APIArgumentValue = string | number | boolean;
@@ -67,14 +68,14 @@ export type PortalEvent = {
 export interface PortalEventHeaderInfo {
   eventId: string,
   portalId: string,
-  eventType: EventType,
+  eventType: PortalEventType,
 };
 
 export interface PortalEventHeader extends APIMessage {
   Name: typeof PortalDefs.eventHeaderName,
   Arguments: [
     PortalIdArg,
-    EventTypeArg,
+    PortalEventTypeArg,
   ],
 };
 
@@ -84,20 +85,21 @@ export interface PortalIdArg extends APIArgument {
   Value: string,
 };
 
-export interface EventTypeArg extends APIArgument {
+export interface PortalEventTypeArg extends APIArgument {
   Type: APIArgumentType.String,
   Name: typeof PortalDefs.eventTypeArgName,
-  Value: EventType,
+  Value: PortalEventType,
 };
 
-export enum EventType {
+export enum PortalEventType {
   Request = 'Request',
   Response = 'Response',
   Update = 'Update',
   Invalid = 'Invalid',
 };
 
-export const EventTypes: Array<string> = Object.values(EventType);
+// Array containing all available portal event types, useful for validation
+export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
 
 
 /**
@@ -113,6 +115,7 @@ export enum PortalItemType {
   SliderChar = 'nap::PortalItemSliderChar',
 };
 
+// Array containing all available portal item types, useful for validation
 export const PortalItemTypes: Array<string> = Object.values(PortalItemType);
 
 export interface PortalItemUpdateInfo {
