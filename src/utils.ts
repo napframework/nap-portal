@@ -69,7 +69,7 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
 
 
 /**
- * Extracts the portal event header info form a valid portal event header
+ * Extracts the portal event header info from a valid portal event header
  * @param header The valid portal event header to extract the info from
  * @returns The info object extracted from the portal event header
  */
@@ -110,12 +110,11 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
 export function createPortalItem(message: APIMessage): NAPPortalItem {
   const itemTypeArg = getArgumentByName(message, PortalDefs.itemTypeArgName);
   switch (itemTypeArg.Value) {
+    case PortalItemType.SliderByte:
     case PortalItemType.SliderInt:
     case PortalItemType.SliderLong:
     case PortalItemType.SliderFloat:
     case PortalItemType.SliderDouble:
-    case PortalItemType.SliderByte:
-    case PortalItemType.SliderChar:
       return new NAPPortalItemSlider(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);

@@ -40,7 +40,6 @@ export interface APIArgument {
 export enum APIArgumentType {
   String = 'nap::APIString',
   Bool = 'nap::APIBool',
-  Char = 'nap::APIChar',
   Byte = 'nap::APIByte',
   Int = 'nap::APIInt',
   Long = 'nap::APILong',
@@ -107,12 +106,11 @@ export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
  */
 
 export enum PortalItemType {
+  SliderByte = 'nap::PortalItemSliderByte',
   SliderInt = 'nap::PortalItemSliderInt',
   SliderLong = 'nap::PortalItemSliderLong',
   SliderFloat = 'nap::PortalItemSliderFloat',
   SliderDouble = 'nap::PortalItemSliderDouble',
-  SliderByte = 'nap::PortalItemSliderByte',
-  SliderChar = 'nap::PortalItemSliderChar',
 };
 
 // Array containing all available portal item types, useful for validation
