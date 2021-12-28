@@ -136,13 +136,11 @@ function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
  * @returns the string argument
  */
 export function testAPIArgumentString(argument: APIArgument): APIArgumentString {
-  const { Type, Name, Value } = argument;
+  if (!isString(argument.Value))
+    throw new Error(`API argument with Name "${argument.Name}" should have string Value, got "${typeof argument.Value}"`);
 
-  if (!isString(Value))
-    throw new Error(`API argument with Name "${Name}" should have string Value, got "${typeof Value}"`);
-
-  if (Type !== APIArgumentType.String)
-    throw new Error(`API argument with Name "${Name}" should have string Type, got "${Type}"`);
+  if (argument.Type !== APIArgumentType.String)
+    throw new Error(`API argument with Name "${argument.Name}" should have string Type, got "${argument.Type}"`);
 
   return argument as APIArgumentString;
 }
@@ -155,13 +153,11 @@ export function testAPIArgumentString(argument: APIArgument): APIArgumentString 
  * @returns the boolean argument
  */
 export function testAPIArgumentBool(argument: APIArgument): APIArgumentBool {
-  const { Type, Name, Value } = argument;
+  if (!isBoolean(argument.Value))
+    throw new Error(`API argument with Name "${argument.Name}" should have boolean Value, got "${typeof argument.Value}"`);
 
-  if (!isBoolean(Value))
-    throw new Error(`API argument with Name "${Name}" should have boolean Value, got "${typeof Value}"`);
-
-  if (Type !== APIArgumentType.Bool)
-    throw new Error(`API argument with Name "${Name}" should have boolean Type, got "${Type}"`);
+  if (argument.Type !== APIArgumentType.Bool)
+    throw new Error(`API argument with Name "${argument.Name}" should have boolean Type, got "${argument.Type}"`);
 
   return argument as APIArgumentBool;
 }
@@ -174,17 +170,15 @@ export function testAPIArgumentBool(argument: APIArgument): APIArgumentBool {
  * @returns the numerical argument
  */
 export function testAPIArgumentNumeric(argument: APIArgument): APIArgumentNumeric {
-  const { Type, Name, Value } = argument;
+  if (!isNumber(argument.Value))
+    throw new Error(`API argument with Name "${argument.Name}" should have numerical Value, got "${typeof argument.Value}"`);
 
-  if (!isNumber(Value))
-    throw new Error(`API argument with Name "${Name}" should have numerical Value, got "${typeof Value}"`);
-
-  if (!(Type === APIArgumentType.Byte ||
-        Type === APIArgumentType.Int ||
-        Type === APIArgumentType.Long ||
-        Type === APIArgumentType.Float ||
-        Type === APIArgumentType.Double))
-    throw new Error(`API argument with Name "${Name}" should have numerical Type, got "${Type}"`);
+  if (!(argument.Type === APIArgumentType.Byte ||
+        argument.Type === APIArgumentType.Int ||
+        argument.Type === APIArgumentType.Long ||
+        argument.Type === APIArgumentType.Float ||
+        argument.Type === APIArgumentType.Double))
+    throw new Error(`API argument with Name "${argument.Name}" should have numerical Type, got "${argument.Type}"`);
 
   return argument as APIArgumentNumeric;
 }
