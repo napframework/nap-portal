@@ -53,4 +53,8 @@ export class NAPPortalItem extends EventTarget {
     this.tr.appendChild(labelTd);
     this.tr.appendChild(this.td);
   }
+
+  public update(message: APIMessage): void {
+
+  }
 }
