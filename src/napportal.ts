@@ -117,17 +117,21 @@ export class NAPPortal {
    * @param message the API message describing the portal item
    */
   private addPortalItem(message: APIMessage): void {
+    // Prevent creating duplicate portal item
     if (this.portalItems.has(message.mID)) {
       console.error(`Cannot add duplicate portal item ${message.mID}`);
       return;
     }
     try {
+      // Create portal item
       const item = createPortalItem(message);
+      this.portalItems.set(message.mID, item);
+      this.tbody.appendChild(item.tr);
+
+      // Subscribe to portal item update events
       item.addEventListener(NAPPortalItemEvent.Update, {
         handleEvent: (event: CustomEvent) => this.onPortalItemUpdate(event),
       }, { signal: this.portalItemAbortController.signal });
-      this.portalItems.set(message.mID, item);
-      this.tbody.appendChild(item.tr);
     }
     catch(e: any) {
       const error = e instanceof Error ? e.message : e;
@@ -141,13 +145,14 @@ export class NAPPortal {
    * @param message the API message containing the update
    */
   private updatePortalItem(message: APIMessage): void {
-    const item = this.portalItems.get(message.mID);
-    if (!item) {
+    // Prevent updating unknown portal item
+    if (!this.portalItems.has(message.mID)) {
       console.error(`Cannot update unkown portal item ${message.mID}`);
       return;
     }
     try {
-      item.update(message);
+      // Update portal item
+      this.portalItems.get(message.mID)!.update(message);
     }
     catch(e: any) {
       const error = e instanceof Error ? e.message : e;
