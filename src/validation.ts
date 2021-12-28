@@ -13,6 +13,7 @@ import {
   PortalIdArgument,
   PortalEventTypeArgument,
   PortalEventTypes,
+  PortalItemUpdate,
 } from "./types";
 import {
   getArgumentByName,
@@ -101,6 +102,18 @@ function testAPIMessage(message: Partial<APIMessage>): APIMessage {
 
   return message as APIMessage;
 };
+
+
+/**
+ * Tests whether the supplied api message is a valid portal item update.
+ * Throws an error with descriptive message when the validation fails.
+ * @param message the api message to verify
+ * @returns the valid portal item update
+ */
+export function testPortalItemUpdate(message: APIMessage): PortalItemUpdate {
+  getArgumentByName(message, PortalDefs.itemValueArgName);
+  return message as PortalItemUpdate;
+}
 
 
 /**
