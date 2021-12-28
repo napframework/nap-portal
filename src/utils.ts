@@ -104,6 +104,22 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
 
 
 /**
+ * Extracts the portal item update info from a valid portal item update
+ * @param update The valid portal item update to extract the info from
+ * @returns The info object extracted from the portal item update
+ */
+export function getPortalItemUpdateInfo(update: PortalItemUpdate): PortalItemUpdateInfo {
+  const valueArg = getArgumentByName(update, PortalDefs.itemValueArgName);
+  return {
+    id: update.mID,
+    name: update.Name,
+    type: valueArg.Type,
+    value: valueArg.Value,
+  };
+};
+
+
+/**
  * Create a new portal item from an API message describing the item
  * @param message the API message describing the portal item
  * @returns the new portal item
