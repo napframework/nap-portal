@@ -95,15 +95,6 @@ export class NAPPortal {
   }
 
   /**
-   * Resets the portal by removing current items and sending a new portal request
-   */
-  public reset(): void {
-    this.removePortalItems();
-    if (this.config.napWebSocket.isOpen)
-      this.sendPortalRequest();
-  }
-
-  /**
    * Removes portal item event listeners, elements and clears map
    */
   private removePortalItems(): void {
