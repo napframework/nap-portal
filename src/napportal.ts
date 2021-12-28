@@ -206,6 +206,11 @@ export class NAPPortal {
         break;
 
       case PortalEventType.Update:
+        // The event ID matches our UUID
+        // if we initiated the update
+        if (info.eventId === this.uuid)
+          break;
+
         for (const message of messages)
           this.updatePortalItem(message);
         break;
