@@ -224,9 +224,11 @@ export class NAPWebSocket extends EventTarget {
    */
   public send(info: PortalEventHeaderInfo, messages: Array<APIMessage> = []): void {
 
-    // Throw when the connection is not open
-    if (!this.isOpen)
-      throw new Error('NAPWebSocket is not open');
+    // Abort when the connection is not open
+    if (!this.isOpen) {
+      console.error('NAPWebSocket failed to send: connection is not open');
+      return;
+    }
 
     // Merge event header and portal item messages
     const header: PortalEventHeader = getPortalEventHeader(info);
