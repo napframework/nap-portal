@@ -17,6 +17,7 @@ import {
 // External Includes
 import { v4 as uuidv4 } from 'uuid';
 
+
 /**
  * Retrieve an authentication ticket for the WebSocket connection
  * @param user The username for generating the authentication ticket
