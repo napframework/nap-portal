@@ -7,8 +7,8 @@ import {
   APIArgumentTypes,
   PortalEvent,
   PortalEventHeader,
-  PortalIdArg,
-  PortalEventTypeArg,
+  PortalIdArgument,
+  PortalEventTypeArgument,
   PortalEventTypes,
 } from "./types";
 import {
@@ -130,7 +130,7 @@ function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
  * @param argument the argument to verify
  * @returns the valid portal ID argument
  */
-function testPortalIdArg(argument: APIArgument): PortalIdArg {
+function testPortalIdArg(argument: APIArgument): PortalIdArgument {
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`Portal ID argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
 
@@ -140,7 +140,7 @@ function testPortalIdArg(argument: APIArgument): PortalIdArg {
   if (!isString(argument.Value))
     throw new Error(`Portal ID argument Value property is not a string: ${argument.Value}`);
 
-  return argument as PortalIdArg;
+  return argument as PortalIdArgument;
 }
 
 
@@ -150,7 +150,7 @@ function testPortalIdArg(argument: APIArgument): PortalIdArg {
  * @param argument the argument to verify
  * @returns the valid event type argument
  */
-function testEventTypeArg(argument: APIArgument): PortalEventTypeArg {
+function testEventTypeArg(argument: APIArgument): PortalEventTypeArgument {
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`Event type argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
 
@@ -160,5 +160,5 @@ function testEventTypeArg(argument: APIArgument): PortalEventTypeArg {
   if (!isString(argument.Value) || !PortalEventTypes.includes(argument.Value))
     throw new Error(`Event type argument Value property is invalid: "${argument.Value}"`);
 
-  return argument as PortalEventTypeArg;
+  return argument as PortalEventTypeArgument;
 }
