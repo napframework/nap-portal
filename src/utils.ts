@@ -106,7 +106,12 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
 export function createPortalItem(message: APIMessage): NAPPortalItem {
   const itemTypeArg = getArgumentByName(message, PortalDefs.itemTypeArgName);
   switch (itemTypeArg.Value) {
-    case PortalItemType.Slider:
+    case PortalItemType.SliderInt:
+    case PortalItemType.SliderLong:
+    case PortalItemType.SliderFloat:
+    case PortalItemType.SliderDouble:
+    case PortalItemType.SliderByte:
+    case PortalItemType.SliderChar:
       return new NAPPortalItemSlider(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);

@@ -7,8 +7,12 @@ export class PortalDefs {
   static readonly eventHeaderName = "portal_event_header"; ///< Name of the portal event header
   static readonly portalIDArgName = "portal_id";           ///< Name of the argument containing the portal ID in the portal event header
   static readonly eventTypeArgName = "portal_event_type";  ///< Name of the argument containing the portal event type in the portal event header
-  static readonly itemValueArgName = "item_value";         ///< Name of the argument containing the portal item value in the portal item message
+  static readonly itemTypeArgName = "portal_item_type";           ///< Name of the argument containing the portal item type in the portal item message
+  static readonly itemValueArgName = "portal_item_value";         ///< Name of the argument containing the portal item value in the portal item message
+  static readonly itemMinArgName = "portal_item_min";             ///< Name of the argument containing the minimum portal item value in the portal item message
+  static readonly itemMaxArgName = "portal_item_max";             ///< Name of the argument containing the maximum portal item value in the portal item message
 }
+
 
 /**
  * API message
@@ -20,6 +24,11 @@ export class PortalDefs {
   Name: string,
   Arguments: Array<APIArgument>,
 };
+
+
+/**
+ * API argument
+ */
 
 export interface APIArgument {
   Type: APIArgumentType,
@@ -82,10 +91,10 @@ export interface EventTypeArg extends APIArgument {
 };
 
 export enum EventType {
-  Request = 'EPortalEventType::Request',
-  Response = 'EPortalEventType::Response',
-  Update = 'EPortalEventType::Update',
-  Invalid = 'EPortalEventType::Invalid',
+  Request = 'Request',
+  Response = 'Response',
+  Update = 'Update',
+  Invalid = 'Invalid',
 };
 
 export const EventTypes: Array<string> = Object.values(EventType);
@@ -96,7 +105,12 @@ export const EventTypes: Array<string> = Object.values(EventType);
  */
 
 export enum PortalItemType {
-  Slider = 'nap::PortalItemSlider',
+  SliderInt = 'nap::PortalItemSliderInt',
+  SliderLong = 'nap::PortalItemSliderLong',
+  SliderFloat = 'nap::PortalItemSliderFloat',
+  SliderDouble = 'nap::PortalItemSliderDouble',
+  SliderByte = 'nap::PortalItemSliderByte',
+  SliderChar = 'nap::PortalItemSliderChar',
 };
 
 export const PortalItemTypes: Array<string> = Object.values(PortalItemType);
