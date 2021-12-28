@@ -64,8 +64,8 @@ function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventH
   if (validMessage.Name !== PortalDefs.eventHeaderName)
     throw new Error(`Portal event header Name property should be "${PortalDefs.eventHeaderName}", got "${validMessage.Name}"`);
 
-  testPortalIdArg(getArgumentByName(validMessage, PortalDefs.portalIDArgName));
-  testEventTypeArg(getArgumentByName(validMessage, PortalDefs.eventTypeArgName));
+  testPortalIdArgument(getArgumentByName(validMessage, PortalDefs.portalIDArgName));
+  testPortalEventTypeArgument(getArgumentByName(validMessage, PortalDefs.eventTypeArgName));
 
   return validMessage as PortalEventHeader;
 };
@@ -155,7 +155,7 @@ export function testAPIArgumentNumeric(argument: APIArgument): APIArgumentNumeri
  * @param argument the argument to verify
  * @returns the valid portal ID argument
  */
-function testPortalIdArg(argument: APIArgument): PortalIdArgument {
+function testPortalIdArgument(argument: APIArgument): PortalIdArgument {
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`Portal ID argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
 
@@ -175,7 +175,7 @@ function testPortalIdArg(argument: APIArgument): PortalIdArgument {
  * @param argument the argument to verify
  * @returns the valid event type argument
  */
-function testEventTypeArg(argument: APIArgument): PortalEventTypeArgument {
+function testPortalEventTypeArgument(argument: APIArgument): PortalEventTypeArgument {
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`Event type argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
 
