@@ -70,12 +70,12 @@ export class NAPPortal {
     if (this.config.napWebSocket.isOpen)
       this.sendPortalRequest();
 
-    // Subscribe to open event
+    // Subscribe to WebSocket open event
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Open, {
       handleEvent: (event: CustomEvent) => this.sendPortalRequest(),
     }, { signal: this.webSocketAbortController.signal });
 
-    // Subscribe to message events
+    // Subscribe to WebSocket message events
     this.config.napWebSocket.addEventListener(NAPWebSocketEvent.Message, {
       handleEvent: (event: CustomEvent) => this.onMessage(event),
     }, { signal: this.webSocketAbortController.signal });
