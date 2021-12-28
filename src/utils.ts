@@ -135,3 +135,17 @@ export function getArgumentByName(message: APIMessage, name: string): APIArgumen
     throw new Error(`API message is missing the argument with name "${name}"`);
   return argument;
 }
+
+
+/**
+ * Checks whether the supplied argument type is for an integral value
+ * @param type the argument type to check
+ * @returns whether the supplied argument type is for an integral value
+ */
+export function isIntegralArgumentType(type: APIArgumentType): boolean {
+  return (
+    type === APIArgumentType.Byte ||
+    type === APIArgumentType.Int ||
+    type === APIArgumentType.Long
+  );
+}
