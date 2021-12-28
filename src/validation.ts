@@ -3,6 +3,7 @@ import {
   PortalDefs,
   APIMessage,
   APIArgument,
+  APIArgumentNumeric,
   APIArgumentType,
   APIArgumentTypes,
   PortalEvent,
@@ -18,6 +19,7 @@ import {
 // External Includes
 import {
   isArray,
+  isNumber,
   isObject,
   isString,
 } from 'lodash';
@@ -122,6 +124,29 @@ function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
 
   return argument as APIArgument;
 };
+
+
+/**
+ * Tests whether the supplied argument contains a numerical value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the numerical argument
+ */
+export function testAPIArgumentNumeric(argument: APIArgument): APIArgumentNumeric {
+  const { Type, Name, Value } = argument;
+
+  if (!isNumber(Value))
+    throw new Error(`API argument with Name "${Name}" should have numerical Value, got "${typeof Value}"`);
+
+  if (!(Type === APIArgumentType.Byte ||
+        Type === APIArgumentType.Int ||
+        Type === APIArgumentType.Long ||
+        Type === APIArgumentType.Float ||
+        Type === APIArgumentType.Double))
+    throw new Error(`API argument with Name "${Name}" should have numerical Type, got "${Type}"`);
+
+  return argument as APIArgumentNumeric;
+}
 
 
 /**
