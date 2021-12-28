@@ -109,13 +109,11 @@ export class NAPPortal {
   private removePortalItems(): void {
     // Remove portal item event listeners
     this.portalItemAbortController.abort();
+    this.portalItemAbortController = new AbortController();
 
     // Remove portal item elements
     this.portalItems.forEach(item => item.tr.remove());
     this.portalItems.clear();
-
-    // Recreate portal item abort controller
-    this.portalItemAbortController = new AbortController();
   }
 
   /**
