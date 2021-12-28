@@ -11,7 +11,7 @@ import {
   PortalItemType,
   PortalItemUpdate,
   PortalItemUpdateInfo,
-  EventType,
+  PortalEventType,
 } from "./types";
 
 // External Includes
@@ -38,6 +38,7 @@ export async function getTicket(user: string, pass: string, url: string): Promis
   const ticket: string = await response.text();
   return ticket;
 };
+
 
 /**
  * Creates a portal event header for a new portal event from an info object
@@ -66,6 +67,7 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
   };
 };
 
+
 /**
  * Extracts the portal event header info form a valid portal event header
  * @param header The valid portal event header to extract the info from
@@ -74,10 +76,11 @@ export function getPortalEventHeader(info: PortalEventHeaderInfo): PortalEventHe
 export function getPortalEventHeaderInfo(header: PortalEventHeader): PortalEventHeaderInfo {
   return {
     eventId: header.mID,
-    portalId: header.Arguments.find(arg => arg.Name === PortalDefs.portalIDArgName)!.Value,
-    eventType: header.Arguments.find(arg => arg.Name === PortalDefs.eventTypeArgName)!.Value as EventType,
+    portalId: getArgumentByName(header, PortalDefs.portalIDArgName).Value as string,
+    eventType: getArgumentByName(header, PortalDefs.eventTypeArgName).Value as PortalEventType,
   };
 };
+
 
 /**
  * Creates an API message representing a portal item update
@@ -98,6 +101,7 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
   };
 };
 
+
 /**
  * Create a new portal item from an API message describing the item
  * @param message the API message describing the portal item
@@ -117,6 +121,7 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
   }
 }
+
 
 /**
  * Get an API argument from an API message by name.
