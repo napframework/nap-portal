@@ -8,9 +8,12 @@ import {
   PortalEvent,
   PortalEventHeader,
   PortalIdArg,
-  EventTypeArg,
-  EventTypes,
+  PortalEventTypeArg,
+  PortalEventTypes,
 } from "./types";
+import {
+  getArgumentByName,
+} from "./utils";
 
 // External Includes
 import {
@@ -59,16 +62,8 @@ function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventH
   if (validMessage.Name !== PortalDefs.eventHeaderName)
     throw new Error(`Portal event header Name property should be "${PortalDefs.eventHeaderName}", got "${validMessage.Name}"`);
 
-  const portalIdArg: APIArgument | undefined = validMessage.Arguments.find(arg => arg.Name === PortalDefs.portalIDArgName);
-  if (!portalIdArg)
-    throw new Error(`Portal event header is missing the "${PortalDefs.portalIDArgName}" argument`);
-
-  const eventTypeArg: APIArgument | undefined = validMessage.Arguments.find(arg => arg.Name === PortalDefs.eventTypeArgName);
-  if (!eventTypeArg)
-    throw new Error(`Portal event header is missing the "${PortalDefs.eventTypeArgName}" argument`);
-
-  testPortalIdArg(portalIdArg);
-  testEventTypeArg(eventTypeArg);
+  testPortalIdArg(getArgumentByName(validMessage, PortalDefs.portalIDArgName));
+  testEventTypeArg(getArgumentByName(validMessage, PortalDefs.eventTypeArgName));
 
   return validMessage as PortalEventHeader;
 };
@@ -155,15 +150,15 @@ function testPortalIdArg(argument: APIArgument): PortalIdArg {
  * @param argument the argument to verify
  * @returns the valid event type argument
  */
-function testEventTypeArg(argument: APIArgument): EventTypeArg {
+function testEventTypeArg(argument: APIArgument): PortalEventTypeArg {
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`Event type argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
 
   if (argument.Name !== PortalDefs.eventTypeArgName)
     throw new Error(`Event type argument Name property should be "${PortalDefs.eventTypeArgName}", got "${argument.Name}"`);
 
-  if (!isString(argument.Value) || !EventTypes.includes(argument.Value))
+  if (!isString(argument.Value) || !PortalEventTypes.includes(argument.Value))
     throw new Error(`Event type argument Value property is invalid: "${argument.Value}"`);
 
-  return argument as EventTypeArg;
+  return argument as PortalEventTypeArg;
 }
