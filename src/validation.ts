@@ -3,6 +3,8 @@ import {
   PortalDefs,
   APIMessage,
   APIArgument,
+  APIArgumentString,
+  APIArgumentBool,
   APIArgumentNumeric,
   APIArgumentType,
   APIArgumentTypes,
@@ -19,6 +21,7 @@ import {
 // External Includes
 import {
   isArray,
+  isBoolean,
   isNumber,
   isObject,
   isString,
@@ -124,6 +127,44 @@ function testAPIArgument(argument: Partial<APIArgument>): APIArgument {
 
   return argument as APIArgument;
 };
+
+
+/**
+ * Tests whether the supplied argument contains a string value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the string argument
+ */
+export function testAPIArgumentString(argument: APIArgument): APIArgumentString {
+  const { Type, Name, Value } = argument;
+
+  if (!isString(Value))
+    throw new Error(`API argument with Name "${Name}" should have string Value, got "${typeof Value}"`);
+
+  if (Type !== APIArgumentType.String)
+    throw new Error(`API argument with Name "${Name}" should have string Type, got "${Type}"`);
+
+  return argument as APIArgumentString;
+}
+
+
+/**
+ * Tests whether the supplied argument contains a boolean value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the boolean argument
+ */
+export function testAPIArgumentBool(argument: APIArgument): APIArgumentBool {
+  const { Type, Name, Value } = argument;
+
+  if (!isBoolean(Value))
+    throw new Error(`API argument with Name "${Name}" should have boolean Value, got "${typeof Value}"`);
+
+  if (Type !== APIArgumentType.Bool)
+    throw new Error(`API argument with Name "${Name}" should have boolean Type, got "${Type}"`);
+
+  return argument as APIArgumentBool;
+}
 
 
 /**
