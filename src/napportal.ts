@@ -42,7 +42,7 @@ export class NAPPortal {
   private readonly uuid: string;                                ///< Unique ID for this NAPPortal instance
   private readonly config: NAPPortalConfig;                     ///< The config passed in the NAPPortal constructor
   private readonly portalItems: Map<string, NAPPortalItem>;     ///< The portal items contained by this NAPPortal, mapped by id
-  private readonly portalItemAbortController: AbortController;  ///< Signals the NAPPortalItem event targets to remove listeners
+  private          portalItemAbortController: AbortController;  ///< Signals the NAPPortalItem event targets to remove listeners
   private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
   private readonly table: HTMLElement;                          ///< The table which is added to the element provided in config
   private readonly tbody: HTMLElement;                          ///< The table body which contains our portal item rows
@@ -83,19 +83,39 @@ export class NAPPortal {
    * Destroys the portal and cleans up event listeners
    */
   public destroy(): void {
+    // Remove WebSocket event listeners
     this.webSocketAbortController.abort();
+
+    // Remove portal items
     this.removePortalItems();
+
+    // Remove HTML elements
     this.tbody.remove();
     this.table.remove();
+  }
+
+  /**
+   * Resets the portal by removing current items and sending a new portal request
+   */
+  public reset(): void {
+    this.removePortalItems();
+    if (this.config.napWebSocket.isOpen)
+      this.sendPortalRequest();
   }
 
   /**
    * Removes portal item event listeners, elements and clears map
    */
   private removePortalItems(): void {
+    // Remove portal item event listeners
     this.portalItemAbortController.abort();
+
+    // Remove portal item elements
     this.portalItems.forEach(item => item.tr.remove());
     this.portalItems.clear();
+
+    // Recreate portal item abort controller
+    this.portalItemAbortController = new AbortController();
   }
 
   /**
