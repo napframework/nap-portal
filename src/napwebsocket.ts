@@ -1,5 +1,7 @@
 // Local Includes
-import { testPortalEvent } from "./validation";
+import {
+  testPortalEvent
+} from "./validation";
 import {
   getTicket,
   getPortalEventHeader,
@@ -11,6 +13,7 @@ import {
   PortalEventHeader,
   PortalEventHeaderInfo,
 } from "./types";
+
 
 /**
  * NAPWebSocketConfig
@@ -24,6 +27,7 @@ export interface NAPWebSocketConfig {
   secure: boolean;  ///< Specify whether to use a secure connection (https / wss)
 }
 
+
 /**
  * Possible readyState values of the WebSocket connection
  */
@@ -34,6 +38,7 @@ export interface NAPWebSocketConfig {
   Closed = 3,
 };
 
+
 /**
  * Events emitted by NAPWebSocket
  */
@@ -43,6 +48,7 @@ export interface NAPWebSocketConfig {
   Message = 'MESSAGE',
 };
 
+
 /**
  * Detail sent with NAPWebSocketEvent.Message events
  */
@@ -50,6 +56,7 @@ export interface NAPWebSocketConfig {
   info: PortalEventHeaderInfo;
   messages: Array<APIMessage>;
 };
+
 
 /**
  * NAPWebSocket is a wrapper around the native WebSocket API.
@@ -60,6 +67,7 @@ export class NAPWebSocket extends EventTarget {
   private readonly config: NAPWebSocketConfig;  ///< The config passed in the NAPWebSocket constructor
   private webSocket: WebSocket | null = null;   ///< The native WebSocket connection
 
+
   /**
    * Constructor
    * @param config the configuration for this NAPWebSocket
@@ -69,12 +77,14 @@ export class NAPWebSocket extends EventTarget {
     this.config = config;
   }
 
+
   /**
    * @return whether the WebSocket is open
    */
   public get isOpen(): boolean {
     return this.webSocket !== null && this.webSocket.readyState === NAPWebSocketState.Open;
   }
+
 
   /**
    * @return the WebSocket endpoint
@@ -84,6 +94,7 @@ export class NAPWebSocket extends EventTarget {
     return `${protocol}://${this.config.host}:${this.config.port}`;
   }
 
+
   /**
    * @return the HTTP endpoint
    */
@@ -91,6 +102,7 @@ export class NAPWebSocket extends EventTarget {
     const protocol = this.config.secure ? 'https' : 'http';
     return `${protocol}://${this.config.host}:${this.config.port}`;
   }
+
 
   /**
    * Opens the WebSocket connection with a NAP application
@@ -149,34 +161,6 @@ export class NAPWebSocket extends EventTarget {
     });
   }
 
-  private onMessage(message: MessageEvent): void {
-
-    // Check message data type
-    const { data } = message;
-    if (typeof data !== 'string') {
-      console.error(`NAPWebSocket cannot process message type: ${typeof data}`);
-      return;
-    }
-
-    try {
-      // Parse JSON and validate event
-      const json: any = JSON.parse(data);
-      const event: PortalEvent = testPortalEvent(json);
-
-      // Extract portal event header info and API messages
-      const header = event.Objects.splice(0, 1)[0] as PortalEventHeader;
-      const info = getPortalEventHeaderInfo(header);
-      const messages = event.Objects as Array<APIMessage>;
-
-      // Notify listeners of new message
-      const detail: NAPWebSocketMessageDetail = { info, messages };
-      this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Message, { detail }));
-    }
-    catch(e: any) {
-      const error = e instanceof Error ? e.message : e;
-      console.error('NAPWebSocket failed to parse message:', error);
-    }
-  }
 
   /**
    * Closes the WebSocket connection with a NAP application
@@ -217,6 +201,7 @@ export class NAPWebSocket extends EventTarget {
     });
   }
 
+
   /**
    * Sends a portal event to the NAP application
    * @param info The info object used to create the event header
@@ -236,5 +221,40 @@ export class NAPWebSocket extends EventTarget {
 
     // Send the API messages to the NAP application
     this.webSocket!.send(JSON.stringify({ Objects }));
+  }
+
+
+  /**
+   * Called when the native WebSocket receives a message event.
+   * It attempts to parse and dispatch the message as a portal event.
+   * @param message the message event received by the WebSocket
+   */
+  private onMessage(message: MessageEvent): void {
+
+    // Check message data type
+    const { data } = message;
+    if (typeof data !== 'string') {
+      console.error(`NAPWebSocket cannot process message type: ${typeof data}`);
+      return;
+    }
+
+    try {
+      // Parse JSON and validate event
+      const json: any = JSON.parse(data);
+      const event: PortalEvent = testPortalEvent(json);
+
+      // Extract portal event header info and API messages
+      const header = event.Objects.splice(0, 1)[0] as PortalEventHeader;
+      const info = getPortalEventHeaderInfo(header);
+      const messages = event.Objects as Array<APIMessage>;
+
+      // Notify listeners of new message
+      const detail: NAPWebSocketMessageDetail = { info, messages };
+      this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Message, { detail }));
+    }
+    catch(e: any) {
+      const error = e instanceof Error ? e.message : e;
+      console.error('NAPWebSocket failed to parse message:', error);
+    }
   }
 }
