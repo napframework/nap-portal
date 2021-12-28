@@ -1,7 +1,7 @@
 // Local Includes
 import {
   APIMessage,
-  EventType,
+  PortalEventType,
   PortalItemUpdateInfo,
 } from './types';
 import {
@@ -147,7 +147,7 @@ export class NAPPortal {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
-      eventType: EventType.Request,
+      eventType: PortalEventType.Request,
     });
   }
 
@@ -159,7 +159,7 @@ export class NAPPortal {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
-      eventType: EventType.Update,
+      eventType: PortalEventType.Update,
     }, [
       getPortalItemUpdate(info),
     ]);
@@ -176,7 +176,7 @@ export class NAPPortal {
 
     switch(info.eventType) {
 
-      case EventType.Response:
+      case PortalEventType.Response:
         // The event ID should match our
         // UUID if we performed the request
         if (info.eventId !== this.uuid)
@@ -187,7 +187,7 @@ export class NAPPortal {
           this.addPortalItem(message);
         break;
 
-      case EventType.Update:
+      case PortalEventType.Update:
         for (const message of messages)
           this.updatePortalItem(message);
         break;
