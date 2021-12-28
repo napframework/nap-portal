@@ -197,14 +197,16 @@ export function testAPIArgumentNumeric(argument: APIArgument): APIArgumentNumeri
  * @returns the valid portal ID argument
  */
 function testPortalIdArgument(argument: APIArgument): PortalIdArgument {
-  if (argument.Type !== APIArgumentType.String)
-    throw new Error(`Portal ID argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
+  const { Type, Name, Value } = argument;
 
-  if (argument.Name !== PortalDefs.portalIDArgName)
-    throw new Error(`Portal ID argument Name property should be "${PortalDefs.portalIDArgName}", got "${argument.Name}"`);
+  if (Type !== APIArgumentType.String)
+    throw new Error(`Portal ID argument Type property should be "${APIArgumentType.String}", got "${Type}"`);
 
-  if (!isString(argument.Value))
-    throw new Error(`Portal ID argument Value property is not a string: ${argument.Value}`);
+  if (Name !== PortalDefs.portalIDArgName)
+    throw new Error(`Portal ID argument Name property should be "${PortalDefs.portalIDArgName}", got "${Name}"`);
+
+  if (!isString(Value))
+    throw new Error(`Portal ID argument Value property is not a string: ${Value}`);
 
   return argument as PortalIdArgument;
 }
@@ -217,14 +219,16 @@ function testPortalIdArgument(argument: APIArgument): PortalIdArgument {
  * @returns the valid event type argument
  */
 function testPortalEventTypeArgument(argument: APIArgument): PortalEventTypeArgument {
-  if (argument.Type !== APIArgumentType.String)
-    throw new Error(`Event type argument Type property should be "${APIArgumentType.String}", got "${argument.Type}"`);
+  const { Type, Name, Value } = argument;
 
-  if (argument.Name !== PortalDefs.eventTypeArgName)
-    throw new Error(`Event type argument Name property should be "${PortalDefs.eventTypeArgName}", got "${argument.Name}"`);
+  if (Type !== APIArgumentType.String)
+    throw new Error(`Event type argument Type property should be "${APIArgumentType.String}", got "${Type}"`);
 
-  if (!isString(argument.Value) || !PortalEventTypes.includes(argument.Value))
-    throw new Error(`Event type argument Value property is invalid: "${argument.Value}"`);
+  if (Name !== PortalDefs.eventTypeArgName)
+    throw new Error(`Event type argument Name property should be "${PortalDefs.eventTypeArgName}", got "${Name}"`);
+
+  if (!isString(Value) || !PortalEventTypes.includes(Value))
+    throw new Error(`Event type argument Value property is invalid: "${Value}"`);
 
   return argument as PortalEventTypeArgument;
 }
