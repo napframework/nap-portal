@@ -4,6 +4,7 @@ import {
   PortalItemUpdateInfo,
 } from './types';
 
+
 /**
  * Events emitted by NAPPortalItem
  */
@@ -11,12 +12,14 @@ import {
   Update = 'UPDATE',
 };
 
+
 /**
  * Detail sent with NAPPortalItemEvent.Update events
  */
  export interface NAPPortalItemUpdateDetail {
   info: PortalItemUpdateInfo;
 };
+
 
 /**
  * NAPPortalItem
@@ -27,6 +30,7 @@ export class NAPPortalItem extends EventTarget {
   protected readonly name: string;      ///< This NAPPortalItem's name
   protected readonly td: HTMLElement;   ///< This NAPPortalItem's table cell element
   public readonly tr: HTMLElement;      ///< This NAPPortalItem's table row element
+
 
   /**
    * Constructor
@@ -54,6 +58,12 @@ export class NAPPortalItem extends EventTarget {
     this.tr.appendChild(this.td);
   }
 
+
+  /**
+   * Update the portal item with an API message received from the server.
+   * Should be implemented by classes inheriting from NAPPortalItem.
+   * @param message the API message containing the portal item update
+   */
   public update(message: APIMessage): void {
 
   }
