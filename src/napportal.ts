@@ -33,6 +33,7 @@ export interface NAPPortalConfig {
   napWebSocket: NAPWebSocket;   ///< The NAPWebSocket used for communication with the NAP application
 }
 
+
 /**
  * NAPPortal
  * Creates a control interface for a single NAP application
@@ -46,6 +47,7 @@ export class NAPPortal {
   private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
   private readonly table: HTMLElement;                          ///< The table which is added to the element provided in config
   private readonly tbody: HTMLElement;                          ///< The table body which contains our portal item rows
+
 
   /**
    * Constructor
@@ -79,6 +81,7 @@ export class NAPPortal {
     }, { signal: this.webSocketAbortController.signal });
   }
 
+
   /**
    * Destroys the portal and cleans up event listeners
    */
@@ -94,6 +97,7 @@ export class NAPPortal {
     this.table.remove();
   }
 
+
   /**
    * Removes portal item event listeners, elements and clears map
    */
@@ -106,6 +110,7 @@ export class NAPPortal {
     this.portalItems.forEach(item => item.tr.remove());
     this.portalItems.clear();
   }
+
 
   /**
    * Add a new portal item from an API message describing the item
@@ -130,6 +135,7 @@ export class NAPPortal {
     }
   }
 
+
   /**
    * Updates an existing portal item from an API message
    * @param message the API message containing the update
@@ -149,6 +155,7 @@ export class NAPPortal {
     }
   }
 
+
   /**
    * Requests a portal component's layout from the NAP application
    */
@@ -159,6 +166,7 @@ export class NAPPortal {
       eventType: PortalEventType.Request,
     });
   }
+
 
   /**
    * Sends a portal item update to the NAP application
@@ -173,6 +181,7 @@ export class NAPPortal {
       getPortalItemUpdate(info),
     ]);
   }
+
 
   /**
    * Called when the NAPWebSocket receives a message
@@ -210,6 +219,7 @@ export class NAPPortal {
         console.error(`Cannot handle portal event type ${info.eventType}`);
     }
   }
+
 
   /**
    * Called when a NAPPortalItem sends an update
