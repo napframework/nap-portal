@@ -49,6 +49,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     this.numberInput.setAttribute('min', this.min.toString());
     this.numberInput.setAttribute('max', this.max.toString());
     this.numberInput.setAttribute('step', isIntegral ? '1' : '0.001');
+    this.numberInput.addEventListener('input', () => this.onNumberInput());
     this.numberInput.addEventListener('change', () => this.onNumberChange());
     this.setNumberInput(value);
 
@@ -75,6 +76,16 @@ export class NAPPortalItemSlider extends NAPPortalItem {
   private onRangeInput(): void {
     const value: number = Number(this.rangeInput.value);
     this.setNumberInput(value);
+    this.sendUpdate(value);
+  }
+
+
+  /**
+   * Called for the number input element input event
+   */
+  private onNumberInput(): void {
+    const value: number = Number(this.numberInput.value);
+    this.setRangeInput(value);
     this.sendUpdate(value);
   }
 
