@@ -1,6 +1,9 @@
 // Local Includes
+import { getArgumentByName } from './utils';
 import {
+  PortalDefs,
   APIMessage,
+  APIArgumentType,
   PortalItemUpdateInfo,
 } from './types';
 
@@ -26,10 +29,11 @@ import {
  */
 export class NAPPortalItem extends EventTarget {
 
-  protected readonly id: string;        ///< This NAPPortalItem's id
-  protected readonly name: string;      ///< This NAPPortalItem's name
-  protected readonly td: HTMLElement;   ///< This NAPPortalItem's table cell element
-  public readonly tr: HTMLElement;      ///< This NAPPortalItem's table row element
+  protected readonly id: string;            ///< This NAPPortalItem's id
+  protected readonly name: string;          ///< This NAPPortalItem's name
+  protected readonly type: APIArgumentType; ///< This NAPPortalItem's value argument type
+  protected readonly td: HTMLElement;       ///< This NAPPortalItem's table cell element
+  public readonly tr: HTMLElement;          ///< This NAPPortalItem's table row element
 
 
   /**
@@ -39,6 +43,9 @@ export class NAPPortalItem extends EventTarget {
     super();
     this.id = message.mID;
     this.name = message.Name;
+
+    // Extract value type
+    this.type = getArgumentByName(message, PortalDefs.itemValueArgName).Type;
 
     // Create label
     const label = document.createElement('label');
