@@ -4,6 +4,7 @@ import {
   PortalDefs,
   APIMessage,
   APIArgumentType,
+  APIArgumentValue,
   PortalItemUpdateInfo,
 } from './types';
 
@@ -73,5 +74,21 @@ export class NAPPortalItem extends EventTarget {
    */
   public update(message: APIMessage): void {
 
+  }
+
+
+  /**
+   * Notify listeners of a portal item update for the NAP application
+   * @param value the value to send with the portal item update
+   */
+  protected sendUpdate(value: APIArgumentValue): void {
+    const info: PortalItemUpdateInfo = {
+      id: this.id,
+      name: this.name,
+      type: this.type,
+      value,
+    };
+    const detail: NAPPortalItemUpdateDetail = { info };
+    this.dispatchEvent(new CustomEvent(NAPPortalItemEvent.Update, { detail }));
   }
 }
