@@ -1,10 +1,12 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemSlider } from './napportalitemslider';
+import { testAPIArgumentNumeric } from './validation';
 import {
   PortalDefs,
   APIMessage,
   APIArgument,
+  APIArgumentNumeric,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -151,6 +153,20 @@ export function getArgumentByName(message: APIMessage, name: string): APIArgumen
   if (!argument)
     throw new Error(`API message is missing the argument with name "${name}"`);
   return argument;
+}
+
+
+/**
+ * Get the value of a numeric API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the numeric API argument value
+ */
+export function getNumericArgumentValue(message: APIMessage, name: string): number {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const numeric: APIArgumentNumeric = testAPIArgumentNumeric(argument);
+  return numeric.Value;
 }
 
 

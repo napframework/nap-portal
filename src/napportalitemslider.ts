@@ -1,8 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
-import { testAPIArgumentNumeric } from './validation';
 import {
-  getArgumentByName,
+  getNumericArgumentValue,
   isIntegralArgumentType,
 } from './utils';
 import {
@@ -29,16 +28,9 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     super(message);
 
     // Extract properties from API message
-    const minArg = getArgumentByName(message, PortalDefs.itemMinArgName);
-    const maxArg = getArgumentByName(message, PortalDefs.itemMaxArgName);
-    const valArg = getArgumentByName(message, PortalDefs.itemValueArgName);
-    const minNumeric = testAPIArgumentNumeric(minArg);
-    const maxNumeric = testAPIArgumentNumeric(maxArg);
-    const valNumeric = testAPIArgumentNumeric(valArg);
-
-    this.min = minNumeric.Value;
-    this.max = maxNumeric.Value;
-    const value = valNumeric.Value;
+    this.min = getNumericArgumentValue(message, PortalDefs.itemMinArgName);
+    this.max = getNumericArgumentValue(message, PortalDefs.itemMaxArgName);
+    const value = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
     const isIntegral = isIntegralArgumentType(this.type);
 
     // Create the HTML range input element
@@ -71,15 +63,9 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * @param message the API message containing the portal item update
    */
   public update(message: APIMessage): void {
-    super.update(message);
-
-    // Extract properties from API message
-    const valArg = getArgumentByName(message, PortalDefs.itemValueArgName);
-    const valNumeric = testAPIArgumentNumeric(valArg);
-
-    // Update HTML elements
-    this.setRangeInput(valNumeric.Value);
-    this.setNumberInput(valNumeric.Value);
+    const value = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
+    this.setRangeInput(value);
+    this.setNumberInput(value);
   }
 
 
