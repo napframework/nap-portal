@@ -14,9 +14,6 @@ import {
   PortalEventTypeArgument,
   PortalEventTypes,
 } from "./types";
-import {
-  getArgumentByName,
-} from "./utils";
 
 // External Includes
 import {
@@ -67,8 +64,16 @@ function testPortalEventHeader(header: Partial<PortalEventHeader>): PortalEventH
   if (validMessage.Name !== PortalDefs.eventHeaderName)
     throw new Error(`Portal event header Name property should be "${PortalDefs.eventHeaderName}", got "${validMessage.Name}"`);
 
-  testPortalIdArgument(getArgumentByName(validMessage, PortalDefs.portalIDArgName));
-  testPortalEventTypeArgument(getArgumentByName(validMessage, PortalDefs.eventTypeArgName));
+  const portalIdArg: APIArgument | undefined = validMessage.Arguments.find(arg => arg.Name === PortalDefs.portalIDArgName);
+  if (!portalIdArg)
+    throw new Error(`Portal event header is missing the "${PortalDefs.portalIDArgName}" argument`);
+
+  const eventTypeArg: APIArgument | undefined = validMessage.Arguments.find(arg => arg.Name === PortalDefs.eventTypeArgName);
+  if (!eventTypeArg)
+    throw new Error(`Portal event header is missing the "${PortalDefs.eventTypeArgName}" argument`);
+
+  testPortalIdArgument(portalIdArg);
+  testPortalEventTypeArgument(eventTypeArg);
 
   return validMessage as PortalEventHeader;
 };
