@@ -51,7 +51,7 @@ export interface APIArgumentString extends APIArgument {
   Value: string,
 }
 
-export interface APIArgumentBool extends APIArgument {
+export interface APIArgumentBoolean extends APIArgument {
   Type: APIArgumentType.Bool,
   Value: boolean,
 }

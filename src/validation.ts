@@ -4,7 +4,7 @@ import {
   APIMessage,
   APIArgument,
   APIArgumentString,
-  APIArgumentBool,
+  APIArgumentBoolean,
   APIArgumentNumeric,
   APIArgumentType,
   APIArgumentTypes,
@@ -152,14 +152,14 @@ export function testAPIArgumentString(argument: APIArgument): APIArgumentString 
  * @param argument the argument to verify
  * @returns the boolean argument
  */
-export function testAPIArgumentBool(argument: APIArgument): APIArgumentBool {
+export function testAPIArgumentBool(argument: APIArgument): APIArgumentBoolean {
   if (!isBoolean(argument.Value))
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Value, got "${typeof argument.Value}"`);
 
   if (argument.Type !== APIArgumentType.Bool)
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Type, got "${argument.Type}"`);
 
-  return argument as APIArgumentBool;
+  return argument as APIArgumentBoolean;
 }
 
 

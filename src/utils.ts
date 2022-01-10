@@ -12,7 +12,7 @@ import {
   APIArgument,
   APIArgumentNumeric,
   APIArgumentString,
-  APIArgumentBool,
+  APIArgumentBoolean,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -199,7 +199,7 @@ export function getStringArgumentValue(message: APIMessage, name: string): strin
  */
 export function getBooleanArgumentValue(message: APIMessage, name: string): boolean {
   const argument: APIArgument = getArgumentByName(message, name);
-  const bool: APIArgumentBool = testAPIArgumentBool(argument);
+  const bool: APIArgumentBoolean = testAPIArgumentBool(argument);
   return bool.Value;
 }
 
