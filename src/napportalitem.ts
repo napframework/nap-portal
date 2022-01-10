@@ -73,7 +73,7 @@ export class NAPPortalItem extends EventTarget {
    * @param message the API message containing the portal item update
    */
   public update(message: APIMessage): void {
-
+    console.warn(`No need to call NAPPortalItem::update() base class method`);
   }
 
 
