@@ -1,12 +1,18 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemSlider } from './napportalitemslider';
-import { testAPIArgumentNumeric } from './validation';
+import {
+  testAPIArgumentNumeric,
+  testAPIArgumentString,
+  testAPIArgumentBool,
+} from './validation';
 import {
   PortalDefs,
   APIMessage,
   APIArgument,
   APIArgumentNumeric,
+  APIArgumentString,
+  APIArgumentBool,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -167,6 +173,34 @@ export function getNumericArgumentValue(message: APIMessage, name: string): numb
   const argument: APIArgument = getArgumentByName(message, name);
   const numeric: APIArgumentNumeric = testAPIArgumentNumeric(argument);
   return numeric.Value;
+}
+
+
+/**
+ * Get the value of a string API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the string API argument value
+ */
+export function getStringArgumentValue(message: APIMessage, name: string): string {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const string: APIArgumentString = testAPIArgumentString(argument);
+  return string.Value;
+}
+
+
+/**
+ * Get the value of a boolean API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the boolean API argument value
+ */
+export function getBooleanArgumentValue(message: APIMessage, name: string): boolean {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const bool: APIArgumentBool = testAPIArgumentBool(argument);
+  return bool.Value;
 }
 
 
