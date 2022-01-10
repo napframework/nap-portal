@@ -156,7 +156,7 @@ export function testAPIArgumentBool(argument: APIArgument): APIArgumentBoolean {
   if (!isBoolean(argument.Value))
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Value, got "${typeof argument.Value}"`);
 
-  if (argument.Type !== APIArgumentType.Bool)
+  if (argument.Type !== APIArgumentType.Boolean)
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Type, got "${argument.Type}"`);
 
   return argument as APIArgumentBoolean;

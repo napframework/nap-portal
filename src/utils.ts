@@ -199,8 +199,8 @@ export function getStringArgumentValue(message: APIMessage, name: string): strin
  */
 export function getBooleanArgumentValue(message: APIMessage, name: string): boolean {
   const argument: APIArgument = getArgumentByName(message, name);
-  const bool: APIArgumentBoolean = testAPIArgumentBool(argument);
-  return bool.Value;
+  const boolean: APIArgumentBoolean = testAPIArgumentBool(argument);
+  return boolean.Value;
 }
 
 

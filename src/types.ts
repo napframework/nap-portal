@@ -52,13 +52,13 @@ export interface APIArgumentString extends APIArgument {
 }
 
 export interface APIArgumentBoolean extends APIArgument {
-  Type: APIArgumentType.Bool,
+  Type: APIArgumentType.Boolean,
   Value: boolean,
 }
 
 export enum APIArgumentType {
   String = 'nap::APIString',
-  Bool = 'nap::APIBool',
+  Boolean = 'nap::APIBool',
   Byte = 'nap::APIByte',
   Int = 'nap::APIInt',
   Long = 'nap::APILong',
