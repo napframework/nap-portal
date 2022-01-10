@@ -152,7 +152,7 @@ export function testAPIArgumentString(argument: APIArgument): APIArgumentString 
  * @param argument the argument to verify
  * @returns the boolean argument
  */
-export function testAPIArgumentBool(argument: APIArgument): APIArgumentBoolean {
+export function testAPIArgumentBoolean(argument: APIArgument): APIArgumentBoolean {
   if (!isBoolean(argument.Value))
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Value, got "${typeof argument.Value}"`);
 

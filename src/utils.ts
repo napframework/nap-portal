@@ -4,7 +4,7 @@ import { NAPPortalItemSlider } from './napportalitemslider';
 import {
   testAPIArgumentNumeric,
   testAPIArgumentString,
-  testAPIArgumentBool,
+  testAPIArgumentBoolean,
 } from './validation';
 import {
   PortalDefs,
@@ -185,7 +185,7 @@ export function getStringArgumentValue(message: APIMessage, name: string): strin
  */
 export function getBooleanArgumentValue(message: APIMessage, name: string): boolean {
   const argument: APIArgument = getArgumentByName(message, name);
-  const boolean: APIArgumentBoolean = testAPIArgumentBool(argument);
+  const boolean: APIArgumentBoolean = testAPIArgumentBoolean(argument);
   return boolean.Value;
 }
 
