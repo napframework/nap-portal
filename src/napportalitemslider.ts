@@ -1,9 +1,6 @@
 // Local Includes
-import {
-  NAPPortalItem,
-  NAPPortalItemEvent,
-  NAPPortalItemUpdateDetail,
-} from './napportalitem'
+import { NAPPortalItem } from './napportalitem';
+import { testAPIArgumentNumeric } from './validation';
 import {
   getArgumentByName,
   isIntegralArgumentType,
@@ -11,12 +8,7 @@ import {
 import {
   PortalDefs,
   APIMessage,
-  APIArgumentType,
-  PortalItemUpdateInfo,
 } from './types';
-import {
-  testAPIArgumentNumeric,
-} from './validation';
 
 
 /**
@@ -24,10 +16,10 @@ import {
  */
 export class NAPPortalItemSlider extends NAPPortalItem {
 
-  private readonly valueInput: HTMLInputElement;  ///< The HTML input element to control the item's value
-  private readonly valueSpan: HTMLElement;        ///< The HTML element displaying the item's current value
-  private readonly valueType: APIArgumentType;    ///< The Type of the argument containing the portal item value
-  private readonly isIntegral: boolean;           ///< Whether the value is integral or has decimals
+  private readonly rangeInput: HTMLInputElement;  ///< The HTML range input element to control the item's value
+  private readonly numberInput: HTMLInputElement; ///< The HTML number input element to control the item's value
+  private readonly min: number;                   ///< The minimum value of the portal item
+  private readonly max: number;                   ///< The maximum value of the portal item
 
 
   /**
@@ -44,27 +36,33 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     const maxNumeric = testAPIArgumentNumeric(maxArg);
     const valNumeric = testAPIArgumentNumeric(valArg);
 
-    // Store type information
-    this.valueType = valNumeric.Type;
-    this.isIntegral = isIntegralArgumentType(this.valueType);
+    this.min = minNumeric.Value;
+    this.max = maxNumeric.Value;
+    const value = valNumeric.Value;
+    const isIntegral = isIntegralArgumentType(this.type);
 
-    // Create the range input element
-    this.valueInput = document.createElement('input');
-    this.valueInput.setAttribute('id', this.id);
-    this.valueInput.setAttribute('type', 'range');
-    this.valueInput.setAttribute('min', minNumeric.Value.toString());
-    this.valueInput.setAttribute('max', maxNumeric.Value.toString());
-    this.valueInput.setAttribute('step', this.isIntegral ? '1' : '0.001');
-    this.valueInput.addEventListener('input', () => this.onInput());
-    this.setValueInput(valNumeric.Value);
+    // Create the HTML range input element
+    this.rangeInput = document.createElement('input');
+    this.rangeInput.setAttribute('type', 'range');
+    this.rangeInput.setAttribute('min', this.min.toString());
+    this.rangeInput.setAttribute('max', this.max.toString());
+    this.rangeInput.setAttribute('step', isIntegral ? '1' : '0.001');
+    this.rangeInput.addEventListener('input', () => this.onRangeInput());
+    this.setRangeInput(value);
 
     // Create the span to display the value
-    this.valueSpan = document.createElement('span');
-    this.setValueSpan(valNumeric.Value);
+    this.numberInput = document.createElement('input');
+    this.numberInput.setAttribute('id', this.id);
+    this.numberInput.setAttribute('type', 'number');
+    this.numberInput.setAttribute('min', this.min.toString());
+    this.numberInput.setAttribute('max', this.max.toString());
+    this.numberInput.setAttribute('step', isIntegral ? '1' : '0.001');
+    this.numberInput.addEventListener('change', () => this.onNumberChange());
+    this.setNumberInput(value);
 
     // Append HTML elements
-    this.td.appendChild(this.valueInput);
-    this.td.appendChild(this.valueSpan);
+    this.td.appendChild(this.rangeInput);
+    this.td.appendChild(this.numberInput);
   }
 
 
@@ -80,47 +78,47 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     const valNumeric = testAPIArgumentNumeric(valArg);
 
     // Update HTML elements
-    this.setValueInput(valNumeric.Value);
-    this.setValueSpan(valNumeric.Value);
+    this.setRangeInput(valNumeric.Value);
+    this.setNumberInput(valNumeric.Value);
   }
 
 
   /**
-   * Called when the HTML input element receives input
+   * Called for the range input element input event
    */
-  private onInput(): void {
-    // Create portal item update info
-    const value = Number(this.valueInput.value);
-    const info: PortalItemUpdateInfo = {
-      id: this.id,
-      name: this.name,
-      type: this.valueType,
-      value,
-    };
-
-    // Notify listeners of update
-    const detail: NAPPortalItemUpdateDetail = { info };
-    this.dispatchEvent(new CustomEvent(NAPPortalItemEvent.Update, { detail }));
-
-    // Update displayed value
-    this.setValueSpan(value);
+  private onRangeInput(): void {
+    const value = Number(this.rangeInput.value);
+    this.setNumberInput(value);
+    this.sendUpdate(value);
   }
 
 
   /**
-   * Update the value of the HTML input element
+   * Called for the number input element change event
+   */
+  private onNumberChange(): void {
+    const value = Number(this.numberInput.value);
+    const clamped = Math.min(this.max, Math.max(this.min, value));
+    this.setNumberInput(clamped);
+    this.setRangeInput(clamped);
+    this.sendUpdate(clamped);
+  }
+
+
+  /**
+   * Sets the value of the HTML range input element
    * @param value the updated portal item value
    */
-  private setValueInput(value: number): void {
-    this.valueInput.value = value.toString();
+  private setRangeInput(value: number): void {
+    this.rangeInput.value = value.toString();
   }
 
 
   /**
-   * Update the HTML element displaying the value
+   * Sets the value of the HTML number input element
    * @param value the updated portal item value
    */
-  private setValueSpan(value: number): void {
-    this.valueSpan.innerHTML = this.isIntegral ? value.toString() : value.toFixed(3);
+  private setNumberInput(value: number): void {
+    this.numberInput.value = value.toString();
   }
 }
