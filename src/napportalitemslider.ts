@@ -30,8 +30,8 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     // Extract properties from API message
     this.min = getNumericArgumentValue(message, PortalDefs.itemMinArgName);
     this.max = getNumericArgumentValue(message, PortalDefs.itemMaxArgName);
-    const value = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
-    const isIntegral = isIntegralArgumentType(this.type);
+    const value: number = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
+    const isIntegral: boolean = isIntegralArgumentType(this.type);
 
     // Create the HTML range input element
     this.rangeInput = document.createElement('input');
@@ -63,7 +63,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * @param message the API message containing the portal item update
    */
   public update(message: APIMessage): void {
-    const value = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
+    const value: number = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
     this.setRangeInput(value);
     this.setNumberInput(value);
   }
@@ -73,7 +73,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * Called for the range input element input event
    */
   private onRangeInput(): void {
-    const value = Number(this.rangeInput.value);
+    const value: number = Number(this.rangeInput.value);
     this.setNumberInput(value);
     this.sendUpdate(value);
   }
@@ -83,8 +83,8 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * Called for the number input element change event
    */
   private onNumberChange(): void {
-    const value = Number(this.numberInput.value);
-    const clamped = Math.min(this.max, Math.max(this.min, value));
+    const value: number = Number(this.numberInput.value);
+    const clamped: number = Math.min(this.max, Math.max(this.min, value));
     this.setNumberInput(clamped);
     this.setRangeInput(clamped);
     this.sendUpdate(clamped);
