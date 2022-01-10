@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemSlider } from './napportalitemslider';
+import { NAPPortalItemToggle } from './napportalitemtoggle';
 import {
   testAPIArgumentNumeric,
   testAPIArgumentString,
@@ -141,6 +142,8 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
     case PortalItemType.SliderFloat:
     case PortalItemType.SliderDouble:
       return new NAPPortalItemSlider(message);
+    case PortalItemType.Toggle:
+      return new NAPPortalItemToggle(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
   }

@@ -130,6 +130,7 @@ export enum PortalItemType {
   SliderLong = 'nap::PortalItemSliderLong',
   SliderFloat = 'nap::PortalItemSliderFloat',
   SliderDouble = 'nap::PortalItemSliderDouble',
+  Toggle = 'nap::PortalItemToggle',
 };
 
 // Array containing all available portal item types, useful for validation
