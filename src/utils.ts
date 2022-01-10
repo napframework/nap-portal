@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemSlider } from './napportalitemslider';
+import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
 import {
   testAPIArgumentNumeric,
@@ -142,6 +143,8 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
     case PortalItemType.SliderFloat:
     case PortalItemType.SliderDouble:
       return new NAPPortalItemSlider(message);
+    case PortalItemType.TextField:
+      return new NAPPortalItemTextField(message);
     case PortalItemType.Toggle:
       return new NAPPortalItemToggle(message);
     default:
