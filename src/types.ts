@@ -37,15 +37,6 @@ export interface APIArgument {
   Value: APIArgumentValue,
 };
 
-export interface APIArgumentNumeric extends APIArgument {
-  Type: APIArgumentType.Byte |
-        APIArgumentType.Int |
-        APIArgumentType.Long |
-        APIArgumentType.Float |
-        APIArgumentType.Double,
-  Value: number,
-}
-
 export interface APIArgumentString extends APIArgument {
   Type: APIArgumentType.String,
   Value: string,
@@ -54,6 +45,15 @@ export interface APIArgumentString extends APIArgument {
 export interface APIArgumentBoolean extends APIArgument {
   Type: APIArgumentType.Boolean,
   Value: boolean,
+}
+
+export interface APIArgumentNumeric extends APIArgument {
+  Type: APIArgumentType.Byte |
+        APIArgumentType.Int |
+        APIArgumentType.Long |
+        APIArgumentType.Float |
+        APIArgumentType.Double,
+  Value: number,
 }
 
 export enum APIArgumentType {

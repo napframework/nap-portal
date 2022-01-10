@@ -10,9 +10,9 @@ import {
   PortalDefs,
   APIMessage,
   APIArgument,
-  APIArgumentNumeric,
   APIArgumentString,
   APIArgumentBoolean,
+  APIArgumentNumeric,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -163,20 +163,6 @@ export function getArgumentByName(message: APIMessage, name: string): APIArgumen
 
 
 /**
- * Get the value of a numeric API argument from an API message by name.
- * Throws an error with descriptive message when no matching argument is found.
- * @param message the API message to search for the API argument
- * @param name the name of the API argument to find
- * @returns the numeric API argument value
- */
-export function getNumericArgumentValue(message: APIMessage, name: string): number {
-  const argument: APIArgument = getArgumentByName(message, name);
-  const numeric: APIArgumentNumeric = testAPIArgumentNumeric(argument);
-  return numeric.Value;
-}
-
-
-/**
  * Get the value of a string API argument from an API message by name.
  * Throws an error with descriptive message when no matching argument is found.
  * @param message the API message to search for the API argument
@@ -201,6 +187,20 @@ export function getBooleanArgumentValue(message: APIMessage, name: string): bool
   const argument: APIArgument = getArgumentByName(message, name);
   const boolean: APIArgumentBoolean = testAPIArgumentBool(argument);
   return boolean.Value;
+}
+
+
+/**
+ * Get the value of a numeric API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the numeric API argument value
+ */
+export function getNumericArgumentValue(message: APIMessage, name: string): number {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const numeric: APIArgumentNumeric = testAPIArgumentNumeric(argument);
+  return numeric.Value;
 }
 
 
