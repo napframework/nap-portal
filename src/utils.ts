@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemSlider } from './napportalitemslider';
+import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
 import {
@@ -143,6 +144,8 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
     case PortalItemType.SliderFloat:
     case PortalItemType.SliderDouble:
       return new NAPPortalItemSlider(message);
+    case PortalItemType.TextArea:
+      return new NAPPortalItemTextArea(message);
     case PortalItemType.TextField:
       return new NAPPortalItemTextField(message);
     case PortalItemType.Toggle:

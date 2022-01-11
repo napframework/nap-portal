@@ -130,6 +130,7 @@ export enum PortalItemType {
   SliderLong = 'nap::PortalItemSliderLong',
   SliderFloat = 'nap::PortalItemSliderFloat',
   SliderDouble = 'nap::PortalItemSliderDouble',
+  TextArea = 'nap::PortalItemTextArea',
   TextField = 'nap::PortalItemTextField',
   Toggle = 'nap::PortalItemToggle',
 };
