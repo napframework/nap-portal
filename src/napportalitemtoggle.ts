@@ -32,7 +32,7 @@ export class NAPPortalItemToggle extends NAPPortalItem {
     this.setCheckbox(value);
 
     // Append HTML elements
-    this.td.appendChild(this.checkbox);
+    this.contentTD.appendChild(this.checkbox);
   }
 
 

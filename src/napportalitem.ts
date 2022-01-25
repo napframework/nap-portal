@@ -30,11 +30,13 @@ import {
  */
 export class NAPPortalItem extends EventTarget {
 
-  protected readonly id: string;            ///< This NAPPortalItem's id
-  protected readonly name: string;          ///< This NAPPortalItem's name
-  protected readonly type: APIArgumentType; ///< This NAPPortalItem's value argument type
-  protected readonly td: HTMLElement;       ///< This NAPPortalItem's table cell element
-  public readonly tr: HTMLElement;          ///< This NAPPortalItem's table row element
+  protected readonly id: string;              ///< This NAPPortalItem's id
+  protected readonly name: string;            ///< This NAPPortalItem's name
+  protected readonly type: APIArgumentType;   ///< This NAPPortalItem's value argument type
+  protected readonly label: HTMLLabelElement; ///< This NAPPortalItem's html label element
+  protected readonly labelTD: HTMLElement;    ///< This NAPPortalItem's table cell element containing the label
+  protected readonly contentTD: HTMLElement;  ///< This NAPPortalItem's table cell element containing the content
+  public readonly tr: HTMLElement;            ///< This NAPPortalItem's table row element
 
 
   /**
@@ -49,21 +51,21 @@ export class NAPPortalItem extends EventTarget {
     this.type = getArgumentByName(message, PortalDefs.itemValueArgName).Type;
 
     // Create label
-    const label = document.createElement('label');
-    label.setAttribute('for', this.id);
-    label.innerHTML = this.name;
+    this.label = document.createElement('label');
+    this.label.setAttribute('for', this.id);
+    this.label.innerHTML = this.name;
 
     // Create label cell
-    const labelTd = document.createElement('td');
-    labelTd.appendChild(label);
+    this.labelTD = document.createElement('td');
+    this.labelTD.appendChild(this.label);
 
     // Create content cell
-    this.td = document.createElement('td');
+    this.contentTD = document.createElement('td');
 
     // Create row
     this.tr = document.createElement('tr');
-    this.tr.appendChild(labelTd);
-    this.tr.appendChild(this.td);
+    this.tr.appendChild(this.labelTD);
+    this.tr.appendChild(this.contentTD);
   }
 
 

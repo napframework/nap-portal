@@ -32,7 +32,7 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
     this.setTextArea(value);
 
     // Append HTML elements
-    this.td.appendChild(this.textArea);
+    this.contentTD.appendChild(this.textArea);
   }
 
 

@@ -54,8 +54,8 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     this.setNumberInput(value);
 
     // Append HTML elements
-    this.td.appendChild(this.rangeInput);
-    this.td.appendChild(this.numberInput);
+    this.contentTD.appendChild(this.rangeInput);
+    this.contentTD.appendChild(this.numberInput);
   }
 
 

@@ -32,7 +32,7 @@ export class NAPPortalItemTextField extends NAPPortalItem {
     this.setTextInput(value);
 
     // Append HTML elements
-    this.td.appendChild(this.textInput);
+    this.contentTD.appendChild(this.textInput);
   }
 
 

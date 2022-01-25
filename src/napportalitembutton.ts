@@ -31,7 +31,10 @@ export class NAPPortalItemButton extends NAPPortalItem {
     this.button.addEventListener('pointerleave', (event: PointerEvent) => this.onPointerLeave(event));
 
     // Append HTML elements
-    this.td.appendChild(this.button);
+    this.contentTD.appendChild(this.button);
+
+    // Remove HTML label element
+    this.labelTD.removeChild(this.label);
   }
 
 
