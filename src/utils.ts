@@ -1,5 +1,6 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
+import { NAPPortalItemButton } from './napportalitembutton';
 import { NAPPortalItemSlider } from './napportalitemslider';
 import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
@@ -138,6 +139,8 @@ export function getPortalItemUpdateInfo(update: PortalItemUpdate): PortalItemUpd
 export function createPortalItem(message: APIMessage): NAPPortalItem {
   const itemTypeArg = getArgumentByName(message, PortalDefs.itemTypeArgName);
   switch (itemTypeArg.Value) {
+    case PortalItemType.Button:
+      return new NAPPortalItemButton(message);
     case PortalItemType.SliderByte:
     case PortalItemType.SliderInt:
     case PortalItemType.SliderLong:

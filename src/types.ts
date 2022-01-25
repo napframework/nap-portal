@@ -125,6 +125,7 @@ export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
  */
 
 export enum PortalItemType {
+  Button = 'nap::PortalItemButton',
   SliderByte = 'nap::PortalItemSliderByte',
   SliderInt = 'nap::PortalItemSliderInt',
   SliderLong = 'nap::PortalItemSliderLong',
@@ -152,3 +153,10 @@ export interface PortalItemUpdate extends APIMessage {
 export interface PortalItemValueArgument extends APIArgument {
   Name: typeof PortalDefs.itemValueArgName,
 }
+
+export enum PortalItemButtonEvent {
+  Click = 'Click',
+  Press = 'Press',
+  Release = 'Release',
+  Invalid = 'Invalid',
+};
