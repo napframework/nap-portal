@@ -5,4 +5,5 @@ export {
 export {
   NAPWebSocket,
   NAPWebSocketConfig,
+  NAPWebSocketEvent,
 } from './napwebsocket';
