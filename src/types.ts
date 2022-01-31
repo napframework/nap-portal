@@ -154,15 +154,16 @@ export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
  */
 
 export enum PortalItemType {
-  Button        = 'nap::PortalItemButton',
-  SliderByte    = 'nap::PortalItemSliderByte',
-  SliderInt     = 'nap::PortalItemSliderInt',
-  SliderLong    = 'nap::PortalItemSliderLong',
-  SliderFloat   = 'nap::PortalItemSliderFloat',
-  SliderDouble  = 'nap::PortalItemSliderDouble',
-  TextArea      = 'nap::PortalItemTextArea',
-  TextField     = 'nap::PortalItemTextField',
-  Toggle        = 'nap::PortalItemToggle',
+  Button              = 'nap::PortalItemButton',
+  OperationalCalendar = 'nap::PortalItemOperationalCalendar',
+  SliderByte          = 'nap::PortalItemSliderByte',
+  SliderInt           = 'nap::PortalItemSliderInt',
+  SliderLong          = 'nap::PortalItemSliderLong',
+  SliderFloat         = 'nap::PortalItemSliderFloat',
+  SliderDouble        = 'nap::PortalItemSliderDouble',
+  TextArea            = 'nap::PortalItemTextArea',
+  TextField           = 'nap::PortalItemTextField',
+  Toggle              = 'nap::PortalItemToggle',
 };
 
 // Array containing all available portal item types, useful for validation

@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemButton } from './napportalitembutton';
+import { NAPPortalItemOperationalCalendar } from './napportalitemoperationalcalendar';
 import { NAPPortalItemSlider } from './napportalitemslider';
 import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
@@ -147,6 +148,8 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
   switch (itemTypeArg.Value) {
     case PortalItemType.Button:
       return new NAPPortalItemButton(message);
+    case PortalItemType.OperationalCalendar:
+      return new NAPPortalItemOperationalCalendar(message);
     case PortalItemType.SliderByte:
     case PortalItemType.SliderInt:
     case PortalItemType.SliderLong:
