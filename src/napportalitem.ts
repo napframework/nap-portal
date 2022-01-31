@@ -30,13 +30,13 @@ import {
  */
 export class NAPPortalItem extends EventTarget {
 
-  protected readonly id: string;              ///< This NAPPortalItem's id
-  protected readonly name: string;            ///< This NAPPortalItem's name
-  protected readonly type: APIArgumentType;   ///< This NAPPortalItem's value argument type
-  protected readonly label: HTMLLabelElement; ///< This NAPPortalItem's html label element
-  protected readonly labelTD: HTMLElement;    ///< This NAPPortalItem's table cell element containing the label
-  protected readonly contentTD: HTMLElement;  ///< This NAPPortalItem's table cell element containing the content
-  public readonly tr: HTMLElement;            ///< This NAPPortalItem's table row element
+  protected readonly id: string;                      ///< This NAPPortalItem's id
+  protected readonly name: string;                    ///< This NAPPortalItem's name
+  protected readonly type: APIArgumentType;           ///< This NAPPortalItem's value argument type
+  protected readonly label: HTMLLabelElement;         ///< This NAPPortalItem's html label element
+  protected readonly labelTD: HTMLTableCellElement;   ///< This NAPPortalItem's table cell element containing the label
+  protected readonly contentTD: HTMLTableCellElement; ///< This NAPPortalItem's table cell element containing the content
+  public readonly tr: HTMLTableRowElement;            ///< This NAPPortalItem's table row element
 
 
   /**

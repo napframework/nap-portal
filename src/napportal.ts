@@ -45,8 +45,8 @@ export class NAPPortal {
   private readonly portalItems: Map<string, NAPPortalItem>;     ///< The portal items contained by this NAPPortal, mapped by id
   private          portalItemAbortController: AbortController;  ///< Signals the NAPPortalItem event targets to remove listeners
   private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
-  private readonly table: HTMLElement;                          ///< The table which is added to the element provided in config
-  private readonly tbody: HTMLElement;                          ///< The table body which contains our portal item rows
+  private readonly table: HTMLTableElement;                     ///< The table which is added to the element provided in config
+  private readonly tbody: HTMLTableSectionElement;              ///< The table body which contains our portal item rows
 
 
   /**
