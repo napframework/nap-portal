@@ -60,6 +60,7 @@ export class NAPPortal {
     this.portalItemAbortController = new AbortController();
     this.webSocketAbortController = new AbortController();
     this.table = document.createElement('table');
+    this.table.className = config.portalId;
     this.tbody = document.createElement('tbody');
 
     // Add HTML elements
