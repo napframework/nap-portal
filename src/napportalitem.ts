@@ -64,6 +64,7 @@ export class NAPPortalItem extends EventTarget {
 
     // Create row
     this.tr = document.createElement('tr');
+    this.tr.className = this.id;
     this.tr.appendChild(this.labelTD);
     this.tr.appendChild(this.contentTD);
   }
