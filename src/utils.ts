@@ -6,17 +6,23 @@ import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
 import {
-  testAPIArgumentNumeric,
   testAPIArgumentString,
+  testAPIArgumentStringArray,
   testAPIArgumentBoolean,
+  testAPIArgumentBooleanArray,
+  testAPIArgumentNumeric,
+  testAPIArgumentNumericArray,
 } from './validation';
 import {
   PortalDefs,
   APIMessage,
   APIArgument,
   APIArgumentString,
+  APIArgumentStringArray,
   APIArgumentBoolean,
+  APIArgumentBooleanArray,
   APIArgumentNumeric,
+  APIArgumentNumericArray,
   APIArgumentType,
   PortalEventHeader,
   PortalEventHeaderInfo,
@@ -189,6 +195,20 @@ export function getStringArgumentValue(message: APIMessage, name: string): strin
 
 
 /**
+ * Get the value of a string array API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the string array API argument value
+ */
+export function getStringArrayArgumentValue(message: APIMessage, name: string): Array<string> {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const stringArray: APIArgumentStringArray = testAPIArgumentStringArray(argument);
+  return stringArray.Value;
+}
+
+
+/**
  * Get the value of a boolean API argument from an API message by name.
  * Throws an error with descriptive message when no matching argument is found.
  * @param message the API message to search for the API argument
@@ -203,6 +223,20 @@ export function getBooleanArgumentValue(message: APIMessage, name: string): bool
 
 
 /**
+ * Get the value of a boolean array API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the boolean array API argument value
+ */
+export function getBooleanArrayArgumentValue(message: APIMessage, name: string): Array<boolean> {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const booleanArray: APIArgumentBooleanArray = testAPIArgumentBooleanArray(argument);
+  return booleanArray.Value;
+}
+
+
+/**
  * Get the value of a numeric API argument from an API message by name.
  * Throws an error with descriptive message when no matching argument is found.
  * @param message the API message to search for the API argument
@@ -213,6 +247,20 @@ export function getNumericArgumentValue(message: APIMessage, name: string): numb
   const argument: APIArgument = getArgumentByName(message, name);
   const numeric: APIArgumentNumeric = testAPIArgumentNumeric(argument);
   return numeric.Value;
+}
+
+
+/**
+ * Get the value of a numeric array API argument from an API message by name.
+ * Throws an error with descriptive message when no matching argument is found.
+ * @param message the API message to search for the API argument
+ * @param name the name of the API argument to find
+ * @returns the numeric array API argument value
+ */
+export function getNumericArrayArgumentValue(message: APIMessage, name: string): Array<number> {
+  const argument: APIArgument = getArgumentByName(message, name);
+  const numericArray: APIArgumentNumericArray = testAPIArgumentNumericArray(argument);
+  return numericArray.Value;
 }
 
 
