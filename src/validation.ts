@@ -4,8 +4,11 @@ import {
   APIMessage,
   APIArgument,
   APIArgumentString,
+  APIArgumentStringArray,
   APIArgumentBoolean,
+  APIArgumentBooleanArray,
   APIArgumentNumeric,
+  APIArgumentNumericArray,
   APIArgumentType,
   APIArgumentTypes,
   PortalEvent,
@@ -17,6 +20,7 @@ import {
 
 // External Includes
 import {
+  every,
   isArray,
   isBoolean,
   isNumber,
@@ -152,6 +156,23 @@ export function testAPIArgumentString(argument: APIArgument): APIArgumentString 
 
 
 /**
+ * Tests whether the supplied argument contains a string array value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the string array argument
+ */
+export function testAPIArgumentStringArray(argument: APIArgument): APIArgumentStringArray {
+  if (!isArray(argument.Value) || !every(argument.Value, (v: any) => isString(v)))
+    throw new Error(`API argument with Name "${argument.Name}" should have string array Value, got "${typeof argument.Value}"`);
+
+  if (argument.Type !== APIArgumentType.StringArray)
+    throw new Error(`API argument with Name "${argument.Name}" should have string array Type, got "${argument.Type}"`);
+
+  return argument as APIArgumentStringArray;
+}
+
+
+/**
  * Tests whether the supplied argument contains a boolean value.
  * Throws an error with descriptive message when the validation fails.
  * @param argument the argument to verify
@@ -165,6 +186,23 @@ export function testAPIArgumentBoolean(argument: APIArgument): APIArgumentBoolea
     throw new Error(`API argument with Name "${argument.Name}" should have boolean Type, got "${argument.Type}"`);
 
   return argument as APIArgumentBoolean;
+}
+
+
+/**
+ * Tests whether the supplied argument contains a boolean array value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the boolean array argument
+ */
+export function testAPIArgumentBooleanArray(argument: APIArgument): APIArgumentBooleanArray {
+  if (!isArray(argument.Value) || !every(argument.Value, (v: any) => isBoolean(v)))
+    throw new Error(`API argument with Name "${argument.Name}" should have boolean array Value, got "${typeof argument.Value}"`);
+
+  if (argument.Type !== APIArgumentType.BooleanArray)
+    throw new Error(`API argument with Name "${argument.Name}" should have boolean array Type, got "${argument.Type}"`);
+
+  return argument as APIArgumentBooleanArray;
 }
 
 
@@ -186,6 +224,27 @@ export function testAPIArgumentNumeric(argument: APIArgument): APIArgumentNumeri
     throw new Error(`API argument with Name "${argument.Name}" should have numerical Type, got "${argument.Type}"`);
 
   return argument as APIArgumentNumeric;
+}
+
+
+/**
+ * Tests whether the supplied argument contains a numerical array value.
+ * Throws an error with descriptive message when the validation fails.
+ * @param argument the argument to verify
+ * @returns the numerical array argument
+ */
+export function testAPIArgumentNumericArray(argument: APIArgument): APIArgumentNumericArray {
+  if (!isArray(argument.Value) || !every(argument.Value, (v: any) => isNumber(v)))
+    throw new Error(`API argument with Name "${argument.Name}" should have numerical array Value, got "${typeof argument.Value}"`);
+
+  if (!(argument.Type === APIArgumentType.ByteArray ||
+        argument.Type === APIArgumentType.IntArray ||
+        argument.Type === APIArgumentType.LongArray ||
+        argument.Type === APIArgumentType.FloatArray ||
+        argument.Type === APIArgumentType.DoubleArray))
+    throw new Error(`API argument with Name "${argument.Name}" should have numerical array Type, got "${argument.Type}"`);
+
+  return argument as APIArgumentNumericArray;
 }
 
 
