@@ -279,3 +279,31 @@ export function isIntegralArgumentType(type: APIArgumentType): boolean {
     type === APIArgumentType.Long
   );
 }
+
+
+/**
+ * Converts an array of RGB values to a hexidecimal color string
+ * @param values the array of RGB values to convert
+ * @returns the hexadecimal color string
+ */
+export function rgbToHex(values: Array<number>): string {
+  if (values.length < 3)
+    throw new Error(`Missing color channels to convert to hex, need 3, got ${values.length}`);
+  return `#${values[0].toString(16)}${values[1].toString(16)}${values[2].toString(16)}`;
+}
+
+
+/**
+ * Converts a hexidecimal color string to an array of RGB values
+ * @param value the hexadecimal color string to convert
+ * @returns the array of RGB values
+ */
+export function hexToRgb(value: string): Array<number> {
+  if (value.length < 7)
+    throw new Error(`Invalid hex color provided to convert to RGB, got ${value}`);
+  return [
+    parseInt(value.substring(1, 3), 16),
+    parseInt(value.substring(3, 5), 16),
+    parseInt(value.substring(5), 16),
+  ]
+}
