@@ -289,7 +289,10 @@ export function isIntegralArgumentType(type: APIArgumentType): boolean {
 export function rgbToHex(values: Array<number>): string {
   if (values.length < 3)
     throw new Error(`Missing color channels to convert to hex, need 3, got ${values.length}`);
-  return `#${values[0].toString(16)}${values[1].toString(16)}${values[2].toString(16)}`;
+  const r = values[0].toString(16).padStart(2, '0');
+  const g = values[1].toString(16).padStart(2, '0');
+  const b = values[2].toString(16).padStart(2, '0');
+  return `#${r}${g}${b}`;
 }
 
 
