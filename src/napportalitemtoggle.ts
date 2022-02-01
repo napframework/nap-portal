@@ -24,7 +24,7 @@ export class NAPPortalItemToggle extends NAPPortalItem {
     // Extract properties from API message
     const value: boolean = getBooleanArgumentValue(message, PortalDefs.itemValueArgName);
 
-    // Create the HTML range input element
+    // Create the HTML checkbox input element
     this.checkbox = document.createElement('input');
     this.checkbox.setAttribute('id', this.id);
     this.checkbox.setAttribute('type', 'checkbox');

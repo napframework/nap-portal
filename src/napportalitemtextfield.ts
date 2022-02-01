@@ -24,7 +24,7 @@ export class NAPPortalItemTextField extends NAPPortalItem {
     // Extract properties from API message
     const value: string = getStringArgumentValue(message, PortalDefs.itemValueArgName);
 
-    // Create the HTML range input element
+    // Create the HTML text input element
     this.textInput = document.createElement('input');
     this.textInput.setAttribute('id', this.id);
     this.textInput.setAttribute('type', 'text');

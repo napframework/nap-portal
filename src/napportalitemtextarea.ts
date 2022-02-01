@@ -24,7 +24,7 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
     // Extract properties from API message
     const value: string = getStringArgumentValue(message, PortalDefs.itemValueArgName);
 
-    // Create the HTML range input element
+    // Create the HTML text area element
     this.textArea = document.createElement('textarea');
     this.textArea.setAttribute('id', this.id);
     this.textArea.setAttribute('rows', '10');
