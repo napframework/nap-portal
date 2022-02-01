@@ -277,6 +277,19 @@ export function getNumericArrayArgumentValue(message: APIMessage, name: string):
 
 
 /**
+ * Checks whether the supplied argument type is for a float value
+ * @param type the argument type to check
+ * @returns whether the supplied argument type is for a float value
+ */
+export function isFloatArgumentType(type: APIArgumentType): boolean {
+  return (
+    type === APIArgumentType.Float ||
+    type === APIArgumentType.Double
+  );
+}
+
+
+/**
  * Checks whether the supplied argument type is for an integral value
  * @param type the argument type to check
  * @returns whether the supplied argument type is for an integral value
@@ -286,6 +299,33 @@ export function isIntegralArgumentType(type: APIArgumentType): boolean {
     type === APIArgumentType.Byte ||
     type === APIArgumentType.Int ||
     type === APIArgumentType.Long
+  );
+}
+
+
+/**
+ * Checks whether the supplied argument type is for a float array value
+ * @param type the argument type to check
+ * @returns whether the supplied argument type is for a float array value
+ */
+export function isFloatArrayArgumentType(type: APIArgumentType): boolean {
+  return (
+    type === APIArgumentType.FloatArray ||
+    type === APIArgumentType.DoubleArray
+  );
+}
+
+
+/**
+ * Checks whether the supplied argument type is for an integral array value
+ * @param type the argument type to check
+ * @returns whether the supplied argument type is for an integral array value
+ */
+export function isIntegralArrayArgumentType(type: APIArgumentType): boolean {
+  return (
+    type === APIArgumentType.ByteArray ||
+    type === APIArgumentType.IntArray ||
+    type === APIArgumentType.LongArray
   );
 }
 
