@@ -24,7 +24,7 @@ export class NAPPortalItemColor extends NAPPortalItem {
   /**
    * Constructor
    */
-  constructor(message: APIMessage, hasAlpha: boolean, isFloat: boolean) {
+  constructor(message: APIMessage, isFloat: boolean) {
     super(message);
 
     // Store parameters
@@ -49,7 +49,7 @@ export class NAPPortalItemColor extends NAPPortalItem {
     colorTD.appendChild(this.colorInput);
     tr.appendChild(colorTD);
 
-    if (hasAlpha) {
+    if (values.length > 3) {
       // Create HTML alpha label element
       const alphaLabel: HTMLLabelElement = document.createElement('label');
       alphaLabel.setAttribute('for', `${this.id}-alpha`);
