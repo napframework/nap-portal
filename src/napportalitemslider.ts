@@ -33,6 +33,13 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     const value: number = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
     const isIntegral: boolean = isIntegralArgumentType(this.type);
 
+    // Create HTML table elements
+    const table: HTMLTableElement = document.createElement('table');
+    const tbody: HTMLTableSectionElement = document.createElement('tbody');
+    const tr: HTMLTableRowElement = document.createElement('tr');
+    const td1: HTMLTableCellElement = document.createElement('td');
+    const td2: HTMLTableCellElement = document.createElement('td');
+
     // Create the HTML range input element
     this.rangeInput = document.createElement('input');
     this.rangeInput.setAttribute('type', 'range');
@@ -54,8 +61,13 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     this.setNumberInput(value);
 
     // Append HTML elements
-    this.contentTD.appendChild(this.rangeInput);
-    this.contentTD.appendChild(this.numberInput);
+    td1.appendChild(this.rangeInput);
+    td2.appendChild(this.numberInput);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tbody.appendChild(tr);
+    table.appendChild(tbody);
+    this.contentTD.appendChild(table);
   }
 
 
