@@ -150,13 +150,10 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
     case PortalItemType.Button:
       return new NAPPortalItemButton(message);
     case PortalItemType.ColorRGB8:
-      return new NAPPortalItemColor(message, false);
     case PortalItemType.ColorRGBA8:
-      return new NAPPortalItemColor(message, true);
     case PortalItemType.ColorRGBFloat:
-      return new NAPPortalItemColor(message, false);
     case PortalItemType.ColorRGBAFloat:
-      return new NAPPortalItemColor(message, true);
+      return new NAPPortalItemColor(message);
     case PortalItemType.OperationalCalendar:
       return new NAPPortalItemOperationalCalendar(message);
     case PortalItemType.SliderByte:

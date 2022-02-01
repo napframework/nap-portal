@@ -2,6 +2,7 @@
 import { NAPPortalItem } from './napportalitem';
 import {
   getNumericArrayArgumentValue,
+  isFloatArrayArgumentType,
   hexToRgb,
   rgbToHex,
 } from './utils';
@@ -24,14 +25,12 @@ export class NAPPortalItemColor extends NAPPortalItem {
   /**
    * Constructor
    */
-  constructor(message: APIMessage, isFloat: boolean) {
+  constructor(message: APIMessage) {
     super(message);
-
-    // Store parameters
-    this.isFloat = isFloat;
 
     // Extract properties from API message
     const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemValueArgName);
+    this.isFloat = isFloatArrayArgumentType(this.type);
 
     // Create HTML table elements
     const table: HTMLTableElement = document.createElement('table');
@@ -60,8 +59,8 @@ export class NAPPortalItemColor extends NAPPortalItem {
       this.alphaInput.setAttribute('id', `${this.id}-alpha`);
       this.alphaInput.setAttribute('type', 'number');
       this.alphaInput.setAttribute('min', '0');
-      this.alphaInput.setAttribute('max', isFloat ? '1' : '255');
-      this.alphaInput.setAttribute('step', isFloat ? '0.001' : '1');
+      this.alphaInput.setAttribute('max', this.isFloat ? '1' : '255');
+      this.alphaInput.setAttribute('step', this.isFloat ? '0.001' : '1');
       this.alphaInput.addEventListener('input', () => this.onColorInput());
 
       // Append HTML alpha label element
