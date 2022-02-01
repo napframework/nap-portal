@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import { NAPPortalItemButton } from './napportalitembutton';
+import { NAPPortalItemColor } from './napportalitemcolor';
 import { NAPPortalItemOperationalCalendar } from './napportalitemoperationalcalendar';
 import { NAPPortalItemSlider } from './napportalitemslider';
 import { NAPPortalItemTextArea } from './napportalitemtextarea';
@@ -148,6 +149,14 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
   switch (itemTypeArg.Value) {
     case PortalItemType.Button:
       return new NAPPortalItemButton(message);
+    case PortalItemType.ColorRGB8:
+      return new NAPPortalItemColor(message, false, false);
+    case PortalItemType.ColorRGBA8:
+      return new NAPPortalItemColor(message, true, false);
+    case PortalItemType.ColorRGBFloat:
+      return new NAPPortalItemColor(message, false, true);
+    case PortalItemType.ColorRGBAFloat:
+      return new NAPPortalItemColor(message, true, true);
     case PortalItemType.OperationalCalendar:
       return new NAPPortalItemOperationalCalendar(message);
     case PortalItemType.SliderByte:

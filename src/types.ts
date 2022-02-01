@@ -155,6 +155,10 @@ export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
 
 export enum PortalItemType {
   Button              = 'nap::PortalItemButton',
+  ColorRGB8           = 'nap::PortalItemRGBColor8',
+  ColorRGBA8          = 'nap::PortalItemRGBAColor8',
+  ColorRGBFloat       = 'nap::PortalItemRGBColorFloat',
+  ColorRGBAFloat      = 'nap::PortalItemRGBAColorFloat',
   OperationalCalendar = 'nap::PortalItemOperationalCalendar',
   SliderByte          = 'nap::PortalItemSliderByte',
   SliderInt           = 'nap::PortalItemSliderInt',
