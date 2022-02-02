@@ -11,6 +11,7 @@ export class PortalDefs {
   static readonly itemValueArgName  = "portal_item_value";    ///< Name of the argument containing the portal item value in the portal item message
   static readonly itemMinArgName    = "portal_item_min";      ///< Name of the argument containing the minimum portal item value in the portal item message
   static readonly itemMaxArgName    = "portal_item_max";      ///< Name of the argument containing the maximum portal item value in the portal item message
+  static readonly itemClampArgName  = "portal_item_clamp";    ///< Name of the argument containing the clamp value in the portal item message
 }
 
 
@@ -168,6 +169,10 @@ export enum PortalItemType {
   TextArea            = 'nap::PortalItemTextArea',
   TextField           = 'nap::PortalItemTextField',
   Toggle              = 'nap::PortalItemToggle',
+  Vec2                = 'nap::PortalItemVec2',
+  Vec3                = 'nap::PortalItemVec3',
+  IVec2               = 'nap::PortalItemIVec2',
+  IVec3               = 'nap::PortalItemIVec3',
 };
 
 // Array containing all available portal item types, useful for validation

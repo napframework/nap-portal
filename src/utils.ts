@@ -7,6 +7,7 @@ import { NAPPortalItemSlider } from './napportalitemslider';
 import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
+import { NAPPortalItemVector } from './NAPPortalItemVector';
 import {
   testAPIArgumentString,
   testAPIArgumentStringArray,
@@ -168,6 +169,11 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
       return new NAPPortalItemTextField(message);
     case PortalItemType.Toggle:
       return new NAPPortalItemToggle(message);
+    case PortalItemType.Vec2:
+    case PortalItemType.Vec3:
+    case PortalItemType.IVec2:
+    case PortalItemType.IVec3:
+      return new NAPPortalItemVector(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
   }
