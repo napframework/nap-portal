@@ -64,7 +64,7 @@ It's recommended to use `np` for publishing new versions, to ensure all steps ar
 - Make sure you're autenticated with to NPM
 - Run `np` to select the new version number and publish
 
-```
+```shell
 npm install --global np
 npm login
 np
