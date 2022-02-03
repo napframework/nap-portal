@@ -1,6 +1,6 @@
 # NAP Portal
 
-NAP Portal allows you to create a web-interface to control your NAP application. It connects to the WebSocket server hosted by the appplcation and generates a user interface in the browser.
+NAP Portal allows you to create a web-interface to control your NAP application. It connects to the WebSocket server hosted by the application and generates a user interface in the browser.
 
 Please refer to the [NAP Framework documentation](https://www.napframework.com/doxygen/) for a complete guide on how to set this up on the application side.
 
