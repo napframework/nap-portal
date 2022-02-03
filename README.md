@@ -67,5 +67,5 @@ It's recommended to use `np` for publishing new versions, to ensure all steps ar
 ```shell
 npm install --global np
 npm login
-np --no-2fa
+np --no-2fa --no-release-draft
 ```
