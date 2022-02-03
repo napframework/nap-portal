@@ -1,6 +1,6 @@
 {
   "name": "nap-portal",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "NAP Portal connects to a NAP WebSocket server and generates a control interface for NAP Portal Components in your NAP application",
   "keywords": [
     "nap",
