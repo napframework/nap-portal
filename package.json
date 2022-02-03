@@ -23,9 +23,10 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc && npm pack",
+    "build": "tsc",
     "docs": "typedoc src/index.ts",
-    "test": "echo \"No test specified\""
+    "test": "echo \"No test specified\"",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
