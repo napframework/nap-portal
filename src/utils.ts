@@ -7,7 +7,7 @@ import { NAPPortalItemSlider } from './napportalitemslider';
 import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
-import { NAPPortalItemVector } from './NAPPortalItemVector';
+import { NAPPortalItemVector } from './napportalitemvector';
 import {
   testAPIArgumentString,
   testAPIArgumentStringArray,
