@@ -23,6 +23,7 @@
     "lib/**/*"
   ],
   "scripts": {
+    "start": "tsc --watch",
     "build": "tsc",
     "docs": "typedoc",
     "test": "echo \"No test specified\"",

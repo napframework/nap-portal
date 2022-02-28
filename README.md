@@ -55,6 +55,39 @@ napPortal.destroy();
 napPortal = null;
 ```
 
+## Development
+
+When making changes to NAP Portal itself, it's useful to have those changes automatically transpiled from TypeScript and loaded in [NAP Dashboard](https://github.com/napframework/nap-dashboard) or your own custom implementation. This way you can ensure everything works before creating a PR and going through the publishing workflow.
+
+For this to work, you first need to set up a global symlink in this repository using:
+
+```shell
+# path/to/nap-portal
+$ npm link
+```
+
+Then, in another repository (like [NAP Dashboard](https://github.com/napframework/nap-dashboard)), you can use that symlink instead of the public package from NPM, using:
+
+```shell
+# e.g. path/to/nap-dashboard
+$ npm link nap-portal
+```
+
+Any changes in the `/lib` folder will now be reflected in the project which is using the symlink instead of the public package. When you start making changes in `nap-portal`, you can start transpiling TypeScript automatically on change using:
+
+```shell
+# path/to/nap-portal
+$ npm start
+```
+
+When you want to stop using the symlink in the other repository, you can remove the link using:
+
+```shell
+# e.g. path/to/nap-dashboard
+$ npm unlink nap-portal --no-save
+$ npm install
+```
+
 ## Documentation
 
 Documentation is built from comments in the codebase using [TypeDoc](https://typedoc.org/). Updates to the documentation are pushed to Git so they will be displayed in GitHub Pages. Documentation can be rebuilt using:
