@@ -61,7 +61,7 @@ _Admin users only_
 
 It's recommended to use `np` for publishing new versions, to ensure all steps are taken care of.
 - Make sure `np` is installed globally
-- Make sure you're autenticated with to NPM
+- Make sure you're autenticated with NPM
 - Run `np` to select the new version number and publish
 
 ```shell
