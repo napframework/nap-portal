@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "docs": "typedoc src/index.ts",
+    "docs": "typedoc",
     "test": "echo \"No test specified\"",
     "prepare": "npm run build"
   },
