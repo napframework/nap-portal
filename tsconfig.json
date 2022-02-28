@@ -9,5 +9,11 @@
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "watchOptions": {
+    "watchFile": "usefsevents",
+    "watchDirectory": "usefsevents",
+    "fallbackPolling": "dynamicpriority",
+    "synchronousWatchDirectory": true
+  }
 }
