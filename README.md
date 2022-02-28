@@ -55,9 +55,19 @@ napPortal.destroy();
 napPortal = null;
 ```
 
+## Documentation
+
+Documentation is built from comments in the codebase using [TypeDoc](https://typedoc.org/). Updates to the documentation are pushed to Git so they will be displayed in GitHub Pages. Documentation can be rebuilt using:
+
+```shell
+$ npm run docs
+```
+
 ## Publishing
 
 _Admin users only_
+
+Before publishing, make sure to rebuild the documentation (see above) and commit the changes if any.
 
 It's recommended to use `np` for publishing new versions, to ensure all steps are taken care of.
 - Make sure `np` is installed globally
