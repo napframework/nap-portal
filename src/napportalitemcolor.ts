@@ -117,7 +117,7 @@ export class NAPPortalItemColor extends NAPPortalItem {
     this.colorInput.value = rgbToHex(input);
 
     if (this.alphaInput && values.length > 3) {
-      this.alphaInput.value = values[3].toString();
+      this.alphaInput.value = values[3].toFixed(this.isFloat ? 3 : 0);
     }
   }
 }

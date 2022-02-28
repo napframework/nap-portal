@@ -19,6 +19,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
   private readonly numberInput: HTMLInputElement; ///< The HTML number input element to control the item's value
   private readonly min: number;                   ///< The minimum value of the portal item
   private readonly max: number;                   ///< The maximum value of the portal item
+  private readonly isIntegral: boolean;           ///< Whether the value is integral or floating point
 
 
   /**
@@ -30,8 +31,8 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     // Extract properties from API message
     this.min = getNumericArgumentValue(message, PortalDefs.itemMinArgName);
     this.max = getNumericArgumentValue(message, PortalDefs.itemMaxArgName);
+    this.isIntegral = isIntegralArgumentType(this.type);
     const value: number = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
-    const isIntegral: boolean = isIntegralArgumentType(this.type);
 
     // Create HTML table elements
     const table: HTMLTableElement = document.createElement('table');
@@ -43,9 +44,9 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     // Create the HTML range input element
     this.rangeInput = document.createElement('input');
     this.rangeInput.setAttribute('type', 'range');
-    this.rangeInput.setAttribute('min', this.min.toString());
-    this.rangeInput.setAttribute('max', this.max.toString());
-    this.rangeInput.setAttribute('step', isIntegral ? '1' : '0.001');
+    this.rangeInput.setAttribute('min', this.min.toFixed(this.isIntegral ? 0 : 3));
+    this.rangeInput.setAttribute('max', this.max.toFixed(this.isIntegral ? 0 : 3));
+    this.rangeInput.setAttribute('step', this.isIntegral ? '1' : '0.001');
     this.rangeInput.addEventListener('input', () => this.onRangeInput());
     this.setRangeInput(value);
 
@@ -53,9 +54,9 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     this.numberInput = document.createElement('input');
     this.numberInput.setAttribute('id', this.id);
     this.numberInput.setAttribute('type', 'number');
-    this.numberInput.setAttribute('min', this.min.toString());
-    this.numberInput.setAttribute('max', this.max.toString());
-    this.numberInput.setAttribute('step', isIntegral ? '1' : '0.001');
+    this.numberInput.setAttribute('min', this.min.toFixed(this.isIntegral ? 0 : 3));
+    this.numberInput.setAttribute('max', this.max.toFixed(this.isIntegral ? 0 : 3));
+    this.numberInput.setAttribute('step', this.isIntegral ? '1' : '0.001');
     this.numberInput.addEventListener('input', () => this.onNumberInput());
     this.numberInput.addEventListener('change', () => this.onNumberChange());
     this.setNumberInput(value);
@@ -119,7 +120,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * @param value the updated portal item value
    */
   private setRangeInput(value: number): void {
-    this.rangeInput.value = value.toString();
+    this.rangeInput.value = value.toFixed(this.isIntegral ? 0 : 3);
   }
 
 
@@ -128,6 +129,6 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * @param value the updated portal item value
    */
   private setNumberInput(value: number): void {
-    this.numberInput.value = value.toString();
+    this.numberInput.value = value.toFixed(this.isIntegral ? 0 : 3);
   }
 }

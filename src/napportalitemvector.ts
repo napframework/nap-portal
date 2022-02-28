@@ -22,6 +22,7 @@ export class NAPPortalItemVector extends NAPPortalItem {
   private readonly min: number;                                 ///< The minimum value of a vector axis
   private readonly max: number;                                 ///< The maximum value of a vector axis
   private readonly clamp: boolean;                              ///< Whether to clamp the value to min / max
+  private readonly isIntegral: boolean;                         ///< Whether the value is integral or floating point
 
 
   /**
@@ -34,8 +35,8 @@ export class NAPPortalItemVector extends NAPPortalItem {
     this.min = getNumericArgumentValue(message, PortalDefs.itemMinArgName);
     this.max = getNumericArgumentValue(message, PortalDefs.itemMaxArgName);
     this.clamp = getBooleanArgumentValue(message, PortalDefs.itemClampArgName);
+    this.isIntegral = isIntegralArrayArgumentType(this.type);
     const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemValueArgName);
-    const isIntegral = isIntegralArrayArgumentType(this.type);
 
     // Create HTML table elements
     const table: HTMLTableElement = document.createElement('table');
@@ -54,9 +55,9 @@ export class NAPPortalItemVector extends NAPPortalItem {
       const numberInput = document.createElement('input');
       numberInput.setAttribute('id', id);
       numberInput.setAttribute('type', 'number');
-      numberInput.setAttribute('min', this.min.toString());
-      numberInput.setAttribute('max', this.max.toString());
-      numberInput.setAttribute('step', isIntegral ? '1' : '0.001');
+      numberInput.setAttribute('min', this.min.toFixed(this.isIntegral ? 0 : 3));
+      numberInput.setAttribute('max', this.max.toFixed(this.isIntegral ? 0 : 3));
+      numberInput.setAttribute('step', this.isIntegral ? '1' : '0.001');
       numberInput.addEventListener('input', () => this.onNumberInput());
       numberInput.addEventListener('change', () => this.onNumberChange());
       this.numberInputs.push(numberInput);
@@ -119,6 +120,6 @@ export class NAPPortalItemVector extends NAPPortalItem {
    * @param values the updated color channel values
    */
   private setNumberInputs(values: Array<number>): void {
-    this.numberInputs.forEach((input, index) => input.value = values[index].toString());
+    this.numberInputs.forEach((input, index) => input.value = values[index].toFixed(this.isIntegral ? 0 : 3));
   }
 }
