@@ -269,12 +269,14 @@ export class NAPWebSocket extends EventTarget {
    */
   private onConnectionLost(event: CloseEvent): void {
 
-    // Notify listeners and reconnect
+    // Notify listeners that we're closed
     this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Close));
-    this.reconnect();
+
+    // Start reconnection
+    this.startReconnection();
 
     if (!event.wasClean)
-      throw new Error(`NAPWebSocket didn't close cleanly. Code: ${event.code}. Reason: ${event.reason}.`);
+      console.error(`NAPWebSocket didn't close cleanly. Code: ${event.code}. Reason: ${event.reason}.`);
   }
 
 
