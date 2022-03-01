@@ -129,41 +129,26 @@ export class NAPWebSocket extends EventTarget {
    */
   public async open(): Promise<void> {
 
-    const { user, pass } = this.config;
-    const ticket = await getTicket(user, pass, this.httpEndpoint);
+    // Stop ongoing reconnection
+    this.stopReconnection();
 
     return new Promise((resolve, reject) => {
 
-      // Reject when the connection is not closed
-      if (this.webSocket) {
-        switch(this.webSocket.readyState) {
-          case NAPWebSocketState.Connecting:
-            return reject(new Error('NAPWebSocket is already connecting'));
-          case NAPWebSocketState.Open:
-            return reject(new Error('NAPWebSocket is already open'));
-          case NAPWebSocketState.Closing:
-            return reject(new Error('NAPWebSocket is still closing'));
-        }
+      // Reject when WebSocket is not closed
+      if (this.webSocket && this.webSocket.readyState !== NAPWebSocketState.Closed) {
+        const state = webSocketStateToString(this.webSocket.readyState);
+        reject(new Error(`NAPWebSocket aborting connection, WebSocket is not closed, but ${state}`));
+        return;
       }
 
-      // Open the WebSocket connection
-      this.webSocket = new WebSocket(this.wsEndpoint, ticket);
-
-      // Only ever log errors, no need to be handled specifically
-      // When a connection has a failure, close will always be called.
-      this.webSocket.onerror = (e: Event) => console.error('NAPWebSocket error:', e);
-
-      // On successfully opening the connection
-      this.webSocket.onopen = (e: Event) => {
-        this.onConnectionOpened(e);
-        resolve();
-      };
-
-      // On failing to open the connection
-      this.webSocket.onclose = (e: CloseEvent) => {
-        this.onConnectionFailed(e);
-        reject(new Error(`NAPWebSocket failed to connect. Code: ${e.code}. Reason: ${e.reason}.`));
-      };
+      // Try to connect, reconnect when fails
+      this.startConnection()
+        .then(() => resolve())
+        .catch((e: any) => {
+          const error = e instanceof Error ? e.message : e;
+          reject(new Error(`NAPWebSocket connection failed: ${error}`));
+          this.startReconnection();
+        });
     });
   }
 
@@ -183,7 +168,7 @@ export class NAPWebSocket extends EventTarget {
       if (!this.webSocket)
         return reject(new Error('NAPWebSocket was never opened'));
 
-      // Reject when the connection is not open
+      // Reject when the WebSocket is closing or closed
       const state = this.webSocket.readyState;
       if (state === NAPWebSocketState.Closing || state === NAPWebSocketState.Closed) {
         reject(new Error(`NAPWebSocket is already ${webSocketStateToString(state)}`));
