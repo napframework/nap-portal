@@ -40,6 +40,23 @@ export interface NAPWebSocketConfig {
 
 
 /**
+ * Convert NAPWebSocketState from int to string format
+ */
+export function webSocketStateToString(state: NAPWebSocketState) {
+  switch(state) {
+    case NAPWebSocketState.Connecting:
+      return 'connecting';
+    case NAPWebSocketState.Open:
+      return 'open';
+    case NAPWebSocketState.Closing:
+      return 'closing';
+    case NAPWebSocketState.Closed:
+      return 'closed';
+  }
+}
+
+
+/**
  * Events emitted by NAPWebSocket
  */
  export enum NAPWebSocketEvent {
