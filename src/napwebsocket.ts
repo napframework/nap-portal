@@ -172,7 +172,10 @@ export class NAPWebSocket extends EventTarget {
    * Closes the WebSocket connection with a NAP application
    * @returns A Promise that resolves when the connection is closed
    */
-  public close(): Promise<void> {
+  public async close(): Promise<void> {
+
+    // Stop ongoing reconnection
+    this.stopReconnection();
 
     return new Promise((resolve, reject) => {
 
