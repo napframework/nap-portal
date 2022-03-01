@@ -81,8 +81,10 @@ export function webSocketStateToString(state: NAPWebSocketState) {
  */
 export class NAPWebSocket extends EventTarget {
 
-  private readonly config: NAPWebSocketConfig;  ///< The config passed in the NAPWebSocket constructor
-  private webSocket: WebSocket | null = null;   ///< The native WebSocket connection
+  private readonly config: NAPWebSocketConfig;        ///< The config passed in the NAPWebSocket constructor
+  private readonly reconnectionDelay: number = 1000;  ///< The amount of time to wait before trying to reconnect
+  private reconnectionTimeout: number | null = null;  ///< The timeout ID that is set when reconnecting
+  private webSocket: WebSocket | null = null;         ///< The native WebSocket connection
 
 
   /**
@@ -310,7 +312,35 @@ export class NAPWebSocket extends EventTarget {
     }
   }
 
-  private reconnect(): void {
+  private stopReconnection(): void {
+    if (this.reconnectionTimeout !== null) {
+      clearTimeout(this.reconnectionTimeout);
+      this.reconnectionTimeout = null;
+    }
+  }
 
+  private startReconnection(): void {
+    this.stopReconnection();
+
+    // Wait for the reconnection timeout
+    console.error(`NAPWebSocket reconnecting in ${this.reconnectionDelay / 1000} seconds`);
+    this.reconnectionTimeout = setTimeout(() => {
+      this.reconnectionTimeout = null;
+
+      // Abort reconnection if WebSocket is not closed
+      if (this.webSocket && this.webSocket.readyState !== NAPWebSocketState.Closed) {
+        const state = webSocketStateToString(this.webSocket.readyState);
+        console.error(`NAPWebSocket aborting reconnection, WebSocket is not closed, but ${state}`);
+        return;
+      }
+
+      // Try to connect, reconnect when fails
+      console.error(`NAPWebSocket reconnecting...`);
+      this.startConnection().catch((e: any) => {
+        const error = e instanceof Error ? e.message : e;
+        console.error('NAPWebSocket connection failed:', error);
+        this.startReconnection();
+      });
+    }, this.reconnectionDelay);
   }
 }
