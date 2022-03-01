@@ -352,11 +352,13 @@ export class NAPWebSocket extends EventTarget {
 
       // Try to connect, reconnect when fails
       console.debug(`NAPWebSocket reconnecting...`);
-      this.startConnection().catch((e: any) => {
-        const error = e instanceof Error ? e.message : e;
-        console.error('NAPWebSocket connection failed:', error);
-        this.startReconnection();
-      });
+      this.startConnection()
+        .then(() => console.debug('NAPWebSocket connected'))
+        .catch((e: any) => {
+          const error = e instanceof Error ? e.message : e;
+          console.error('NAPWebSocket connection failed:', error);
+          this.startReconnection();
+        });
     }, this.reconnectionDelay);
   }
 }
