@@ -349,7 +349,7 @@ export class NAPWebSocket extends EventTarget {
     this.stopReconnection();
 
     // Wait for the reconnection timeout
-    console.error(`NAPWebSocket reconnecting in ${this.reconnectionDelay / 1000} seconds`);
+    console.debug(`NAPWebSocket reconnecting in ${this.reconnectionDelay / 1000} seconds`);
     this.reconnectionTimeout = setTimeout(() => {
       this.reconnectionTimeout = null;
 
@@ -361,7 +361,7 @@ export class NAPWebSocket extends EventTarget {
       }
 
       // Try to connect, reconnect when fails
-      console.error(`NAPWebSocket reconnecting...`);
+      console.debug(`NAPWebSocket reconnecting...`);
       this.startConnection().catch((e: any) => {
         const error = e instanceof Error ? e.message : e;
         console.error('NAPWebSocket connection failed:', error);
