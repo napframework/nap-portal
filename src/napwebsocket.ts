@@ -338,6 +338,10 @@ export class NAPWebSocket extends EventTarget {
     }
   }
 
+
+  /**
+   * Stop ongoing reconnection
+   */
   private stopReconnection(): void {
     if (this.reconnectionTimeout !== null) {
       clearTimeout(this.reconnectionTimeout);
@@ -345,6 +349,10 @@ export class NAPWebSocket extends EventTarget {
     }
   }
 
+
+  /**
+   * Attempt reconnection after delay
+   */
   private startReconnection(): void {
     this.stopReconnection();
 
