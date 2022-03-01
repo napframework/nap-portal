@@ -136,8 +136,8 @@ export class NAPWebSocket extends EventTarget {
 
       // Reject when WebSocket is not closed
       if (this.webSocket && this.webSocket.readyState !== NAPWebSocketState.Closed) {
-        const state = webSocketStateToString(this.webSocket.readyState);
-        reject(new Error(`NAPWebSocket aborting connection, WebSocket is not closed, but ${state}`));
+        const stateStr = webSocketStateToString(this.webSocket.readyState);
+        reject(new Error(`NAPWebSocket aborting connection, WebSocket is not closed, but ${stateStr}`));
         return;
       }
 
@@ -229,8 +229,8 @@ export class NAPWebSocket extends EventTarget {
 
       // Prevent opening when not closed
       if (this.webSocket && this.webSocket.readyState !== NAPWebSocketState.Closed) {
-        const state = webSocketStateToString(this.webSocket.readyState);
-        throw new Error(`NAPWebSocket connection attempted to open while not closed, but ${state}`);
+        const stateStr = webSocketStateToString(this.webSocket.readyState);
+        throw new Error(`NAPWebSocket connection attempted to open while not closed, but ${stateStr}`);
       }
 
       // Open the WebSocket connection
@@ -345,8 +345,8 @@ export class NAPWebSocket extends EventTarget {
 
       // Abort reconnection if WebSocket is not closed
       if (this.webSocket && this.webSocket.readyState !== NAPWebSocketState.Closed) {
-        const state = webSocketStateToString(this.webSocket.readyState);
-        console.error(`NAPWebSocket aborting reconnection, WebSocket is not closed, but ${state}`);
+        const stateStr = webSocketStateToString(this.webSocket.readyState);
+        console.error(`NAPWebSocket aborting reconnection, WebSocket is not closed, but ${stateStr}`);
         return;
       }
 
