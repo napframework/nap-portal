@@ -82,7 +82,7 @@ export function webSocketStateToString(state: NAPWebSocketState) {
 export class NAPWebSocket extends EventTarget {
 
   private readonly config: NAPWebSocketConfig;        ///< The config passed in the NAPWebSocket constructor
-  private readonly reconnectionDelay: number = 1000;  ///< The amount of time to wait before trying to reconnect
+  private readonly reconnectionDelay: number = 3000;  ///< The amount of time to wait before trying to reconnect
   private reconnectionTimeout: number | null = null;  ///< The timeout ID that is set when reconnecting
   private webSocket: WebSocket | null = null;         ///< The native WebSocket connection
 
