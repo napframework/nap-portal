@@ -184,13 +184,10 @@ export class NAPWebSocket extends EventTarget {
         return reject(new Error('NAPWebSocket was never opened'));
 
       // Reject when the connection is not open
-      switch(this.webSocket.readyState) {
-        case NAPWebSocketState.Connecting:
-          return reject(new Error('NAPWebSocket is still connecting'));
-        case NAPWebSocketState.Closing:
-          return reject(new Error('NAPWebSocket is already closing'));
-        case NAPWebSocketState.Closed:
-          return reject(new Error('NAPWebSocket is already closed'));
+      const state = this.webSocket.readyState;
+      if (state === NAPWebSocketState.Closing || state === NAPWebSocketState.Closed) {
+        reject(new Error(`NAPWebSocket is already ${webSocketStateToString(state)}`));
+        return;
       }
 
       // Notify listeners that we're closing
