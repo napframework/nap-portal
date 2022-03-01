@@ -136,26 +136,13 @@ export class NAPWebSocket extends EventTarget {
 
       // On successfully opening the connection
       this.webSocket.onopen = (e: Event) => {
-
-        // Reset event handlers
-        this.webSocket!.onopen = null;
-        this.webSocket!.onclose = null;
-        this.webSocket!.onmessage = (e: MessageEvent) => this.onMessage(e);
-
-        // Notify listeners that we're open
-        this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Open));
-
+        this.onConnectionOpened(e);
         resolve();
       };
 
       // On failing to open the connection
       this.webSocket.onclose = (e: CloseEvent) => {
-
-        // Reset event handlers
-        this.webSocket!.onopen = null;
-        this.webSocket!.onclose = null;
-        this.webSocket!.onmessage = null;
-
+        this.onConnectionFailed(e);
         reject(new Error(`NAPWebSocket failed to connect. Code: ${e.code}. Reason: ${e.reason}.`));
       };
     });
@@ -225,6 +212,54 @@ export class NAPWebSocket extends EventTarget {
 
 
   /**
+   * Called when the native WebSocket connection is opened.
+   * @param event the open event fired by the WebSocket
+   */
+  private onConnectionOpened(event: Event): void {
+
+    // Reset event handlers
+    this.webSocket!.onopen = null;
+    this.webSocket!.onclose = (e: CloseEvent) => this.onConnectionLost(e);
+    this.webSocket!.onmessage = (e: MessageEvent) => this.onMessage(e);
+
+    // Notify listeners that we're open
+    this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Open));
+  }
+
+
+  /**
+   * Called when opening the native WebSocket connection fails.
+   * @param event the close event fired by the WebSocket
+   */
+  private onConnectionFailed(event: CloseEvent): void {
+
+    // Reset event handlers
+    this.webSocket!.onopen = null;
+    this.webSocket!.onclose = null;
+    this.webSocket!.onmessage = null;
+
+    if (!event.wasClean)
+      throw new Error(`NAPWebSocket didn't close cleanly. Code: ${event.code}. Reason: ${event.reason}.`);
+  }
+
+
+  /**
+   * Called when the native WebSocket close event is fired without closing intentionally.
+   * It attempts to reconnect to the WebSocket server.
+   * @param event the close event fired by the WebSocket
+   */
+  private onConnectionLost(event: CloseEvent): void {
+
+    // Notify listeners and reconnect
+    this.dispatchEvent(new CustomEvent(NAPWebSocketEvent.Close));
+    this.reconnect();
+
+    if (!event.wasClean)
+      throw new Error(`NAPWebSocket didn't close cleanly. Code: ${event.code}. Reason: ${event.reason}.`);
+  }
+
+
+  /**
    * Called when the native WebSocket receives a message event.
    * It attempts to parse and dispatch the message as a portal event.
    * @param message the message event received by the WebSocket
@@ -256,5 +291,9 @@ export class NAPWebSocket extends EventTarget {
       const error = e instanceof Error ? e.message : e;
       console.error('NAPWebSocket failed to parse message:', error);
     }
+  }
+
+  private reconnect(): void {
+
   }
 }
