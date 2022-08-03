@@ -2,9 +2,7 @@
 
 NAP Portal allows you to create a web-interface to control your NAP application. It connects to the WebSocket server hosted by the application and generates a user interface in the browser.
 
-Please refer to the [NAP Framework documentation](https://www.napframework.com/doxygen/) for a complete guide on how to set this up on the application side.
-
-For more information about usage of this library, have a look at the [API documentation](https://napframework.github.io/nap-portal/).
+Please refer to the [NAP Framework documentation](https://docs.nap.tech) for a complete guide on how to set this up on the application side.
 
 Note that usage of this package still requires you to setup your own front-end architecture. For a more complete implementation, have a look at [NAP Dashboard](https://github.com/napframework/nap-dashboard).
 
