@@ -7,7 +7,7 @@ import {
 
 
 /**
- * NAPPortalItemToggle
+ * NAPPortalItemButton
  */
 export class NAPPortalItemButton extends NAPPortalItem {
 

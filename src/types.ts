@@ -12,6 +12,7 @@ export class PortalDefs {
   static readonly itemMinArgName    = "portal_item_min";      ///< Name of the argument containing the minimum portal item value in the portal item message
   static readonly itemMaxArgName    = "portal_item_max";      ///< Name of the argument containing the maximum portal item value in the portal item message
   static readonly itemClampArgName  = "portal_item_clamp";    ///< Name of the argument containing the clamp value in the portal item message
+  static readonly dropDownItemNames = "portal_dropdown_item_names"
 }
 
 
@@ -155,6 +156,7 @@ export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
  */
 
 export enum PortalItemType {
+  DropDown            = 'nap::PortalItemDropDown',
   Button              = 'nap::PortalItemButton',
   ColorRGB8           = 'nap::PortalItemRGBColor8',
   ColorRGBA8          = 'nap::PortalItemRGBAColor8',
