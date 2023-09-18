@@ -103,6 +103,7 @@ export class NAPWebSocket extends EventTarget {
     return this.webSocket !== null && this.webSocket.readyState === NAPWebSocketState.Open;
   }
 
+
   /**
    * Changes user name and password in the config
    * @param user new username
@@ -113,6 +114,7 @@ export class NAPWebSocket extends EventTarget {
     this.config.pass = pass;
   }
 
+  
   /**
    * @return the WebSocket endpoint
    */
