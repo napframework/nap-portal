@@ -37,6 +37,7 @@ import {
 
 // External Includes
 import { v4 as uuidv4 } from 'uuid';
+import { NAPPortalItemDropdown } from './napportalitemdropdown';
 
 
 /**
@@ -147,6 +148,7 @@ export function getPortalItemUpdateInfo(update: PortalItemUpdate): PortalItemUpd
  */
 export function createPortalItem(message: APIMessage): NAPPortalItem {
   const itemTypeArg = getArgumentByName(message, PortalDefs.itemTypeArgName);
+
   switch (itemTypeArg.Value) {
     case PortalItemType.Button:
       return new NAPPortalItemButton(message);
@@ -174,6 +176,8 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
     case PortalItemType.IVec2:
     case PortalItemType.IVec3:
       return new NAPPortalItemVector(message);
+    case PortalItemType.DropDown:
+      return new NAPPortalItemDropdown(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
   }

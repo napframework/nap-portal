@@ -81,11 +81,10 @@ export function webSocketStateToString(state: NAPWebSocketState) {
  */
 export class NAPWebSocket extends EventTarget {
 
-  private readonly config: NAPWebSocketConfig;        ///< The config passed in the NAPWebSocket constructor
+  private config: NAPWebSocketConfig;                 ///< The config passed in the NAPWebSocket constructor
   private readonly reconnectionDelay: number = 3000;  ///< The amount of time to wait before trying to reconnect
   private reconnectionTimeout: number | null = null;  ///< The timeout ID that is set when reconnecting
   private webSocket: WebSocket | null = null;         ///< The native WebSocket connection
-
 
   /**
    * Constructor
@@ -105,6 +104,17 @@ export class NAPWebSocket extends EventTarget {
   }
 
 
+  /**
+   * Changes user name and password in the config
+   * @param user new username
+   * @param pass new password
+   */
+  public setUserAndPass(user: string, pass: string): void {
+    this.config.user = user;
+    this.config.pass = pass;
+  }
+
+  
   /**
    * @return the WebSocket endpoint
    */
@@ -128,7 +138,6 @@ export class NAPWebSocket extends EventTarget {
    * @returns A Promise that resolves when the connection is opened
    */
   public async open(): Promise<void> {
-
     // Stop ongoing reconnection
     this.stopReconnection();
 
