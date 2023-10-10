@@ -39,5 +39,9 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"
+  },
+  "engines" : { 
+    "npm" : ">=9.0.0",
+    "node" : ">=18.0.0"
   }
 }
