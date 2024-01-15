@@ -1,6 +1,6 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
-import { getStringArgumentValue } from './utils';
+import { getBooleanArgumentValue, getStringArgumentValue } from './utils';
 import {
   PortalDefs,
   APIMessage,
@@ -27,22 +27,42 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
     // Create the HTML text area element
     this.textArea = document.createElement('textarea');
     this.textArea.setAttribute('id', this.id);
-    this.textArea.setAttribute('rows', '10');
+    this.textArea.rows = 5;
     this.textArea.addEventListener('input', () => this.onTextInput());
     this.setTextArea(value);
 
     // Append HTML elements
     this.contentTD.appendChild(this.textArea);
+
+    // Update item state
+    this.textArea.disabled = !this.enabled;
   }
 
 
   /**
-   * Update the portal item with an API message received from the server
-   * @param message the API message containing the portal item update
+   * Update the portal item value with an API message received from the server
+   * @param message the API message containing the portal item value update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     const value: string = getStringArgumentValue(message, PortalDefs.itemValueArgName);
     this.setTextArea(value);
+  }
+
+  /**
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
+   */
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.textArea.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
   }
 
 
@@ -51,6 +71,7 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
    */
   private onTextInput(): void {
     const value: string = this.textArea.value;
+    this.textArea.style.height = this.textArea.scrollHeight + "px";
     this.sendUpdate(value);
   }
 

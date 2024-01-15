@@ -1,6 +1,6 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
-import { getStringArrayArgumentValue } from './utils';
+import { getBooleanArgumentValue, getStringArrayArgumentValue } from './utils';
 import {
   PortalDefs,
   APIMessage,
@@ -104,6 +104,11 @@ export class NAPPortalItemOperationalCalendar extends NAPPortalItem {
     // Append HTML elements
     table.appendChild(tbody);
     this.contentTD.appendChild(table);
+
+    // Update item state
+    this.timeInputs.forEach(element => {
+      element.disabled = !this.enabled;
+    });
   }
 
 
@@ -111,9 +116,28 @@ export class NAPPortalItemOperationalCalendar extends NAPPortalItem {
    * Update the portal item with an API message received from the server
    * @param message the API message containing the portal item update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     const values: Array<string> = getStringArrayArgumentValue(message, PortalDefs.itemValueArgName);
     this.setTimeInputs(values);
+  }
+
+  /**
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
+   */
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.timeInputs.forEach(element => {
+        element.disabled = !this.enabled;
+      });
+      return true;
+    }
+
+    return false;
   }
 
 

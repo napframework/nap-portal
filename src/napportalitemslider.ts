@@ -1,6 +1,7 @@
 // Local Includes
 import { NAPPortalItem } from './napportalitem';
 import {
+  getBooleanArgumentValue,
   getNumericArgumentValue,
   isIntegralArgumentType,
 } from './utils';
@@ -69,6 +70,10 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     tbody.appendChild(tr);
     table.appendChild(tbody);
     this.contentTD.appendChild(table);
+
+    // Update item state
+    this.rangeInput.disabled = !this.enabled;
+    this.numberInput.disabled = !this.enabled;
   }
 
 
@@ -76,10 +81,28 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * Update the portal item with an API message received from the server
    * @param message the API message containing the portal item update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     const value: number = getNumericArgumentValue(message, PortalDefs.itemValueArgName);
     this.setRangeInput(value);
     this.setNumberInput(value);
+  }
+
+  /**
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
+   */
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.rangeInput.disabled = !this.enabled;
+      this.numberInput.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
   }
 
 

@@ -33,6 +33,9 @@ export class NAPPortalItemToggle extends NAPPortalItem {
 
     // Append HTML elements
     this.contentTD.appendChild(this.checkbox);
+
+    // Update item state
+    this.checkbox.disabled = !this.enabled;
   }
 
 
@@ -40,9 +43,26 @@ export class NAPPortalItemToggle extends NAPPortalItem {
    * Update the portal item with an API message received from the server
    * @param message the API message containing the portal item update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     const value: boolean = getBooleanArgumentValue(message, PortalDefs.itemValueArgName);
     this.setCheckbox(value);
+  }
+
+  /**
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
+   */
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.checkbox.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
   }
 
 

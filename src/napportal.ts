@@ -129,9 +129,9 @@ export class NAPPortal {
       this.portalItems.set(message.mID, item);
       this.tbody.appendChild(item.tr);
 
-      // Subscribe to portal item update events
-      item.addEventListener(NAPPortalItemEvent.Update, {
-        handleEvent: (event: CustomEvent) => this.onPortalItemUpdate(event),
+      // Subscribe to portal item value update events
+      item.addEventListener(NAPPortalItemEvent.UpdateValue, {
+        handleEvent: (event: CustomEvent) => this.onPortalItemValueUpdate(event),
       }, { signal: this.portalItemAbortController.signal });
     }
     catch(e: any) {
@@ -142,10 +142,10 @@ export class NAPPortal {
 
 
   /**
-   * Updates an existing portal item from an API message
+   * Updates an existing portal item value from an API message
    * @param message the API message containing the update
    */
-  private updatePortalItem(message: APIMessage): void {
+  private updatePortalItemValue(message: APIMessage): void {
     // Prevent updating unknown portal item
     if (!this.portalItems.has(message.mID)) {
       console.error(`Cannot update unkown portal item ${message.mID}`);
@@ -153,11 +153,28 @@ export class NAPPortal {
     }
     try {
       // Update portal item
-      this.portalItems.get(message.mID)!.update(message);
+      this.portalItems.get(message.mID)!.updateValue(message);
     }
     catch(e: any) {
       const error = e instanceof Error ? e.message : e;
-      console.error('Failed to update portal item:', error);
+      console.error('Failed to update portal item value:', error);
+    }
+  }
+
+
+  private updatePortalItemState(message: APIMessage): void {
+    // Prevent updating unknown portal item
+    if (!this.portalItems.has(message.mID)) {
+      console.error(`Cannot update unkown portal item ${message.mID}`);
+      return;
+    }
+    try {
+      // Update portal item
+      this.portalItems.get(message.mID)!.updateState(message);
+    }
+    catch(e: any) {
+      const error = e instanceof Error ? e.message : e;
+      console.error('Failed to update portal item state:', error);
     }
   }
 
@@ -178,11 +195,11 @@ export class NAPPortal {
    * Sends a portal item update to the NAP application
    * @param info The portal item update info to send
    */
-  private sendPortalItemUpdate(info: PortalItemUpdateInfo): void {
+  private sendPortalItemValueUpdate(info: PortalItemUpdateInfo): void {
     this.config.napWebSocket.send({
       eventId: this.uuid,
       portalId: this.config.portalId,
-      eventType: PortalEventType.Update,
+      eventType: PortalEventType.UpdateValue,
     }, [
       getPortalItemUpdate(info),
     ]);
@@ -211,16 +228,24 @@ export class NAPPortal {
           this.addPortalItem(message);
         break;
 
-      case PortalEventType.Update:
+      case PortalEventType.UpdateValue:
         // The event ID matches our UUID
         // if we initiated the update
         if (info.eventId === this.uuid)
           break;
 
         for (const message of messages)
-          this.updatePortalItem(message);
+          this.updatePortalItemValue(message);
         break;
+      case PortalEventType.UpdateState:
+        // The event ID matches our UUID
+        // if we initiated the update
+        if (info.eventId === this.uuid)
+          break;
 
+        for (const message of messages)
+          this.updatePortalItemState(message);
+        break;
       default:
         console.error(`Cannot handle portal event type ${info.eventType}`);
     }
@@ -231,8 +256,8 @@ export class NAPPortal {
    * Called when a NAPPortalItem sends an update
    * @param event The received event with the update information
    */
-  private onPortalItemUpdate(event: CustomEvent): void {
+  private onPortalItemValueUpdate(event: CustomEvent): void {
     const { info } = event.detail as NAPPortalItemUpdateDetail;
-    this.sendPortalItemUpdate(info);
+    this.sendPortalItemValueUpdate(info);
   }
 }

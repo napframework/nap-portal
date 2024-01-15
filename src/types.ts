@@ -3,16 +3,18 @@
  */
 
 export class PortalDefs {
-  static readonly apiMessageType    = "nap::APIMessage";              ///< Type of an API message
-  static readonly eventHeaderName   = "portal_event_header";          ///< Name of the portal event header
-  static readonly portalIDArgName   = "portal_id";                    ///< Name of the argument containing the portal ID in the portal event header
-  static readonly eventTypeArgName  = "portal_event_type";            ///< Name of the argument containing the portal event type in the portal event header
-  static readonly itemTypeArgName   = "portal_item_type";             ///< Name of the argument containing the portal item type in the portal item message
-  static readonly itemValueArgName  = "portal_item_value";            ///< Name of the argument containing the portal item value in the portal item message
-  static readonly itemMinArgName    = "portal_item_min";              ///< Name of the argument containing the minimum portal item value in the portal item message
-  static readonly itemMaxArgName    = "portal_item_max";              ///< Name of the argument containing the maximum portal item value in the portal item message
-  static readonly itemClampArgName  = "portal_item_clamp";            ///< Name of the argument containing the clamp value in the portal item message
-  static readonly dropDownItemNames = "portal_dropdown_item_names";   ///< Name of the argument containing all drop down item names
+  static readonly apiMessageType      = "nap::APIMessage";              ///< Type of an API message
+  static readonly eventHeaderName     = "portal_event_header";          ///< Name of the portal event header
+  static readonly portalIDArgName     = "portal_id";                    ///< Name of the argument containing the portal ID in the portal event header
+  static readonly eventTypeArgName    = "portal_event_type";            ///< Name of the argument containing the portal event type in the portal event header
+  static readonly itemTypeArgName     = "portal_item_type";             ///< Name of the argument containing the portal item type in the portal item message
+  static readonly itemValueArgName    = "portal_item_value";            ///< Name of the argument containing the portal item value in the portal item message
+  static readonly itemMinArgName      = "portal_item_min";              ///< Name of the argument containing the minimum portal item value in the portal item message
+  static readonly itemMaxArgName      = "portal_item_max";              ///< Name of the argument containing the maximum portal item value in the portal item message
+  static readonly itemClampArgName    = "portal_item_clamp";            ///< Name of the argument containing the clamp value in the portal item message
+  static readonly dropDownItemNames   = "portal_dropdown_item_names";   ///< Name of the argument containing all drop down item names
+  static readonly itemVisibleArgName  = "portal_item_visible";          ///< Name of the argument if the item should be visible or not
+  static readonly itemEnabledArgName  = "portal_item_enabled";          ///< Name of the argument if the item should be enabled or not
 }
 
 
@@ -143,7 +145,8 @@ export interface PortalEventTypeArgument extends APIArgument {
 export enum PortalEventType {
   Request = 'Request',
   Response = 'Response',
-  Update = 'Update',
+  UpdateValue = 'ValueUpdate',
+  UpdateState = 'StateUpdate',
   Invalid = 'Invalid',
 };
 

@@ -1,6 +1,6 @@
 // Local Includes
 import { NAPPortalItem, NAPPortalItemEvent, NAPPortalItemUpdateDetail } from './napportalitem';
-import { getNumericArgumentValue, getStringArrayArgumentValue, getArgumentByName } from './utils';
+import { getNumericArgumentValue, getStringArrayArgumentValue, getArgumentByName, getBooleanArgumentValue } from './utils';
 import {
   PortalDefs,
   APIMessage
@@ -22,6 +22,12 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
   constructor(message: APIMessage) {
     super(message);
 
+    // Extract enabled
+    var is_enabled: boolean = getBooleanArgumentValue(message, PortalDefs.itemEnabledArgName);
+    if(is_enabled!=this.enabled){
+      this.enabled = is_enabled;
+    }
+
     // Extract properties from API message
     const options: string[] = getStringArrayArgumentValue(message, PortalDefs.dropDownItemNames);
 
@@ -37,6 +43,7 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
       opt.value = idx.toString();
       opt.text = option;
       this.dropdown.add(opt);
+      this.dropdown.disabled = !this.enabled;
       idx += 1;
     });
 
@@ -50,13 +57,19 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
 
     // Append HTML elements
     this.contentTD.appendChild(this.dropdown);
+
+    // Update item state
+    this.dropdown.disabled = !this.enabled;
   }
 
   /**
    * Update the portal item with an API message received from the server
    * @param message the API message containing the portal item update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     // Extract properties from API message
     const options: string[] = getStringArrayArgumentValue(message, PortalDefs.dropDownItemNames);
 
@@ -78,6 +91,20 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
 
     // Set selected index
     this.dropdown.selectedIndex = selection;
+  }
+
+  /**
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
+   */
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.dropdown.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
   }
 
   /**

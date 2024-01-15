@@ -2,8 +2,10 @@
 import { NAPPortalItem } from './napportalitem';
 import {
   APIMessage,
+  PortalDefs,
   PortalItemButtonEvent,
 } from './types';
+import { getBooleanArgumentValue } from './utils';
 
 
 /**
@@ -23,6 +25,7 @@ export class NAPPortalItemButton extends NAPPortalItem {
     // Create the HTML button element
     this.button = document.createElement('button');
     this.button.textContent = this.name;
+    this.button.disabled = !this.enabled;
     this.button.setAttribute('id', this.id);
     this.button.addEventListener('click', () => this.sendUpdate(PortalItemButtonEvent.Click));
     this.button.addEventListener('pointerdown', (event: PointerEvent) => this.onPointerDown(event));
@@ -35,15 +38,23 @@ export class NAPPortalItemButton extends NAPPortalItem {
 
     // Remove HTML label element
     this.labelTD.removeChild(this.label);
+
+    // Update item state
+    this.button.disabled = !this.enabled;
   }
 
-
   /**
-   * Update the portal item with an API message received from the server
-   * @param message the API message containing the portal item update
+   * Update the portal item state with an API message received from the server
+   * @param message the API message containing the portal item value update
+   * @returns true if a state change occurred
    */
-  public update(message: APIMessage): void {
-    // Ignore incoming button events
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.button.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
   }
 
 

@@ -5,6 +5,7 @@ import {
   isFloatArrayArgumentType,
   hexToRgb,
   rgbToHex,
+  getBooleanArgumentValue,
 } from './utils';
 import {
   PortalDefs,
@@ -81,6 +82,11 @@ export class NAPPortalItemColor extends NAPPortalItem {
     tbody.appendChild(tr);
     table.appendChild(tbody);
     this.contentTD.appendChild(table);
+
+    // Update item state
+    this.colorInput.disabled = !this.enabled;
+    if(this.alphaInput!=undefined)
+      this.alphaInput.disabled = !this.enabled;
   }
 
 
@@ -88,11 +94,25 @@ export class NAPPortalItemColor extends NAPPortalItem {
    * Update the portal item with an API message received from the server
    * @param message the API message containing the portal item update
    */
-  public update(message: APIMessage): void {
+  public updateValue(message: APIMessage): void {
+    // Update NapPortalItem base
+    super.updateValue(message);
+
     const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemValueArgName);
     this.setColorInput(values);
   }
 
+
+  public updateState(message: APIMessage): boolean {
+    if(super.updateState(message)){
+      this.colorInput.disabled = !this.enabled;
+      if(this.alphaInput!=undefined)
+        this.alphaInput.disabled = !this.enabled;
+      return true;
+    }
+
+    return false;
+  }
 
   /**
    * Called for the color input element input event
