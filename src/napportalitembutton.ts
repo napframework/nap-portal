@@ -3,9 +3,10 @@ import { NAPPortalItem } from './napportalitem';
 import {
   APIMessage,
   PortalDefs,
+  PortalItemAlignment,
   PortalItemButtonEvent,
 } from './types';
-import { getBooleanArgumentValue } from './utils';
+import { getBooleanArgumentValue, getTypeValue } from './utils';
 
 
 /**
@@ -14,7 +15,7 @@ import { getBooleanArgumentValue } from './utils';
 export class NAPPortalItemButton extends NAPPortalItem {
 
   private readonly button: HTMLButtonElement;  ///< The HTML button element which triggers the events
-
+  private alignment: PortalItemAlignment;
 
   /**
    * Constructor
@@ -33,14 +34,21 @@ export class NAPPortalItemButton extends NAPPortalItem {
     this.button.addEventListener('pointerenter', (event: PointerEvent) => this.onPointerEnter(event));
     this.button.addEventListener('pointerleave', (event: PointerEvent) => this.onPointerLeave(event));
 
-    // Append HTML elements
-    this.contentTD.appendChild(this.button);
-
-    // Remove HTML label element
     this.labelTD.removeChild(this.label);
 
     // Update item state
-    this.button.disabled = !this.enabled;
+    super.updateState(message);
+    this.alignment = getTypeValue<PortalItemAlignment>(message, PortalDefs.itemAlignment);
+    switch(this.alignment){
+        case PortalItemAlignment.Left:
+          this.labelTD.appendChild(this.button);
+          break;
+        case PortalItemAlignment.Right:
+          this.contentTD.appendChild(this.button);
+          break;
+        default:
+          throw "error!";
+    }
   }
 
   /**
@@ -49,12 +57,27 @@ export class NAPPortalItemButton extends NAPPortalItem {
    * @returns true if a state change occurred
    */
   public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.button.disabled = !this.enabled;
-      return true;
+    super.updateState(message);
+
+    this.button.disabled = !this.enabled;
+    const alignment: PortalItemAlignment = getTypeValue<PortalItemAlignment>(message, PortalDefs.itemAlignment);
+    if(alignment!=this.alignment){
+      this.alignment = alignment;
+      switch(this.alignment){
+          case PortalItemAlignment.Left:
+            this.contentTD.removeChild(this.button);
+            this.labelTD.appendChild(this.button);
+            break;
+          case PortalItemAlignment.Right:
+            this.labelTD.removeChild(this.button);
+            this.contentTD.appendChild(this.button);
+            break;
+            default:
+              throw "error!";
+      }
     }
 
-    return false;
+    return true;
   }
 
 

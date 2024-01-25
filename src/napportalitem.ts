@@ -1,5 +1,5 @@
 // Local Includes
-import { getArgumentByName } from './utils';
+import { getArgumentByName, getNumericArrayArgumentValue } from './utils';
 import { getBooleanArgumentValue } from './utils';
 import {
   PortalDefs,

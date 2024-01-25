@@ -15,6 +15,11 @@ export class PortalDefs {
   static readonly dropDownItemNames   = "portal_dropdown_item_names";   ///< Name of the argument containing all drop down item names
   static readonly itemVisibleArgName  = "portal_item_visible";          ///< Name of the argument if the item should be visible or not
   static readonly itemEnabledArgName  = "portal_item_enabled";          ///< Name of the argument if the item should be enabled or not
+  static readonly itemPaddingArgName  = "portal_item_padding";
+  static readonly itemColorArgName    = "portal_item_color";            ///< Name of the argument if the item should be enabled or not
+  static readonly itemBoldArgName     = "portal_item_bold";
+  static readonly itemAlignment       = "portal_item_alignment";
+  static readonly itemFontSize        = "portal_item_fontsize";
 }
 
 
@@ -150,6 +155,11 @@ export enum PortalEventType {
   Invalid = 'Invalid',
 };
 
+export enum PortalItemAlignment {
+  Left = 'Left',
+  Right = 'Right'
+};
+
 // Array containing all available portal event types, useful for validation
 export const PortalEventTypes: Array<string> = Object.values(PortalEventType);
 
@@ -173,11 +183,13 @@ export enum PortalItemType {
   SliderDouble        = 'nap::PortalItemSliderDouble',
   TextArea            = 'nap::PortalItemTextArea',
   TextField           = 'nap::PortalItemTextField',
+  Label               = 'nap::PortalItemLabel',
   Toggle              = 'nap::PortalItemToggle',
   Vec2                = 'nap::PortalItemVec2',
   Vec3                = 'nap::PortalItemVec3',
   IVec2               = 'nap::PortalItemIVec2',
   IVec3               = 'nap::PortalItemIVec3',
+  Seperator           = 'nap::PortalItemSeperator'
 };
 
 // Array containing all available portal item types, useful for validation

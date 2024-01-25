@@ -150,7 +150,7 @@ export function testAPIArgumentString(argument: APIArgument): APIArgumentString 
 
   if (argument.Type !== APIArgumentType.String)
     throw new Error(`API argument with Name "${argument.Name}" should have string Type, got "${argument.Type}"`);
-
+  
   return argument as APIArgumentString;
 }
 
