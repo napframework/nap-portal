@@ -72,8 +72,7 @@ export class NAPPortalItemSlider extends NAPPortalItem {
     this.contentTD.appendChild(table);
 
     // Update item state
-    this.rangeInput.disabled = !this.enabled;
-    this.numberInput.disabled = !this.enabled;
+    this.updateState(message);
   }
 
 
@@ -95,14 +94,11 @@ export class NAPPortalItemSlider extends NAPPortalItem {
    * @param message the API message containing the portal item value update
    * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.rangeInput.disabled = !this.enabled;
-      this.numberInput.disabled = !this.enabled;
-      return true;
-    }
+  public updateState(message: APIMessage): void {
+    super.updateState(message);
 
-    return false;
+    this.rangeInput.disabled = !this.enabled;
+    this.numberInput.disabled = !this.enabled;
   }
 
 

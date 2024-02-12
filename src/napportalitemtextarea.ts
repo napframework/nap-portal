@@ -34,8 +34,8 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
     // Append HTML elements
     this.contentTD.appendChild(this.textArea);
 
-    // Update item state
-    this.textArea.disabled = !this.enabled;
+    // update state
+    this.updateState(message);
   }
 
 
@@ -54,15 +54,9 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
   /**
    * Update the portal item state with an API message received from the server
    * @param message the API message containing the portal item value update
-   * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.textArea.disabled = !this.enabled;
-      return true;
-    }
-
-    return false;
+  public updateState(message: APIMessage): void {
+    this.textArea.disabled = !this.enabled;
   }
 
 

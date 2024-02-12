@@ -246,6 +246,9 @@ export class NAPPortal {
         for (const message of messages)
           this.updatePortalItemState(message);
         break;
+      case PortalEventType.Reload:
+        this.sendPortalRequest();
+        break;
       default:
         console.error(`Cannot handle portal event type ${info.eventType}`);
     }

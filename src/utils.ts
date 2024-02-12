@@ -8,7 +8,7 @@ import { NAPPortalItemTextArea } from './napportalitemtextarea';
 import { NAPPortalItemTextField } from './napportalitemtextfield';
 import { NAPPortalItemToggle } from './napportalitemtoggle';
 import { NAPPortalItemVector } from './napportalitemvector';
-import { NAPPortalItemSeperator } from './napportalitemseperator';
+import { NAPPortalItemSeparator } from './napportalitemseparator';
 import {
   testAPIArgumentString,
   testAPIArgumentStringArray,
@@ -129,7 +129,7 @@ export function getPortalItemUpdate(info: PortalItemUpdateInfo): PortalItemUpdat
 
 
 /**
- * Extracts the portal item update info from a valid portal item update
+ * Extracts the portal item update info from a valid portal lightitem update
  * @param update The valid portal item update to extract the info from
  * @returns The info object extracted from the portal item update
  */
@@ -181,9 +181,11 @@ export function createPortalItem(message: APIMessage): NAPPortalItem {
       return new NAPPortalItemVector(message);
     case PortalItemType.DropDown:
       return new NAPPortalItemDropdown(message);
-    case PortalItemType.Seperator:
-      return new NAPPortalItemSeperator(message);
+    case PortalItemType.Separator:
+      return new NAPPortalItemSeparator(message);
     case PortalItemType.Label:
+      return new NAPPortalItemLabel(message);
+    case PortalItemType.StaticLabel:
       return new NAPPortalItemLabel(message);
     default:
       throw new Error(`Cannot create portal item type "${itemTypeArg.Value}"`);
@@ -375,6 +377,6 @@ export function hexToRgb(value: string): Array<number> {
 }
 
 export function getTypeValue<Type>(message: APIMessage, name: string): Type {
-  const value: string = getStringArgumentValue(message, name);
+  const value: unknown = getStringArgumentValue(message, name) as unknown;
   return value as Type;
 }

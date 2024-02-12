@@ -1,4 +1,5 @@
 // Local Includes
+import { toString } from 'lodash';
 import { NAPPortalItem } from './napportalitem';
 import {
   APIMessage,
@@ -15,7 +16,7 @@ import { getBooleanArgumentValue, getTypeValue } from './utils';
 export class NAPPortalItemButton extends NAPPortalItem {
 
   private readonly button: HTMLButtonElement;  ///< The HTML button element which triggers the events
-  private alignment: PortalItemAlignment;
+  private alignment: PortalItemAlignment = PortalItemAlignment.Right;
 
   /**
    * Constructor
@@ -26,7 +27,6 @@ export class NAPPortalItemButton extends NAPPortalItem {
     // Create the HTML button element
     this.button = document.createElement('button');
     this.button.textContent = this.name;
-    this.button.disabled = !this.enabled;
     this.button.setAttribute('id', this.id);
     this.button.addEventListener('click', () => this.sendUpdate(PortalItemButtonEvent.Click));
     this.button.addEventListener('pointerdown', (event: PointerEvent) => this.onPointerDown(event));
@@ -37,47 +37,45 @@ export class NAPPortalItemButton extends NAPPortalItem {
     this.labelTD.removeChild(this.label);
 
     // Update item state
-    super.updateState(message);
-    this.alignment = getTypeValue<PortalItemAlignment>(message, PortalDefs.itemAlignment);
-    switch(this.alignment){
-        case PortalItemAlignment.Left:
-          this.labelTD.appendChild(this.button);
-          break;
-        case PortalItemAlignment.Right:
-          this.contentTD.appendChild(this.button);
-          break;
-        default:
-          throw "error!";
-    }
+    this.updateState(message);
   }
 
   /**
    * Update the portal item state with an API message received from the server
    * @param message the API message containing the portal item value update
-   * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
+  public updateState(message: APIMessage): void {
     super.updateState(message);
 
+    // button enabled / disabled state
     this.button.disabled = !this.enabled;
-    const alignment: PortalItemAlignment = getTypeValue<PortalItemAlignment>(message, PortalDefs.itemAlignment);
-    if(alignment!=this.alignment){
-      this.alignment = alignment;
-      switch(this.alignment){
-          case PortalItemAlignment.Left:
+
+    // button alignment state
+    const alignment: PortalItemAlignment = getTypeValue<PortalItemAlignment>(message, PortalDefs.itemAlignmentArgName);
+    this.alignment = alignment;
+    switch(this.alignment){
+        case PortalItemAlignment.Left:
+          if(this.button.parentNode==this.contentTD)
             this.contentTD.removeChild(this.button);
+          if(this.button.parentNode!=this.labelTD)
             this.labelTD.appendChild(this.button);
-            break;
-          case PortalItemAlignment.Right:
+          break;
+        case PortalItemAlignment.Right:
+          if(this.button.parentNode==this.labelTD)
             this.labelTD.removeChild(this.button);
+          if(this.button.parentNode!=this.contentTD)
             this.contentTD.appendChild(this.button);
-            break;
-            default:
-              throw "error!";
-      }
+          break;
+        default:
+          throw "error! alignment type not found!";
     }
 
-    return true;
+    //
+    const highlight: boolean = getBooleanArgumentValue(message, PortalDefs.itemHighLightArgName);
+    if(highlight)
+      this.button.classList.add("highlight");
+    else
+      this.button.classList.remove("highlight");
   }
 
 

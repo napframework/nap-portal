@@ -84,9 +84,7 @@ export class NAPPortalItemColor extends NAPPortalItem {
     this.contentTD.appendChild(table);
 
     // Update item state
-    this.colorInput.disabled = !this.enabled;
-    if(this.alphaInput!=undefined)
-      this.alphaInput.disabled = !this.enabled;
+    this.updateState(message);
   }
 
 
@@ -103,15 +101,12 @@ export class NAPPortalItemColor extends NAPPortalItem {
   }
 
 
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.colorInput.disabled = !this.enabled;
-      if(this.alphaInput!=undefined)
-        this.alphaInput.disabled = !this.enabled;
-      return true;
-    }
+  public updateState(message: APIMessage): void {
+    super.updateState(message);
 
-    return false;
+    this.colorInput.disabled = !this.enabled;
+    if(this.alphaInput!=undefined)
+      this.alphaInput.disabled = !this.enabled;
   }
 
   /**

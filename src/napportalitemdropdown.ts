@@ -22,12 +22,6 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
   constructor(message: APIMessage) {
     super(message);
 
-    // Extract enabled
-    var is_enabled: boolean = getBooleanArgumentValue(message, PortalDefs.itemEnabledArgName);
-    if(is_enabled!=this.enabled){
-      this.enabled = is_enabled;
-    }
-
     // Extract properties from API message
     const options: string[] = getStringArrayArgumentValue(message, PortalDefs.dropDownItemNames);
 
@@ -59,7 +53,7 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
     this.contentTD.appendChild(this.dropdown);
 
     // Update item state
-    this.dropdown.disabled = !this.enabled;
+    this.updateState(message);
   }
 
   /**
@@ -96,15 +90,11 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
   /**
    * Update the portal item state with an API message received from the server
    * @param message the API message containing the portal item value update
-   * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.dropdown.disabled = !this.enabled;
-      return true;
-    }
+  public updateState(message: APIMessage): void {
+    super.updateState(message);
 
-    return false;
+    this.dropdown.disabled = !this.enabled;
   }
 
   /**

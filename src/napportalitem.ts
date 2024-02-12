@@ -92,26 +92,28 @@ export class NAPPortalItem extends EventTarget {
    * @param message the API message containing the portal item value update
    * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage) : boolean{
-    var state_changed: boolean = false;
-
+  public updateState(message: APIMessage) : void{
     // Extract visibility
-    var is_visible: boolean = getBooleanArgumentValue(message, PortalDefs.itemVisibleArgName);
-
+    const is_visible: boolean = getBooleanArgumentValue(message, PortalDefs.itemVisibleArgName);
     if(is_visible!=this.visible){
       this.visible = is_visible;
       this.tr.hidden = !this.visible;
-      state_changed = true;
     }
 
     // Extract enabled
-    var is_enabled: boolean = getBooleanArgumentValue(message, PortalDefs.itemEnabledArgName);
+    const is_enabled: boolean = getBooleanArgumentValue(message, PortalDefs.itemEnabledArgName);
     if(is_enabled!=this.enabled){
       this.enabled = is_enabled;
-      state_changed = true;
     }
 
-    return state_changed;
+    // Extract padding
+    const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemPaddingArgName);
+    if(values.length>=2){
+        this.contentTD.style.paddingTop     = values[0].toString() + 'px';
+        this.contentTD.style.paddingBottom  = values[1].toString() + 'px';
+        this.labelTD.style.paddingTop = this.contentTD.style.paddingTop;
+        this.labelTD.style.paddingBottom = this.contentTD.style.paddingBottom;
+    }
   }
 
   /**

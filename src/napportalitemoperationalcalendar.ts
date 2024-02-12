@@ -106,9 +106,7 @@ export class NAPPortalItemOperationalCalendar extends NAPPortalItem {
     this.contentTD.appendChild(table);
 
     // Update item state
-    this.timeInputs.forEach(element => {
-      element.disabled = !this.enabled;
-    });
+    this.updateState(message);
   }
 
 
@@ -129,15 +127,11 @@ export class NAPPortalItemOperationalCalendar extends NAPPortalItem {
    * @param message the API message containing the portal item value update
    * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.timeInputs.forEach(element => {
-        element.disabled = !this.enabled;
-      });
-      return true;
-    }
-
-    return false;
+  public updateState(message: APIMessage): void {
+    super.updateState(message);
+    this.timeInputs.forEach(element => {
+      element.disabled = !this.enabled;
+    });
   }
 
 

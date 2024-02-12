@@ -34,8 +34,8 @@ export class NAPPortalItemTextField extends NAPPortalItem {
     // Append HTML elements
     this.contentTD.appendChild(this.textInput);
 
-    // Update item state
-    this.textInput.disabled = !this.enabled;
+    // update state
+    this.updateState(message);
   }
 
 
@@ -56,13 +56,10 @@ export class NAPPortalItemTextField extends NAPPortalItem {
    * @param message the API message containing the portal item value update
    * @returns true if a state change occurred
    */
-  public updateState(message: APIMessage): boolean {
-    if(super.updateState(message)){
-      this.textInput.disabled = !this.enabled;
-      return true;
-    }
+  public updateState(message: APIMessage): void {
+    super.updateState(message)
 
-    return false;
+    this.textInput.disabled = !this.enabled;
   }
 
 
