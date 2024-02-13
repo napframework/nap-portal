@@ -7,7 +7,7 @@ import {
   PortalItemAlignment,
   PortalItemButtonEvent,
 } from './types';
-import { getBooleanArgumentValue, getTypeValue } from './utils';
+import { getBooleanArgumentValue, getNumericArgumentValue, getTypeValue } from './utils';
 
 
 /**
@@ -57,25 +57,39 @@ export class NAPPortalItemButton extends NAPPortalItem {
         case PortalItemAlignment.Left:
           if(this.button.parentNode==this.contentTD)
             this.contentTD.removeChild(this.button);
+            
           if(this.button.parentNode!=this.labelTD)
             this.labelTD.appendChild(this.button);
+
+          this.labelTD.hidden = false;
+          this.contentTD.hidden = true;
           break;
         case PortalItemAlignment.Right:
           if(this.button.parentNode==this.labelTD)
             this.labelTD.removeChild(this.button);
+
           if(this.button.parentNode!=this.contentTD)
             this.contentTD.appendChild(this.button);
+
+          this.labelTD.hidden = false;
+          this.contentTD.hidden = false;
           break;
         default:
           throw "error! alignment type not found!";
     }
 
-    //
-    const highlight: boolean = getBooleanArgumentValue(message, PortalDefs.itemHighLightArgName);
-    if(highlight)
-      this.button.classList.add("highlight");
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.button.classList.add("selected");
     else
-      this.button.classList.remove("highlight");
+      this.button.classList.remove("selected");
+
+    const width: number = getNumericArgumentValue(message, PortalDefs.itemWidthArgName);
+    if(width>0.0)
+      this.button.style.width = width + "px";
+    else
+      this.button.style.removeProperty("width");
   }
 
 

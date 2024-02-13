@@ -95,6 +95,13 @@ export class NAPPortalItemDropdown extends NAPPortalItem {
     super.updateState(message);
 
     this.dropdown.disabled = !this.enabled;
+
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.dropdown.classList.add("selected");
+    else
+      this.dropdown.classList.remove("selected");
   }
 
   /**

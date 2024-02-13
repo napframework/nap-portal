@@ -60,6 +60,13 @@ export class NAPPortalItemTextField extends NAPPortalItem {
     super.updateState(message)
 
     this.textInput.disabled = !this.enabled;
+
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.textInput.classList.add("selected");
+    else
+      this.textInput.classList.remove("selected");
   }
 
 

@@ -15,12 +15,13 @@ export class PortalDefs {
   static readonly dropDownItemNames           = "portal_dropdown_item_names";   ///< Name of the argument containing all drop down item names
   static readonly itemVisibleArgName          = "portal_item_visible";          ///< Name of the argument if the item should be visible or not
   static readonly itemEnabledArgName          = "portal_item_enabled";          ///< Name of the argument if the item should be enabled or not
-  static readonly itemPaddingArgName          = "portal_item_padding";
+  static readonly itemPaddingArgName          = "portal_item_padding";          ///< Name of the argument that contains item padding
   static readonly itemColorArgName            = "portal_item_color";            ///< Name of the argument if the item should be enabled or not
-  static readonly itemFontWeightArgName       = "portal_item_font_weight";
-  static readonly itemAlignmentArgName        = "portal_item_alignment";
-  static readonly itemFontSizeArgName         = "portal_item_fontsize";
-  static readonly itemHighLightArgName        = "portal_item_highlight";
+  static readonly itemFontWeightArgName       = "portal_item_font_weight";      ///< Name of the argument that contains font weight
+  static readonly itemAlignmentArgName        = "portal_item_alignment";        ///< Name of the argument that contains item alignment (only available for buttons)
+  static readonly itemFontSizeArgName         = "portal_item_fontsize";         ///< Name of the argument that contains font size
+  static readonly itemSelectedArgName         = "portal_item_selected";         ///< Name of the argument that contains selected state
+  static readonly itemWidthArgName            = "portal_item_width";
 }
 
 
@@ -39,7 +40,6 @@ export class PortalDefs {
 /**
  * API argument
  */
-
 export interface APIArgument {
   Type: APIArgumentType,
   mID: string,

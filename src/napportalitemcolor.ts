@@ -98,6 +98,13 @@ export class NAPPortalItemColor extends NAPPortalItem {
 
     const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemValueArgName);
     this.setColorInput(values);
+
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.colorInput.classList.add("selected");
+    else
+      this.colorInput.classList.remove("selected");
   }
 
 

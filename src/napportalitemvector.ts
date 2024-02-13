@@ -105,8 +105,16 @@ export class NAPPortalItemVector extends NAPPortalItem {
   public updateState(message: APIMessage): void {
     super.updateState(message);
 
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+
     this.numberInputs.forEach(element => {
       element.disabled = !this.enabled;
+
+      if(selected)
+        element.classList.add("selected");
+      else
+        element.classList.remove("selected");
     });
   }
 

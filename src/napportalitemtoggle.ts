@@ -57,6 +57,13 @@ export class NAPPortalItemToggle extends NAPPortalItem {
    */
   public updateState(message: APIMessage): void {
     this.checkbox.disabled = !this.enabled;
+
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.checkbox.classList.add("selected");
+    else
+      this.checkbox.classList.remove("selected");
   }
 
 

@@ -99,6 +99,17 @@ export class NAPPortalItemSlider extends NAPPortalItem {
 
     this.rangeInput.disabled = !this.enabled;
     this.numberInput.disabled = !this.enabled;
+
+    // Extract highlight
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected){
+      this.rangeInput.classList.add("selected");
+      this.numberInput.classList.add("selected");
+    }
+    else{
+      this.rangeInput.classList.remove("selected");
+      this.numberInput.classList.remove("selected");
+    }
   }
 
 

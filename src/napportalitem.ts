@@ -109,10 +109,15 @@ export class NAPPortalItem extends EventTarget {
     // Extract padding
     const values: Array<number> = getNumericArrayArgumentValue(message, PortalDefs.itemPaddingArgName);
     if(values.length>=2){
+      if(values[0] > 0){
         this.contentTD.style.paddingTop     = values[0].toString() + 'px';
-        this.contentTD.style.paddingBottom  = values[1].toString() + 'px';
         this.labelTD.style.paddingTop = this.contentTD.style.paddingTop;
+      }
+      
+      if(values[1] > 0){
+        this.contentTD.style.paddingBottom  = values[1].toString() + 'px';
         this.labelTD.style.paddingBottom = this.contentTD.style.paddingBottom;
+      }
     }
   }
 

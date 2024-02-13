@@ -57,6 +57,13 @@ export class NAPPortalItemTextArea extends NAPPortalItem {
    */
   public updateState(message: APIMessage): void {
     this.textArea.disabled = !this.enabled;
+
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.textArea.classList.add("selected");
+    else
+      this.textArea.classList.remove("selected");
   }
 
 

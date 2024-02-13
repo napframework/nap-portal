@@ -64,6 +64,13 @@ export class NAPPortalItemLabel extends NAPPortalItem {
     const font_size: Number = getNumericArgumentValue(message, PortalDefs.itemFontSizeArgName);
     this.label.style.fontSize = font_size + "px";
 
+    // Extract selected
+    const selected: boolean = getBooleanArgumentValue(message, PortalDefs.itemSelectedArgName);
+    if(selected)
+      this.label.classList.add("selected");
+    else
+      this.label.classList.remove("selected");
+
     return true;
   }
 
