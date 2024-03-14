@@ -1,12 +1,18 @@
 // Local Includes
 import {
+  APIArgumentType,
   APIMessage,
+  PortalDefs,
   PortalEventType,
   PortalItemUpdateInfo,
 } from './types';
 import {
   createPortalItem,
+  getNumericArgumentValue,
   getPortalItemUpdate,
+  getStringArgumentValue,
+  getStringArrayArgumentValue,
+  isIntegralArgumentType,
 } from './utils';
 import {
   NAPWebSocket,
@@ -47,6 +53,7 @@ export class NAPPortal {
   private readonly webSocketAbortController: AbortController;   ///< Signals the NAPWebSocket event target to remove listeners
   private readonly table: HTMLTableElement;                     ///< The table which is added to the element provided in config
   private readonly tbody: HTMLTableSectionElement;              ///< The table body which contains our portal item rows
+  private          dialog: HTMLDialogElement;
 
 
   /**
@@ -62,10 +69,12 @@ export class NAPPortal {
     this.table = document.createElement('table');
     this.table.className = config.portalId;
     this.tbody = document.createElement('tbody');
+    this.dialog = document.createElement('dialog');
 
     // Add HTML elements
     this.table.appendChild(this.tbody);
     this.config.el.appendChild(this.table);
+    this.config.el.appendChild(this.dialog);
 
     // Request portal if WebSocket is open
     if (this.config.napWebSocket.isOpen)
@@ -141,6 +150,48 @@ export class NAPPortal {
   }
 
 
+  private openDialog(message: APIMessage, uuid: string): void {
+    // remove all old children
+    while (this.dialog.lastElementChild) {
+      this.dialog.removeChild(this.dialog.lastElementChild);
+    }
+
+    // Extract properties from API message
+    const title: string = getStringArgumentValue(message, PortalDefs.dialogTitleArgName);
+    const text: string = getStringArgumentValue(message, PortalDefs.dialogContentArgName);
+    const options: string[] = getStringArrayArgumentValue(message, PortalDefs.dialogOptionsArgName);
+
+    const titlebar: HTMLDivElement = document.createElement('div');
+    titlebar.className = 'dialog-titlebar';
+    titlebar.innerHTML = title;
+
+    const buttons: HTMLDivElement = document.createElement('div');
+    buttons.className = 'dialog-buttons';
+
+    const content: HTMLDivElement = document.createElement('div');
+    content.className = 'dialog-content';
+    content.innerHTML = text;
+
+    var idx: number = 0;
+    options.forEach( option => {
+      const button: HTMLButtonElement = document.createElement('button');
+      button.textContent = option;
+      var idx_copy: number = idx;
+      button.onclick = (ev: MouseEvent) => { 
+        this.dialog.close(); 
+        this.sendPortalDialogClosed(uuid, idx_copy);
+      }
+      buttons.appendChild(button)
+      idx++;
+    });
+    
+    this.dialog.appendChild(titlebar);
+    this.dialog.appendChild(content);
+    this.dialog.appendChild(buttons);
+    this.dialog.showModal();
+  }
+
+
   /**
    * Updates an existing portal item value from an API message
    * @param message the API message containing the update
@@ -188,6 +239,24 @@ export class NAPPortal {
       portalId: this.config.portalId,
       eventType: PortalEventType.Request,
     });
+  }
+
+
+  private sendPortalDialogClosed(uuid: string, selection: number): void{
+    this.config.napWebSocket.send({
+      eventId: uuid,
+      portalId: this.config.portalId,
+      eventType: PortalEventType.DialogClosed
+    }, [{
+      Type: PortalDefs.apiMessageType,
+      mID: uuidv4(),
+      Name: PortalDefs.dialogSelectionTypeArgName,
+      Arguments: [{
+          Type: APIArgumentType.Int,
+          mID: uuidv4(),
+          Name: PortalDefs.dialogSelectionArgName,
+          Value: selection
+      }]}]);
   }
 
 
@@ -248,6 +317,13 @@ export class NAPPortal {
         break;
       case PortalEventType.Reload:
         this.sendPortalRequest();
+        break;
+      case PortalEventType.OpenDialog:
+        if(messages.length != 1){
+          console.error(`Cannot handle portal event type ${info.eventType} because messages is of invalid size`);
+        }else{
+          this.openDialog(messages[0], info.eventId);
+        }
         break;
       default:
         console.error(`Cannot handle portal event type ${info.eventType}`);

@@ -22,6 +22,13 @@ export class PortalDefs {
   static readonly itemFontSizeArgName         = "portal_item_fontsize";         ///< Name of the argument that contains font size
   static readonly itemSelectedArgName         = "portal_item_selected";         ///< Name of the argument that contains selected state
   static readonly itemWidthArgName            = "portal_item_width";
+  static readonly openDialogEventName         = 'open_dialog';
+  static readonly dialogClosedEventName       = 'dialog_closed';
+  static readonly dialogTitleArgName          = 'dialog_title';
+  static readonly dialogContentArgName        = 'dialog_content';
+  static readonly dialogOptionsArgName        = 'dialog_options';
+  static readonly dialogSelectionArgName      = 'dialog_selection_value';
+  static readonly dialogSelectionTypeArgName  = 'dialog_selection_type';
 }
 
 
@@ -154,6 +161,8 @@ export enum PortalEventType {
   UpdateValue = 'ValueUpdate',
   UpdateState = 'StateUpdate',
   Reload = 'Reload',
+  OpenDialog = 'OpenDialog',
+  DialogClosed = 'DialogClosed',
   Invalid = 'Invalid',
 };
 
