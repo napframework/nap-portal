@@ -61,7 +61,7 @@ For this to work, you first need to set up a global symlink in this repository u
 
 ```shell
 # path/to/nap-portal
-$ npm install typescript
+$ npm install
 $ npm link
 ```
 
