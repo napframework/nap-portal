@@ -61,6 +61,7 @@ For this to work, you first need to set up a global symlink in this repository u
 
 ```shell
 # path/to/nap-portal
+$ npm install
 $ npm link
 ```
 
@@ -68,6 +69,7 @@ Then, in another repository (like [NAP Dashboard](https://github.com/napframewor
 
 ```shell
 # e.g. path/to/nap-dashboard
+$ npm install
 $ npm link nap-portal
 ```
 
